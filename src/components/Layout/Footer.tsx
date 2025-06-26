@@ -22,10 +22,10 @@ export const Footer: React.FC = () => {
           {/* ASCII Art Signature */}
           <div className="text-green-400 dark:text-green-500 text-xs font-mono text-center">
             <pre>{`
-  ╔═══════════════════════════════════════╗
-  ║  Built with ❤️ and lots of ☕         ║
-  ║  © 2025 Abir Hosen - All rights reserved ║
-  ╚═══════════════════════════════════════╝
+  ╔═══════════════════════════════════════════╗
+  ║        Built with ❤️ and lots of ☕        ║
+  ║  © 2025 Abir Hosen - All rights reserved  ║
+  ╚═══════════════════════════════════════════╝
             `}</pre>
           </div>
 
@@ -59,7 +59,7 @@ export const Footer: React.FC = () => {
           {/* Copyright */}
           <div className="text-gray-500 dark:text-gray-600 text-sm font-mono text-center">
             <p>Made with <Heart className="inline text-red-500" size={16} /> by {t.personalInfo.name}</p>
-            <p className="mt-1">Powered by React + TypeScript + Tailwind CSS</p>
+            {/* <p className="mt-1">Powered by React + TypeScript + Tailwind CSS</p> */}
           </div>
         </div>
       </div>

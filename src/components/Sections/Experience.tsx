@@ -24,9 +24,9 @@ export const Experience: React.FC = () => {
               {t.experience.items.map((exp, index) => (
                 <div key={exp.id} className="relative">
                   {/* Timeline Line */}
-                  {index < t.experience.items.length - 1 && (
+                  {/* {index < t.experience.items.length - 1 && (
                     <div className="absolute left-8 top-20 w-0.5 h-32 bg-green-500/30 dark:bg-green-600/30"></div>
-                  )}
+                  )} */}
                   
                   <TerminalWindow title={`experience_${index + 1}.log`}>
                     <div className="space-y-4">

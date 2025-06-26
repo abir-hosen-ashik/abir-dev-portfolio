@@ -49,7 +49,7 @@ export const About: React.FC = () => {
             </TerminalWindow>
 
             {/* Interests */}
-            <TerminalWindow title="interests.txt">
+            <TerminalWindow title="other-interests.txt">
               <div className="space-y-4">
                 <div className="flex items-center space-x-2 text-green-400 dark:text-green-500">
                   <Heart size={20} />
@@ -100,16 +100,16 @@ export const About: React.FC = () => {
             <TerminalWindow title="ascii-art.txt">
               <div className="text-green-400 dark:text-green-500 text-xs leading-tight font-mono">
                 <pre>{`
-    ╔══════════════════════════════╗
-    ║        AI ENGINEER           ║
-    ║     FULL-STACK DEVELOPER     ║
-    ║                              ║
-    ║  ┌─┐┬  ┌─┐┌─┐┬─┐┬┌┬┐┬ ┬┌┬┐  ║
-    ║  ├─┤│  │ ┬│ │├┬┘│ │ ├─┤│││  ║
-    ║  ┴ ┴┴─┘└─┘└─┘┴└─┴ ┴ ┴ ┴┴ ┴  ║
-    ║                              ║
-    ║     + CREATIVITY = ∞         ║
-    ╚══════════════════════════════╝
+      ╔══════════════════════════════╗
+      ║          AI ENGINEER         ║
+      ║     FULL-STACK DEVELOPER     ║
+      ║                              ║
+      ║  ┌─┐┬  ┌─┐┌─┐┬─┐┬┌┬┐┬ ┬┌┬┐   ║
+      ║  ├─┤│  │ ┬│ │├┬┘│ │ ├─┤│││   ║
+      ║  ┴ ┴┴─┘└─┘└─┘┴└─┴ ┴ ┴ ┴┴ ┴   ║
+      ║                              ║
+      ║     + CREATIVITY = ∞         ║
+      ╚══════════════════════════════╝
                 `}</pre>
               </div>
             </TerminalWindow>

@@ -215,15 +215,17 @@ export const Contact: React.FC = () => {
                   />
                 </div>
 
-                <button
+                <button disabled
                   type="submit"
                   className="w-full bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-500 
                            text-black dark:text-white px-8 py-3 rounded-lg font-mono transition-all duration-300 
                            hover:shadow-lg hover:shadow-green-500/25 flex items-center justify-center space-x-2"
+                style={{backgroundColor:"#aaaaaa"}}
                 >
                   <Send size={20} />
-                  <span>{t.contact.form.send}</span>
+                  <span>{t.contact.form.send} (disabled!)</span>
                 </button>
+                <p style={{marginTop:"10px", color:"red"}}>For now direct contact through phone call / what`s app only!</p>
               </form>
             </TerminalWindow>
           </div>

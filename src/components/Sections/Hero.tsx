@@ -15,12 +15,20 @@ export const Hero: React.FC = () => {
     const interval = setInterval(() => {
       setCurrentCommand((prev) => (prev + 1) % commands.length);
       setShowOutput(false);
-      
+
       setTimeout(() => setShowOutput(true), 1000);
     }, 4000);
 
     return () => clearInterval(interval);
   }, [commands.length]);
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/Abir Hosen.pdf"; // because it's in public/
+    link.download = "Abir Hosen.pdf";
+    link.click();
+  };
+
 
   const scrollToAbout = () => {
     document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
@@ -49,24 +57,24 @@ export const Hero: React.FC = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="group bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-500 
+              <button onClick={handleDownload} className="group bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-500 
                                text-black dark:text-white px-8 py-3 rounded-lg font-mono transition-all duration-300 
                                hover:shadow-lg hover:shadow-green-500/25 flex items-center justify-center space-x-2">
                 <Download size={20} />
                 <span>{t.ui.downloadResume}</span>
               </button>
-              
+
               <div className="flex space-x-4">
-                <a href={`https://github.com/${t.personalInfo.github}`} 
-                   target="_blank" rel="noopener noreferrer"
-                   className="p-3 border border-green-500 dark:border-green-600 text-green-500 dark:text-green-400 
+                <a href={`https://github.com/${t.personalInfo.github}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="p-3 border border-green-500 dark:border-green-600 text-green-500 dark:text-green-400 
                             hover:bg-green-500 dark:hover:bg-green-600 hover:text-black dark:hover:text-white 
                             rounded-lg transition-all duration-300">
                   <Github size={20} />
                 </a>
-                <a href={`https://linkedin.com/in/${t.personalInfo.linkedin}`} 
-                   target="_blank" rel="noopener noreferrer"
-                   className="p-3 border border-green-500 dark:border-green-600 text-green-500 dark:text-green-400 
+                <a href={`https://linkedin.com/in/${t.personalInfo.linkedin}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="p-3 border border-green-500 dark:border-green-600 text-green-500 dark:text-green-400 
                             hover:bg-green-500 dark:hover:bg-green-600 hover:text-black dark:hover:text-white 
                             rounded-lg transition-all duration-300">
                   <Linkedin size={20} />
@@ -82,12 +90,12 @@ export const Hero: React.FC = () => {
                 <div className="text-green-400 dark:text-green-500 text-sm mb-4">
                   {t.ui.terminal.welcome}
                 </div>
-                
-                <TerminalPrompt 
-                  command={commands[currentCommand]} 
+
+                <TerminalPrompt
+                  command={commands[currentCommand]}
                   delay={500}
                 />
-                
+
                 {showOutput && (
                   <div className="text-gray-300 dark:text-gray-400 text-sm mt-2 pl-4">
                     {currentCommand === 0 && (
@@ -128,7 +136,7 @@ export const Hero: React.FC = () => {
 
         {/* Scroll Indicator */}
         <div className="flex justify-center mt-16">
-          <button 
+          <button
             onClick={scrollToAbout}
             className="text-green-400 dark:text-green-500 animate-bounce hover:text-green-300 dark:hover:text-green-400 transition-colors"
           >
