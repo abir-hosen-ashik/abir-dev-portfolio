@@ -79,7 +79,7 @@ export const Hero: React.FC = () => {
             <button
               className="inline-flex btn-primary group"
               onClick={() => {
-                const url = 'https://lueinehghohpdorioalj.supabase.co/storage/v1/object/public/shared/Resume%20-%20Abir%20Hosen.pdf'; // Replace with your URL
+                const url = 'https://tlapmuaszjrzkzccrxkg.supabase.co/storage/v1/object/public/public-bucket/Resume%20-%20Abir%20Hosen.pdf'; // Replace with your URL
                 window.open(url, '_blank', 'noopener,noreferrer');
               }}
             >

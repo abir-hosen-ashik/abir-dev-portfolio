@@ -200,6 +200,27 @@ const en_project_3 = {
   ],
   featured: true,
 };
+const bn_project_3 = {
+  id: "3",
+  title: "কানেলা রিক্রুটমেন্ট সার্ভিস (এআই)",
+  duration: "ফেব্রুয়ারি ২০২৫ - এপ্রিল ২০২৫",
+  description:
+    "এআই-চালিত জব প্ল্যাটফর্ম যা চাকরির চাহিদা এবং আবেদনকারীর সিভি বুদ্ধিমত্তার সাথে মিলিয়ে নিয়োগ প্রক্রিয়াকে সহজ করে।",
+  responsibilities: [
+    "চাকরির চাহিদা ও সিভি বিশ্লেষণ ও মিলানোর জন্য এআই মডেল তৈরি",
+    "প্রার্থী-চাকরি র‍্যাংকিংয়ের জন্য মেশিন লার্নিং অ্যালগরিদম প্রয়োগ",
+    "নির্ভুল ও কার্যকরী জব ম্যাচিংয়ের জন্য সিস্টেম অপ্টিমাইজেশন",
+  ],
+  techStack: [
+    "Machine Learning",
+    "NLP",
+    "Python",
+    "Scikit-learn",
+    "PostgreSQL",
+  ],
+  featured: true,
+};
+
 const en_project_4 = {
   id: "4",
   title: "Query AI",
@@ -214,6 +235,21 @@ const en_project_4 = {
   techStack: ["NLP", "FastAPI", "PostgreSQL", "pgVector", "Python"],
   featured: true,
 };
+const bn_project_4 = {
+  id: "4",
+  title: "কোয়েরি এআই",
+  duration: "অক্টোবর ২০২৪ - জানুয়ারি ২০২৫",
+  description:
+    "এনএলপি-ভিত্তিক সমাধান যা ব্যবহারকারীর প্রম্পট থেকে এসকিউএল কোয়েরি তৈরি ও কার্যকর করে, ব্যবহারকারীর উদ্দেশ্য এবং ডেটা ইনসাইটের মধ্যে সেতুবন্ধন করে।",
+  responsibilities: [
+    "প্রকল্পের জন্য FastAPI ব্যাকএন্ড তৈরি",
+    "সংরক্ষণের জন্য PostgreSQL ও pgVector ডিজাইন ও অপ্টিমাইজ করা",
+    "সম্পূর্ণ ডাটাবেস ডিজাইনের দায়িত্ব পালন",
+  ],
+  techStack: ["NLP", "FastAPI", "PostgreSQL", "pgVector", "Python"],
+  featured: true,
+};
+
 const en_project_5 = {
   id: "5",
   title: "MashAllah Ecommerce",
@@ -234,6 +270,27 @@ const en_project_5 = {
   ],
   featured: false,
 };
+const bn_project_5 = {
+  id: "5",
+  title: "মাশআল্লাহ ই-কমার্স",
+  duration: "ফেব্রুয়ারি ২০২৪ - নভেম্বর ২০২৪",
+  description:
+    "মাইক্রোসার্ভিস ও মাইক্রোফ্রন্টএন্ড আর্কিটেকচারে তৈরি একটি স্কেলযোগ্য ই-কমার্স প্ল্যাটফর্ম। ই-কমার্স, ইনভেন্টরি ম্যানেজমেন্ট, অর্ডার প্রসেসিং এবং অ্যাডমিন কন্ট্রোলের মডিউলগুলো অন্তর্ভুক্ত।",
+  responsibilities: [
+    "Spring Boot মাইক্রোসার্ভিস ও Next.js মাইক্রোফ্রন্টএন্ড আর্কিটেকচার ডেভেলপ করা",
+    "PostgreSQL ডাটাবেস স্কিমা ডিজাইন ও ইমপ্লিমেন্ট করা",
+    "প্রকল্প ভার্চুয়ালাইজেশনের জন্য Docker ব্যবহার করা",
+  ],
+  techStack: [
+    "Spring Boot",
+    "Next.js",
+    "PostgreSQL",
+    "Docker",
+    "Microservices",
+  ],
+  featured: false,
+};
+
 const en_project_6 = {
   id: "6",
   title: "Singistic",
@@ -248,6 +305,21 @@ const en_project_6 = {
   techStack: ["NestJS", "DynamoDB", "AWS S3", "FFmpeg", "Spleeter"],
   featured: false,
 };
+const bn_project_6 = {
+  id: "6",
+  title: "সিংগিস্টিক",
+  duration: "মার্চ ২০২৩ - আগস্ট ২০২৩",
+  description:
+    "ওয়েব, অ্যান্ড্রয়েড এবং iOS ব্যবহারকারীদের জন্য অনলাইন কারাওকে অ্যাপ, যা একাধিক ভাষায় বিস্তৃত গান সমর্থন করে।",
+  responsibilities: [
+    "NestJS এবং DynamoDB দিয়ে ব্যাকএন্ড ডেভেলপ করা",
+    "ffmpeg, Spleeter এবং ImageMagick ব্যবহার করে অডিও প্রসেসিং বাস্তবায়ন",
+    "AWS S3 দিয়ে ফাইল সংরক্ষণ ব্যবস্থাপনা করা",
+  ],
+  techStack: ["NestJS", "DynamoDB", "AWS S3", "FFmpeg", "Spleeter"],
+  featured: false,
+};
+
 const en_project_7 = {
   id: "7",
   title: "Probashkormi",
@@ -262,6 +334,21 @@ const en_project_7 = {
   techStack: ["NestJS", "GraphQL", "MongoDB", "AWS S3", "Prisma"],
   featured: false,
 };
+const bn_project_7 = {
+  id: "7",
+  title: "প্রবাসকর্মী",
+  duration: "আগস্ট ২০২৩ - চলমান",
+  description:
+    "বিদেশে চাকরি খোঁজার জন্য ব্যক্তিদের জন্য রিক্রুটমেন্ট ম্যানেজমেন্ট সিস্টেম, মধ্যস্বত্বভোগীদের সরিয়ে।",
+  responsibilities: [
+    "NestJS, Prisma, GraphQL এবং MongoDB দিয়ে ব্যাকএন্ড ডেভেলপ করা",
+    "ফাইল সংরক্ষণের জন্য AWS S3 ইন্টিগ্রেট করা",
+    "সম্পূর্ণ ডাটাবেস ডিজাইন এবং API পাইপলাইন এর দায়িত্বে ছিলাম",
+  ],
+  techStack: ["NestJS", "GraphQL", "MongoDB", "AWS S3", "Prisma"],
+  featured: false,
+};
+
 const en_project_8 = {
   id: "8",
   title: "SoftCollab",
@@ -276,6 +363,21 @@ const en_project_8 = {
   techStack: ["ExpressJS", "SocketIO", "MySQL", "AWS S3", "FFmpeg"],
   featured: false,
 };
+const bn_project_8 = {
+  id: "8",
+  title: "সফটকোল্যাব",
+  duration: "এপ্রিল ২০২৩ - চলমান",
+  description:
+    "প্রযোজক ও সঙ্গীতশিল্পীদের মধ্যে মিউজিক ফাইল শেয়ারিং ও সহযোগিতার জন্য একটি প্ল্যাটফর্ম।",
+  responsibilities: [
+    "ExpressJS, SocketIO এবং MySQL ব্যবহার করে ব্যাকএন্ড উন্নত করা",
+    "অডিও প্রসেসিংয়ের জন্য ffmpeg ও ImageMagick ব্যবহার করা",
+    "ফাইল ব্যবস্থাপনার জন্য AWS S3 ইন্টিগ্রেট করা",
+  ],
+  techStack: ["ExpressJS", "SocketIO", "MySQL", "AWS S3", "FFmpeg"],
+  featured: false,
+};
+
 const en_project_9 = {
   id: "9",
   title: "Cloud Infra",
@@ -290,6 +392,21 @@ const en_project_9 = {
   techStack: ["ReactJS", "Redux", "Docker", "Keycloak", "Axios"],
   featured: false,
 };
+const bn_project_9 = {
+  id: "9",
+  title: "ক্লাউড ইনফ্রা",
+  duration: "মে ২০২১ - জুলাই ২০২২",
+  description:
+    "ব্যবসার মালিকদের জন্য ওয়েব সার্ভার ব্যবস্থাপনাকে সহজতর করার জন্য ডিজাইনকৃত ক্লাউড সার্ভার ম্যানেজমেন্ট প্ল্যাটফর্ম। স্বয়ংক্রিয় ব্যাকআপ, সার্ভার মনিটরিং এবং ডিপ্লয়মেন্ট টুল সরবরাহ করে।",
+  responsibilities: [
+    "ReactJS, Redux এবং Axios দিয়ে ফ্রন্টএন্ড ডেভেলপ করা",
+    "প্রকল্প ভার্চুয়ালাইজেশনের জন্য Docker ব্যবহার করা",
+    "SSO এর জন্য Keycloak ইন্টিগ্রেট করা",
+  ],
+  techStack: ["ReactJS", "Redux", "Docker", "Keycloak", "Axios"],
+  featured: false,
+};
+
 const en_project_10 = {
   id: "10",
   title: "Roboket - Marketing Automation System",
@@ -304,6 +421,21 @@ const en_project_10 = {
   techStack: ["FastAPI", "ReactJS", "Redux", "Keycloak", "Docker"],
   featured: false,
 };
+const bn_project_10 = {
+  id: "10",
+  title: "রোবোকেট - মার্কেটিং অটোমেশন সিস্টেম",
+  duration: "ফেব্রুয়ারি ২০২১ - মার্চ ২০২৩",
+  description:
+    "মার্কেটিং অটোমেশন সফটওয়্যার যা লিড-জেনারেশন টুলগুলোকে সোশ্যাল মিডিয়া এবং যোগাযোগ প্ল্যাটফর্মের সাথে একত্রিত করে।",
+  responsibilities: [
+    "FastAPI ব্যবহার করে মাইক্রোসার্ভিস আর্কিটেকচারে ব্যাকএন্ড আপগ্রেড করা",
+    "SSO এর জন্য Keycloak এবং প্রকল্প ভার্চুয়ালাইজেশনের জন্য Docker ব্যবহার করা",
+    "ReactJS ও Redux দিয়ে ফ্রন্টএন্ড কম্পোনেন্টস পরিচালনা করা",
+  ],
+  techStack: ["FastAPI", "ReactJS", "Redux", "Keycloak", "Docker"],
+  featured: false,
+};
+
 const en_project_11 = {
   id: "11",
   title: "Tiger ERP",
@@ -314,6 +446,20 @@ const en_project_11 = {
     "Developed both backend and frontend with Spring Boot and AngularJS",
     "Designed database schema and created custom queries",
     "Developed secure authentication and API pipeline using JWT",
+  ],
+  techStack: ["Spring Boot", "AngularJS", "JWT", "MySQL", "Maven"],
+  featured: false,
+};
+const bn_project_11 = {
+  id: "11",
+  title: "টাইগার ইআরপি",
+  duration: "জানুয়ারি ২০২০ - জানুয়ারি ২০২১",
+  description:
+    "এন্টারপ্রাইজ রিসোর্স প্ল্যানিং (ERP) সমাধান যা বিভিন্ন ব্যবসায়িক অপারেশন যেমন ইনভেন্টরি, বিক্রয়, ক্রয় এবং হিসাব পরিচালনা করার জন্য ডিজাইন করা হয়েছে।",
+  responsibilities: [
+    "Spring Boot ও AngularJS ব্যবহার করে ব্যাকএন্ড ও ফ্রন্টএন্ড ডেভেলপ করা",
+    "ডাটাবেস স্কিমা ডিজাইন এবং কাস্টম কুয়েরি তৈরি করা",
+    "JWT ব্যবহার করে নিরাপদ অথেনটিকেশন এবং API পাইপলাইন ডেভেলপ করা",
   ],
   techStack: ["Spring Boot", "AngularJS", "JWT", "MySQL", "Maven"],
   featured: false,
@@ -352,7 +498,19 @@ const bn_projects = {
     featured: "বিশেষ",
     main: "মূল প্রকল্প",
   },
-  items: [bn_project_1, bn_project_2] as Project[],
+  items: [
+    bn_project_1,
+    bn_project_2,
+    bn_project_3,
+    bn_project_4,
+    bn_project_5,
+    bn_project_6,
+    bn_project_7,
+    bn_project_8,
+    bn_project_9,
+    bn_project_10,
+    bn_project_11,
+  ] as Project[],
 };
 const en_experience_1 = {
   id: "1",
@@ -394,6 +552,20 @@ const en_experience_2 = {
     "Actively participating in database design and project planning",
   ],
 };
+const bn_experience_2 = {
+  id: "2",
+  company: "ADN ডিজিনেট",
+  position: "সফটওয়্যার ইঞ্জিনিয়ার (ফুল স্ট্যাক ডেভেলপার)",
+  location: "ঢাকা, বাংলাদেশ",
+  duration: "ফেব্রুয়ারি ২০২১ – মার্চ ২০২৩",
+  responsibilities: [
+    "বিদ্যমান সফটওয়্যার অপ্টিমাইজ ও সম্প্রসারণের দায়িত্বে ছিলেন",
+    "দ্রুত রেন্ডার এবং বাগ-মুক্ত কোড নিশ্চিত করা",
+    "ডেভেলপমেন্ট লাইফ সাইকেলে Agile Scrum বজায় রাখা",
+    "ডাটাবেস ডিজাইন এবং প্রকল্প পরিকল্পনায় সক্রিয় অংশগ্রহণ",
+  ],
+};
+
 const en_experience_3 = {
   id: "3",
   company: "Tiger ERP",
@@ -408,6 +580,20 @@ const en_experience_3 = {
   ],
 };
 
+const bn_experience_3 = {
+  id: "3",
+  company: "টাইগার ইআরপি",
+  position: "জাভা ডেভেলপার (ফুল স্ট্যাক ডেভেলপার)",
+  location: "ঢাকা, বাংলাদেশ",
+  duration: "জানুয়ারি ২০২০ – জানুয়ারি ২০২১",
+  responsibilities: [
+    "রিকোয়ারমেন্ট বিশ্লেষণ এবং প্রকল্প উন্নয়ন",
+    "ডাটাবেস ডিজাইন এবং প্রকল্প পরিকল্পনায় সক্রিয় অংশগ্রহণ",
+    "সফটওয়্যার টেস্টিং, বিশ্লেষণ এবং ডিবাগিং",
+    "ডেভেলপমেন্ট লাইফ সাইকেলে Agile Scrum বজায় রাখা",
+  ],
+};
+
 const en_experience = {
   title: "Professional Experience",
   allTitle: "Complete Work Experience",
@@ -418,7 +604,7 @@ const bn_experience = {
   title: "পেশাগত অভিজ্ঞতা",
   allTitle: "সম্পূর্ণ কর্ম অভিজ্ঞতা",
   viewAll: "সকল অভিজ্ঞতা দেখুন",
-  items: [bn_experience_1] as Experience[],
+  items: [bn_experience_1, bn_experience_2, bn_experience_3] as Experience[],
 };
 
 const en_tech_stack_categories_ai = {
