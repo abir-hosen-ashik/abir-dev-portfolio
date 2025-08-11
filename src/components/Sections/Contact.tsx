@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Github, Linkedin, Send, Copy, Check, MessageCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { insertMessage } from '../../utils/supabase';
+import Notification, { NotificationType } from '../UI/Notification';
 
 export const Contact: React.FC = () => {
   const { t } = useLanguage();
+  const [notification, setNotification] = useState<{
+    type: NotificationType;
+    message: string;
+  } | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,7 +20,25 @@ export const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
+    // Handle form submission 
+    insertMessage({
+      name: formData.name,
+      contact: formData.email,
+      subject: formData.subject,
+      message: formData.message
+    }).then(resp => {
+      if (resp?.status == 201) {
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        })
+        setNotification({ type: "success", message: "Message sent successfully!" });
+      } else {
+        setNotification({ type: "error", message: "Failed to send message" });
+      }
+    })
     console.log('Form submitted:', formData);
   };
 
@@ -247,6 +271,13 @@ export const Contact: React.FC = () => {
           </div>
         </div>
       </div>
+      {notification && (
+        <Notification
+          type={notification.type}
+          message={notification.message}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </section>
   );
 };
