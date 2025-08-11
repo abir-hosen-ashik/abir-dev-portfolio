@@ -24,6 +24,7 @@ export interface PersonalInfo {
   phone: string;
   github: string;
   linkedin: string;
+  medium?: string;
   gitlab: string;
   kaggle: string;
   objective: string;

@@ -117,7 +117,7 @@ export const About: React.FC = () => {
               </div>
               
               <div className="grid grid-cols-2 gap-4">
-                {['AI/ML', 'Full-Stack', 'Cloud', 'DevOps'].map((skill, index) => (
+                {[ 'Cloud', 'DevOps', 'AI/ML', 'Full-Stack'].map((skill, index) => (
                   <div key={skill} className="text-center p-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg">
                     <div className="text-2xl font-bold gradient-text">{85 + index * 5}%</div>
                     <div className="text-sm text-neutral-600 dark:text-neutral-400">{skill}</div>

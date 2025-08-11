@@ -20,6 +20,7 @@ export const content = {
       phone: '+880 1310 685450',
       github: 'abirdox',
       linkedin: 'abirdox',
+      medium: 'abirdev',
       gitlab: 'abir-hosen',
       kaggle: 'abirhosenashik',
       objective: `With 5+ years of experience in full-stack development and AI, I am deeply passionate about leveraging AI and software development to drive innovation. My expertise spans AI-driven applications with hands-on experience in LLM integration, vector databases, and scalable back-end architectures.`
@@ -360,6 +361,7 @@ export const content = {
       phone: '+৮৮০ ১৩১০ ৬৮৫৪৫০',
       github: 'abirdox',
       linkedin: 'abirdox', 
+      medium: 'abirdev',
       gitlab: 'abir-hosen',
       kaggle: 'abirhosenashik',
       objective: `ফুল-স্ট্যাক ডেভেলপমেন্ট এবং এআই-তে ৫+ বছরের অভিজ্ঞতার সাথে, আমি এআই এবং সফটওয়্যার ডেভেলপমেন্ট ব্যবহার করে উদ্ভাবন চালানোর জন্য গভীরভাবে আগ্রহী। আমার দক্ষতা এআই-চালিত অ্যাপ্লিকেশন জুড়ে বিস্তৃত।`

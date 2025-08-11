@@ -46,13 +46,13 @@ export const Contact: React.FC = () => {
       username: t.personalInfo.linkedin,
       color: 'from-info-500 to-info-600'
     },
-    {
-      name: 'GitLab',
-      url: `https://gitlab.com/${t.personalInfo.gitlab}`,
-      icon: <Code size={20} />,
-      username: t.personalInfo.gitlab,
-      color: 'from-accent-500 to-accent-600'
-    }
+    // {
+    //   name: 'GitLab',
+    //   url: `https://gitlab.com/${t.personalInfo.gitlab}`,
+    //   icon: <Code size={20} />,
+    //   username: t.personalInfo.gitlab,
+    //   color: 'from-accent-500 to-accent-600'
+    // }
   ];
 
   return (
@@ -154,7 +154,7 @@ export const Contact: React.FC = () => {
           {/* Contact Form */}
           <div className="fade-in-right">
             <div className="card p-8">
-              <div className="flex items-center space-x-3 mb-8">
+              <div className="inline-flex items-center space-x-3 mb-8">
                 <div className="w-12 h-12 bg-gradient-to-r from-accent-500 to-success-500 rounded-xl flex items-center justify-center">
                   <Send className="text-white" size={24} />
                 </div>
@@ -226,7 +226,7 @@ export const Contact: React.FC = () => {
                     value={formData.message}
                     onChange={handleInputChange}
                     required
-                    rows={5}
+                    rows={2}
                     className="w-full bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 
                              rounded-xl px-4 py-3 text-neutral-700 dark:text-neutral-300 
                              focus:border-primary-500 dark:focus:border-secondary-500 focus:outline-none 
@@ -236,11 +236,12 @@ export const Contact: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="btn-primary w-full group"
+                  className="btn-primary w-full flex justify-center items-center space-x-2 group"
                 >
                   <Send size={20} className="group-hover:translate-x-1 transition-transform" />
                   <span>{t.contact.form.send}</span>
                 </button>
+
               </form>
             </div>
           </div>

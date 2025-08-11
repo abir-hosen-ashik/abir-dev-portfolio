@@ -1,4 +1,3 @@
-import React from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { Header } from './components/Layout/Header';
