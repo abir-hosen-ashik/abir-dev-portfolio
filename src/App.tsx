@@ -14,7 +14,7 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <div className="min-h-screen bg-black dark:bg-gray-900 text-white transition-colors duration-300">
+        <div className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-300">
           <Header />
           <main>
             <Hero />

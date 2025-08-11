@@ -1,129 +1,130 @@
 import React, { useState } from 'react';
-import { ExternalLink, Github, Calendar, Code } from 'lucide-react';
-import { TerminalWindow } from '../Terminal/TerminalWindow';
+import { ExternalLink, Github, Calendar, Code, Star, ArrowRight } from 'lucide-react';
 import { ProjectsModal } from '../Modals/ProjectsModal';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const Projects: React.FC = () => {
   const { t } = useLanguage();
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [showAllProjects, setShowAllProjects] = useState(false);
 
   const featuredProjects = t.projects.items.filter(project => project.featured);
 
   return (
     <>
-      <section id="projects" className="py-20 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-white dark:text-green-300 mb-6 font-mono">
+      <section id="projects" className="section-padding">
+        <div className="container-custom">
+          <div className="text-center mb-16 fade-in-up">
+            <h2 className="text-4xl lg:text-5xl font-display font-bold gradient-text mb-6">
               {t.projects.title}
             </h2>
-            <div className="w-24 h-1 bg-green-500 dark:bg-green-600 mx-auto rounded"></div>
+            <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
+              Showcasing innovative solutions in AI, full-stack development, and cloud architecture
+            </p>
+            <div className="w-24 h-1 mb-5 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mt-6"></div>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
             {featuredProjects.map((project, index) => (
-              <div key={project.id} className="group">
-                <TerminalWindow title={`project_${index + 1}.json`}>
-                  <div className="space-y-4">
-                    {/* Project Header */}
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-white dark:text-green-300 mb-2">
-                          {project.title}
-                        </h3>
-                        <div className="flex items-center space-x-2 text-sm text-gray-400 dark:text-gray-500 mb-3">
-                          <Calendar size={16} />
-                          <span className="font-mono">{project.duration}</span>
-                        </div>
-                      </div>
-                      <div className="flex space-x-2">
-                        {project.link && (
-                          <a 
-                            href={project.link} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="p-2 text-green-400 dark:text-green-500 hover:text-green-300 dark:hover:text-green-400 
-                                     transition-colors"
-                          >
-                            <ExternalLink size={16} />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Project Description */}
-                    <div className="text-gray-300 dark:text-gray-400 leading-relaxed">
-                      {project.description}
-                    </div>
-
-                    {/* Tech Stack */}
-                    <div className="space-y-2">
-                      <div className="flex items-center space-x-2 text-green-400 dark:text-green-500">
-                        <Code size={16} />
-                        <span className="font-mono text-sm">Tech Stack</span>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {project.techStack.map((tech) => (
-                          <span 
-                            key={tech}
-                            className="px-3 py-1 bg-gray-800 dark:bg-gray-900 text-green-400 dark:text-green-500 
-                                     text-xs font-mono rounded border border-green-500/30 dark:border-green-600/30"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Responsibilities - Expandable */}
-                    <div className="border-t border-gray-700 dark:border-green-500/30 pt-4">
-                      <button
-                        onClick={() => setSelectedProject(
-                          selectedProject === project.id ? null : project.id
-                        )}
-                        className="flex items-center space-x-2 text-green-400 dark:text-green-500 hover:text-green-300 
-                                 dark:hover:text-green-400 transition-colors font-mono text-sm"
-                      >
-                        <span>{selectedProject === project.id ? '▼' : '▶'}</span>
-                        <span>Key Responsibilities</span>
-                      </button>
-                      
-                      {selectedProject === project.id && (
-                        <div className="mt-3 space-y-2 text-sm text-gray-300 dark:text-gray-400">
-                          {project.responsibilities.map((resp, idx) => (
-                            <div key={idx} className="flex items-start space-x-2">
-                              <span className="text-green-400 dark:text-green-500 mt-1">•</span>
-                              <span>{resp}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+              <div key={project.id} className={`group fade-in-${index % 2 === 0 ? 'left' : 'right'}`}>
+                <div className="card p-8 hover:shadow-glow transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                  {/* Featured Badge */}
+                  <div className="absolute top-4 right-4">
+                    <div className="flex items-center space-x-1 bg-gradient-to-r from-accent-500 to-success-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                      <Star size={12} />
+                      <span>FEATURED</span>
                     </div>
                   </div>
-                </TerminalWindow>
+
+                  {/* Project Header */}
+                  <div className="mb-6">
+                    <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-3 group-hover:text-primary-500 dark:group-hover:text-secondary-500 transition-colors">
+                      {project.title}
+                    </h3>
+                    <div className="flex items-center space-x-2 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+                      <Calendar size={16} />
+                      <span className="font-mono">{project.duration}</span>
+                    </div>
+                  </div>
+
+                  {/* Project Description */}
+                  <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+
+                  {/* Tech Stack */}
+                  <div className="mb-6">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <Code size={16} className="text-primary-500 dark:text-secondary-500" />
+                      <span className="font-semibold text-neutral-700 dark:text-neutral-300">Tech Stack</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {project.techStack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-3 py-1 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 
+                                   text-primary-600 dark:text-secondary-400 text-sm font-medium rounded-full border border-primary-200 dark:border-secondary-700"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Key Responsibilities Preview */}
+                  <div className="mb-6">
+                    <h4 className="font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Key Highlights:</h4>
+                    <ul className="space-y-1">
+                      {project.responsibilities.slice(0, 2).map((resp, idx) => (
+                        <li key={idx} className="flex items-start space-x-2 text-sm text-neutral-600 dark:text-neutral-400">
+                          <div className="w-1.5 h-1.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full mt-2 flex-shrink-0"></div>
+                          <span>{resp}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Project Links */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex space-x-3">
+                      {project.link && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center space-x-2 text-primary-500 dark:text-secondary-500 hover:text-primary-600 dark:hover:text-secondary-600 transition-colors"
+                        >
+                          <ExternalLink size={16} />
+                          <span className="text-sm font-medium">View Project</span>
+                        </a>
+                      )}
+                    </div>
+                    <div className="text-xs text-neutral-400 dark:text-neutral-500 font-mono">
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+                  </div>
+
+                  {/* Hover Effect Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                </div>
               </div>
             ))}
           </div>
 
           {/* View All Projects Button */}
-          <div className="text-center mt-12">
-            <button 
+          <div className="text-center mt-12 fade-in-up">
+            <button
               onClick={() => setShowAllProjects(true)}
-              className="bg-transparent border-2 border-green-500 dark:border-green-600 text-green-500 dark:text-green-400 
-                       hover:bg-green-500 dark:hover:bg-green-600 hover:text-black dark:hover:text-white 
-                       px-8 py-3 rounded-lg font-mono transition-all duration-300 
-                       hover:shadow-lg hover:shadow-green-500/25"
+              className="inline-flex btn-secondary group"
             >
               <span>{t.projects.viewAll}</span>
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform px-1 w-10"/>
             </button>
           </div>
         </div>
       </section>
 
       {/* Projects Modal */}
-      <ProjectsModal 
+      <ProjectsModal
         isOpen={showAllProjects}
         onClose={() => setShowAllProjects(false)}
       />

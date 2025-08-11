@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
 * {
   margin: 0;
@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  font-family: 'JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,48 +27,31 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: #f5f6fa;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #2f3640;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00ff41;
+  background: linear-gradient(135deg, #00a8ff, #9c88ff);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00e838;
+  background: linear-gradient(135deg, #0097e6, #8c7ae6);
 }
 
 /* Selection */
 ::selection {
-  background: rgba(0, 255, 65, 0.2);
-  color: #00ff41;
+  background: rgba(0, 168, 255, 0.2);
+  color: #00a8ff;
 }
 
-/* Custom animations */
-@keyframes typewriter {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
-
-.typewriter {
-  overflow: hidden;
-  white-space: nowrap;
-  animation: typewriter 2s steps(40, end);
-}
-
-.cursor {
-  animation: blink 1s infinite;
-}
-
-/* Terminal glow effect */
-.terminal-glow {
-  box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+.dark ::selection {
+  background: rgba(156, 136, 255, 0.3);
+  color: #9c88ff;
 }
 
 /* Smooth transitions */
@@ -89,7 +72,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0, 168, 255, 0.2), transparent);
   animation: loading 1.5s infinite;
 }
 
@@ -98,19 +81,71 @@ body {
   100% { left: 100%; }
 }
 
+/* Focus styles */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid #00a8ff;
+  outline-offset: 2px;
+}
+
+.dark button:focus,
+.dark input:focus,
+.dark textarea:focus {
+  outline-color: #9c88ff;
+}
+
+/* Custom components */
+.card {
+  @apply bg-white dark:bg-neutral-800 rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300;
+}
+
+.card-glass {
+  @apply glass dark:glass-dark rounded-xl backdrop-blur-md;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-6 py-3 rounded-lg font-medium hover:from-primary-600 hover:to-secondary-600 transition-all duration-300 shadow-glow hover:shadow-glow-lg;
+}
+
+.btn-secondary {
+  @apply bg-transparent border-2 border-primary-500 text-primary-500 dark:border-secondary-500 dark:text-secondary-500 px-6 py-3 rounded-lg font-medium hover:bg-primary-500 hover:text-white dark:hover:bg-secondary-500 dark:hover:text-white transition-all duration-300;
+}
+
+.section-padding {
+  @apply py-20 px-4;
+}
+
+.container-custom {
+  @apply container mx-auto max-w-7xl;
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 bg-clip-text text-transparent;
+}
+
+/* Animated background */
+.animated-bg {
+  background: linear-gradient(-45deg, #00a8ff, #9c88ff, #fbc531, #4cd137);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* Code block styling */
+.code-block {
+  @apply bg-neutral-900 dark:bg-neutral-800 text-neutral-100 p-4 rounded-lg font-mono text-sm overflow-x-auto;
+}
+
 /* Responsive utilities */
 @media (max-width: 640px) {
   .text-responsive {
     font-size: clamp(0.875rem, 2.5vw, 1rem);
   }
-}
-
-/* Focus styles */
-button:focus,
-input:focus,
-textarea:focus {
-  outline: 2px solid #00ff41;
-  outline-offset: 2px;
+  
+  .heading-responsive {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
 }
 
 /* Print styles */
@@ -118,4 +153,172 @@ textarea:focus {
   .no-print {
     display: none !important;
   }
+}
+
+/* Intersection Observer animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-up.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-left.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-right.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Particle background */
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #00a8ff;
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(2n) {
+  background: #9c88ff;
+  animation-delay: -2s;
+}
+
+.particle:nth-child(3n) {
+  background: #fbc531;
+  animation-delay: -4s;
+}
+
+/* Glitch effect for special elements */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  animation: glitch-1 0.5s infinite;
+  color: #00a8ff;
+  z-index: -1;
+}
+
+.glitch::after {
+  animation: glitch-2 0.5s infinite;
+  color: #e84118;
+  z-index: -2;
+}
+
+@keyframes glitch-1 {
+  0%, 14%, 15%, 49%, 50%, 99%, 100% {
+    transform: translate(0);
+  }
+  15%, 49% {
+    transform: translate(-2px, 0);
+  }
+}
+
+@keyframes glitch-2 {
+  0%, 20%, 21%, 62%, 63%, 99%, 100% {
+    transform: translate(0);
+  }
+  21%, 62% {
+    transform: translate(2px, 0);
+  }
+}
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.fade-in-down {
+  animation: fade-in-down 0.5s ease-out forwards;
+}
+
+.fade-in-left {
+  animation: fade-in-left 0.5s ease-out forwards;
+}
+
+.fade-in-right {
+  animation: fade-in-right 0.5s ease-out forwards;
 }

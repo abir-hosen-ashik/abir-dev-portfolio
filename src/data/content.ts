@@ -18,11 +18,11 @@ export const content = {
       name: 'Abir Hosen',
       email: 'abir71.hosen@gmail.com',
       phone: '+880 1310 685450',
-      github: 'abir-hosen-ashik',
-      linkedin: 'abir-hosen-ashik',
+      github: 'abirdox',
+      linkedin: 'abirdox',
       gitlab: 'abir-hosen',
       kaggle: 'abirhosenashik',
-      objective: `With 5+ years of experience in full-stack development and AI I am deeply passionate about leveraging AI and software development to drive innovation. My expertise spans AI-driven applications with hands-on experience in LLM integration vector databases and scale-able back-end architectures ensured the release of good interactive application that provides intuitive and secure experience for clients. I have contributed to projects like E-commerce ERP Lead-generation Recruitment Management Marketing Automation Music Platform and Cloud solutions aiming to enhance business efficiency and user experience.`
+      objective: `With 5+ years of experience in full-stack development and AI, I am deeply passionate about leveraging AI and software development to drive innovation. My expertise spans AI-driven applications with hands-on experience in LLM integration, vector databases, and scalable back-end architectures.`
     } as PersonalInfo,
     
     // Home section
@@ -335,7 +335,7 @@ export const content = {
       copied: 'Copied!',
       terminal: {
         prompt: 'abir@portfolio:~$',
-        welcome: 'Welcome to Abir\'s Portfolio',
+        welcome: 'Welcome to Abir\'s Terminal Portfolio',
         type: 'Type "help" to see available commands'
       }
     }
@@ -358,11 +358,11 @@ export const content = {
       name: 'আবির হোসেন',
       email: 'abir71.hosen@gmail.com',
       phone: '+৮৮০ ১৩১০ ৬৮৫৪৫০',
-      github: 'abir-hosen-ashik',
-      linkedin: 'abir-hosen-ashik', 
+      github: 'abirdox',
+      linkedin: 'abirdox', 
       gitlab: 'abir-hosen',
       kaggle: 'abirhosenashik',
-      objective: `ফুল-স্ট্যাক ডেভেলপমেন্ট ও এআই-তে ৫ বছরেরও বেশি অভিজ্ঞতা নিয়ে, আমি প্রযুক্তিকে ব্যবহার করে উদ্ভাবন চালানোর ব্যাপারে গভীরভাবে আগ্রহী। আমার দক্ষতার মধ্যে রয়েছে এআই-চালিত অ্যাপ্লিকেশন তৈরি, LLM (Large Language Model) ইন্টিগ্রেশন, ভেক্টর ডেটাবেসের সাথে কাজ করা এবং স্কেলযোগ্য ব্যাকএন্ড আর্কিটেকচার ডিজাইন করা, যার মাধ্যমে ইন্টার‌্যাক্টিভ, নিরাপদ ও ব্যবহারবান্ধব অ্যাপ্লিকেশন তৈরি করেছি। আমার ক্যারিয়ারে আমি বিভিন্ন প্রকল্পে অবদান রেখেছি — যেমন ই-কমার্স, ইআরপি, লিড-জেনারেশন, রিক্রুটমেন্ট ম্যানেজমেন্ট, মার্কেটিং অটোমেশন, মিউজিক প্ল্যাটফর্ম এবং ক্লাউড সল্যুশন — যা ব্যবসায়িক দক্ষতা ও ব্যবহারকারীর অভিজ্ঞতা বৃদ্ধির লক্ষ্য নিয়ে তৈরি।`
+      objective: `ফুল-স্ট্যাক ডেভেলপমেন্ট এবং এআই-তে ৫+ বছরের অভিজ্ঞতার সাথে, আমি এআই এবং সফটওয়্যার ডেভেলপমেন্ট ব্যবহার করে উদ্ভাবন চালানোর জন্য গভীরভাবে আগ্রহী। আমার দক্ষতা এআই-চালিত অ্যাপ্লিকেশন জুড়ে বিস্তৃত।`
     } as PersonalInfo,
     
     // Home section
@@ -446,123 +446,6 @@ export const content = {
           ],
           techStack: ['LangChain', 'RAG', 'MCP', 'Python', 'FastAPI', 'PostgreSQL'],
           featured: true
-        },
-        {
-          id: '3',
-          title: 'কানেলা রিক্রুটমেন্ট সার্ভিস (AI)',
-          duration: 'ফেব্রুয়ারি ২০২৫ - এপ্রিল ২০২৫',
-          description: 'একটি AI-চালিত জব প্ল্যাটফর্ম যা বুদ্ধিমত্তাভাবে চাকরির প্রয়োজনীয়তার সাথে প্রার্থীর সিভি মেলানোর মাধ্যমে নিয়োগ প্রক্রিয়াকে সহজ করে।',
-          responsibilities: [
-            'চাকরির প্রয়োজনীয়তার সাথে সিভি বিশ্লেষণ ও মেলানোর জন্য AI মডেল তৈরি',
-            'প্রার্থী ও চাকরির র‌্যাংকিংয়ের জন্য মেশিন লার্নিং অ্যালগরিদম প্রয়োগ',
-            'সঠিক ও কার্যকরী মেলানোর জন্য সিস্টেম অপ্টিমাইজেশন'
-          ],
-          techStack: ['মেশিন লার্নিং', 'এনএলপি', 'Python', 'Scikit-learn', 'PostgreSQL'],
-          featured: true
-        },
-        {
-          id: '4',
-          title: 'কুয়েরি এআই',
-          duration: 'অক্টোবর ২০২৪ - জানুয়ারি ২০২৫',
-          description: 'একটি NLP-ভিত্তিক সিস্টেম যা ব্যবহারকারীর প্রম্পট থেকে SQL কুয়েরি তৈরি ও এক্সিকিউট করে, যাতে ব্যবহারকারীর অভিপ্রায় ও ডেটা বিশ্লেষণের মাঝে সেতুবন্ধন ঘটে।',
-          responsibilities: [
-            'প্রকল্পের জন্য FastAPI ব্যাকএন্ড ডেভেলপমেন্ট',
-            'PostgreSQL ও pgVector স্টোরেজ ডিজাইন ও অপ্টিমাইজ করা',
-            'সম্পূর্ণ ডেটাবেস ডিজাইনের দায়িত্ব গ্রহণ'
-          ],
-          techStack: ['এনএলপি', 'FastAPI', 'PostgreSQL', 'pgVector', 'Python'],
-          featured: true
-        },
-        {
-          id: '5',
-          title: 'মাশআল্লাহ ই-কমার্স',
-          duration: 'ফেব্রুয়ারি ২০২৪ - নভেম্বর ২০২৪',
-          description: 'মাইক্রোসার্ভিস ও মাইক্রোফ্রন্টএন্ড আর্কিটেকচারে তৈরি একটি স্কেলযোগ্য ই-কমার্স প্ল্যাটফর্ম। এতে ই-কমার্স, ইনভেন্টরি ম্যানেজমেন্ট, অর্ডার প্রসেসিং এবং অ্যাডমিন কন্ট্রোল মডিউল রয়েছে।',
-          responsibilities: [
-            'Spring Boot দিয়ে মাইক্রোসার্ভিস ও Next.js দিয়ে মাইক্রোফ্রন্টএন্ড ডেভেলপমেন্ট',
-            'PostgreSQL ডেটাবেস স্কিমা ডিজাইন ও বাস্তবায়ন',
-            'Docker ব্যবহার করে ভার্চুয়ালাইজেশন নিশ্চিত করা'
-          ],
-          techStack: ['Spring Boot', 'Next.js', 'PostgreSQL', 'Docker', 'Microservices'],
-          featured: false
-        },
-        {
-          id: '6',
-          title: 'সিংগিস্টিক',
-          duration: 'মার্চ ২০২৩ - আগস্ট ২০২৩',
-          description: 'একটি অনলাইন কারাওকে অ্যাপ, যা ওয়েব, অ্যান্ড্রয়েড ও iOS ব্যবহারকারীদের জন্য তৈরি এবং এতে বহু ভাষায় গান রয়েছে।',
-          responsibilities: [
-            'NestJS ও DynamoDB দিয়ে ব্যাকএন্ড ডেভেলপমেন্ট',
-            'FFmpeg, Spleeter ও ImageMagick ব্যবহার করে অডিও প্রসেসিং',
-            'AWS S3 ব্যবহার করে ফাইল স্টোরেজ ম্যানেজমেন্ট'
-          ],
-          techStack: ['NestJS', 'DynamoDB', 'AWS S3', 'FFmpeg', 'Spleeter'],
-          featured: false
-        },
-        {
-          id: '7',
-          title: 'প্রবাসকর্মী',
-          duration: 'আগস্ট ২০২৩ - চলমান',
-          description: 'বিদেশে চাকরি প্রার্থীদের জন্য রিক্রুটমেন্ট ম্যানেজমেন্ট সিস্টেম যা দালালদের হস্তক্ষেপ দূর করে।',
-          responsibilities: [
-            'NestJS, Prisma, GraphQL ও MongoDB ব্যবহার করে ব্যাকএন্ড ডেভেলপমেন্ট',
-            'AWS S3 ইন্টিগ্রেশন ফাইল সংরক্ষণের জন্য',
-            'সম্পূর্ণ ডেটাবেস ডিজাইন ও API পাইপলাইন নির্মাণে দায়িত্ব পালন'
-          ],
-          techStack: ['NestJS', 'GraphQL', 'MongoDB', 'AWS S3', 'Prisma'],
-          featured: false
-        },
-        {
-          id: '8',
-          title: 'সফটকল্যাব',
-          duration: 'এপ্রিল ২০২৩ - চলমান',
-          description: 'সঙ্গীত প্রযোজক ও মিউজিশিয়ানদের মধ্যে ফাইল শেয়ার ও সহযোগিতার জন্য একটি প্ল্যাটফর্ম।',
-          responsibilities: [
-            'ExpressJS, SocketIO ও MySQL দিয়ে ব্যাকএন্ড আপগ্রেড',
-            'FFmpeg ও ImageMagick ব্যবহার করে অডিও প্রসেসিং',
-            'AWS S3 ইন্টিগ্রেট করে ফাইল ম্যানেজমেন্ট নিশ্চিত করা'
-          ],
-          techStack: ['ExpressJS', 'SocketIO', 'MySQL', 'AWS S3', 'FFmpeg'],
-          featured: false
-        },
-        {
-          id: '9',
-          title: 'ক্লাউড ইনফ্রা',
-          duration: 'মে ২০২১ - জুলাই ২০২২',
-          description: 'একটি ক্লাউড সার্ভার ম্যানেজমেন্ট প্ল্যাটফর্ম, যা ব্যবসায়ীদের জন্য স্বয়ংক্রিয় ব্যাকআপ, সার্ভার মনিটরিং এবং ডিপ্লয়মেন্ট টুল সরবরাহ করে।',
-          responsibilities: [
-            'ReactJS, Redux ও Axios ব্যবহার করে ফ্রন্টএন্ড ডেভেলপমেন্ট',
-            'Docker ব্যবহারের মাধ্যমে ভার্চুয়ালাইজেশন নিশ্চিত করা',
-            'Keycloak ইন্টিগ্রেট করে একক সাইন অন (SSO) বাস্তবায়ন'
-          ],
-          techStack: ['ReactJS', 'Redux', 'Docker', 'Keycloak', 'Axios'],
-          featured: false
-        },
-        {
-          id: '10',
-          title: 'রোবোকেট - মার্কেটিং অটোমেশন সিস্টেম',
-          duration: 'ফেব্রুয়ারি ২০২১ - মার্চ ২০২৩',
-          description: 'একটি মার্কেটিং অটোমেশন সফটওয়্যার যা লিড জেনারেশন টুল এবং সোশ্যাল মিডিয়া ও কমিউনিকেশন প্ল্যাটফর্মের সাথে ইন্টিগ্রেটেড।',
-          responsibilities: [
-            'FastAPI ব্যবহার করে মাইক্রোসার্ভিস আর্কিটেকচারে ব্যাকএন্ড আপগ্রেড',
-            'SSO এর জন্য Keycloak ও ভার্চুয়ালাইজেশনের জন্য Docker ব্যবহৃত',
-            'ReactJS ও Redux ব্যবহার করে ফ্রন্টএন্ড কম্পোনেন্ট তৈরি ও ম্যানেজমেন্ট'
-          ],
-          techStack: ['FastAPI', 'ReactJS', 'Redux', 'Keycloak', 'Docker'],
-          featured: false
-        },
-        {
-          id: '11',
-          title: 'টাইগার ইআরপি',
-          duration: 'জানুয়ারি ২০২০ - জানুয়ারি ২০২১',
-          description: 'একটি এন্টারপ্রাইজ রিসোর্স প্ল্যানিং (ERP) সল্যুশন, যা ইনভেন্টরি, সেলস, প্রোকিউরমেন্ট এবং অ্যাকাউন্টিং সহ বিভিন্ন ব্যবসায়িক কার্যক্রম ম্যানেজ করে।',
-          responsibilities: [
-            'Spring Boot ও AngularJS দিয়ে ব্যাকএন্ড ও ফ্রন্টএন্ড ডেভেলপমেন্ট',
-            'ডেটাবেস স্কিমা ডিজাইন এবং কাস্টম কুয়েরি তৈরি',
-            'JWT ব্যবহার করে সুরক্ষিত অথেন্টিকেশন ও API পাইপলাইন ডেভেলপমেন্ট'
-          ],
-          techStack: ['Spring Boot', 'AngularJS', 'JWT', 'MySQL', 'Maven'],
-          featured: false
         }
       ] as Project[]
     },
@@ -585,34 +468,7 @@ export const content = {
             'প্রোগ্রাম এবং সিস্টেম যাচাই এবং ডিপ্লয় করা',
             'দ্রুত রেন্ডার এবং বাগ-মুক্ত কোড নিশ্চিত করা'
           ]
-        },
-        {
-          id: '2', 
-          company: 'ADN Diginet',
-          position: 'সফটওয়্যার ইঞ্জিনিয়ার (ফুল স্ট্যাক ডেভেলপার)',
-          location: 'ঢাকা, বাংলাদেশ',
-          duration: 'ফেব্রুয়ারি ২০২১ – মার্চ ২০২৩',
-          responsibilities: [
-            'বিদ্যমান সফটওয়্যার অপ্টিমাইজ এবং সম্প্রসারণের দায়িত্ব পালন',
-            'দ্রুত রেন্ডার ও বাগমুক্ত কোড নিশ্চিত করা',
-            'ডেভেলপমেন্ট লাইফ সাইকেলে অ্যাজাইল স্ক্রাম অনুসরণ করা',
-            'ডেটাবেজ ডিজাইন এবং প্রজেক্ট পরিকল্পনায় সক্রিয় অংশগ্রহণ'
-          ]
-        },
-        {
-          id: '3',
-          company: 'Tiger ERP',
-          position: 'জাভা ডেভেলপার (ফুল স্ট্যাক ডেভেলপার)', 
-          location: 'ঢাকা, বাংলাদেশ',
-          duration: 'জানুয়ারি ২০২০ – জানুয়ারি ২০২১',
-          responsibilities: [
-            'প্রয়োজনীয়তা বিশ্লেষণ এবং প্রজেক্ট ডেভেলপমেন্ট',
-            'ডেটাবেজ ডিজাইন এবং প্রজেক্ট পরিকল্পনায় সক্রিয় অংশগ্রহণ',
-            'সফটওয়্যার টেস্টিং, বিশ্লেষণ এবং ডিবাগিং',
-            'ডেভেলপমেন্ট লাইফ সাইকেলে অ্যাজাইল স্ক্রাম অনুসরণ করা'
-          ]
         }
-
       ] as Experience[]
     },
     
@@ -675,7 +531,7 @@ export const content = {
       copied: 'কপি হয়েছে!',
       terminal: {
         prompt: 'abir@portfolio:~$',
-        welcome: 'আবিরের পোর্টফোলিওতে স্বাগতম',
+        welcome: 'আবিরের টার্মিনাল পোর্টফোলিওতে স্বাগতম',
         type: 'উপলব্ধ কমান্ড দেখতে "help" টাইপ করুন'
       }
     }

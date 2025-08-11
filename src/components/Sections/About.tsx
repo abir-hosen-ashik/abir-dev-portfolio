@@ -1,118 +1,130 @@
 import React from 'react';
-import { GraduationCap, User, Heart, BookOpen } from 'lucide-react';
-import { TerminalWindow } from '../Terminal/TerminalWindow';
+import { GraduationCap, User, Heart, BookOpen, Award, MapPin } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const About: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <section id="about" className="py-20 px-4">
-      <div className="container mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-white dark:text-green-300 mb-6 font-mono">
+    <section id="about" className="section-padding bg-neutral-50 dark:bg-neutral-900">
+      <div className="container-custom">
+        <div className="text-center mb-16 fade-in-up">
+          <h2 className="text-4xl lg:text-5xl font-display font-bold gradient-text mb-6">
             {t.about.title}
           </h2>
-          <div className="w-24 h-1 bg-green-500 dark:bg-green-600 mx-auto rounded"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full"></div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Bio Section */}
-          <div className="space-y-8">
-            <TerminalWindow title="about.md">
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2 text-green-400 dark:text-green-500">
-                  <User size={20} />
-                  <span className="font-mono">Personal Info</span>
+          <div className="space-y-8 fade-in-left">
+            <div className="card p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">
+                  <User className="text-white" size={24} />
                 </div>
-                <div className="text-gray-300 dark:text-gray-400 leading-relaxed">
-                  {t.personalInfo.objective}
-                </div>
+                <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
+                  About Me
+                </h3>
+              </div>
+              
+              <div className="space-y-4 text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                <p>{t.personalInfo.objective}</p>
                 
-                <div className="border-t border-gray-700 dark:border-green-500/30 pt-4">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="text-green-400 dark:text-green-500">Email:</span>
-                      <div className="text-gray-300 dark:text-gray-400 font-mono">
-                        {t.personalInfo.email}
-                      </div>
-                    </div>
-                    <div>
-                      <span className="text-green-400 dark:text-green-500">Phone:</span>
-                      <div className="text-gray-300 dark:text-gray-400 font-mono">
-                        {t.personalInfo.phone}
-                      </div>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
+                  <div>
+                    <span className="text-primary-500 dark:text-secondary-500 font-semibold">Email:</span>
+                    <div className="font-mono text-sm">{t.personalInfo.email}</div>
+                  </div>
+                  <div>
+                    <span className="text-primary-500 dark:text-secondary-500 font-semibold">Phone:</span>
+                    <div className="font-mono text-sm">{t.personalInfo.phone}</div>
                   </div>
                 </div>
               </div>
-            </TerminalWindow>
+            </div>
 
             {/* Interests */}
-            <TerminalWindow title="other-interests.txt">
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2 text-green-400 dark:text-green-500">
-                  <Heart size={20} />
-                  <span className="font-mono">Beyond Coding</span>
+            <div className="card p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-r from-accent-500 to-success-500 rounded-xl flex items-center justify-center">
+                  <Heart className="text-white" size={24} />
                 </div>
-                <div className="space-y-2">
-                  {t.about.interests.map((interest, index) => (
-                    <div key={index} className="text-gray-300 dark:text-gray-400 flex items-start space-x-2">
-                      <span className="text-green-400 dark:text-green-500 mt-1">•</span>
-                      <span>{interest}</span>
-                    </div>
-                  ))}
-                </div>
+                <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
+                  Beyond Coding
+                </h3>
               </div>
-            </TerminalWindow>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {t.about.interests.map((interest, index) => (
+                  <div key={index} className="flex items-start space-x-3 p-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+                    <div className="w-2 h-2 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-neutral-700 dark:text-neutral-300">{interest}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Education Section */}
-          <div className="space-y-8">
-            <TerminalWindow title="education.log">
-              <div className="space-y-6">
-                <div className="flex items-center space-x-2 text-green-400 dark:text-green-500">
-                  <GraduationCap size={20} />
-                  <span className="font-mono">{t.about.education.title}</span>
+          <div className="space-y-8 fade-in-right">
+            <div className="card p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-r from-info-500 to-primary-500 rounded-xl flex items-center justify-center">
+                  <GraduationCap className="text-white" size={24} />
                 </div>
-                
+                <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
+                  {t.about.education.title}
+                </h3>
+              </div>
+              
+              <div className="space-y-6">
                 {t.about.education.items.map((edu, index) => (
-                  <div key={index} className="border-l-2 border-green-500 dark:border-green-600 pl-4 pb-4">
+                  <div key={index} className="relative pl-6 border-l-2 border-gradient-to-b from-primary-500 to-secondary-500">
+                    <div className="absolute -left-2 top-0 w-4 h-4 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full"></div>
                     <div className="space-y-2">
-                      <h3 className="text-lg font-semibold text-white dark:text-green-300">
+                      <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200">
                         {edu.degree}
-                      </h3>
-                      <p className="text-green-400 dark:text-green-500 font-mono">
+                      </h4>
+                      <p className="text-primary-500 dark:text-secondary-500 font-medium">
                         {edu.institution}
                       </p>
-                      <div className="flex items-center space-x-4 text-sm text-gray-400 dark:text-gray-500">
-                        <span>{edu.year}</span>
-                        <span>•</span>
-                        <span>{edu.location}</span>
+                      <div className="flex items-center space-x-4 text-sm text-neutral-500 dark:text-neutral-400">
+                        <div className="flex items-center space-x-1">
+                          <Award size={14} />
+                          <span>{edu.year}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <MapPin size={14} />
+                          <span>{edu.location}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-            </TerminalWindow>
+            </div>
 
-            {/* ASCII Art */}
-            <TerminalWindow title="ascii-art.txt">
-              <div className="text-green-400 dark:text-green-500 text-xs leading-tight font-mono">
-                <pre>{`
-      ╔══════════════════════════════╗
-      ║          AI ENGINEER         ║
-      ║     FULL-STACK DEVELOPER     ║
-      ║                              ║
-      ║  ┌─┐┬  ┌─┐┌─┐┬─┐┬┌┬┐┬ ┬┌┬┐   ║
-      ║  ├─┤│  │ ┬│ │├┬┘│ │ ├─┤│││   ║
-      ║  ┴ ┴┴─┘└─┘└─┘┴└─┴ ┴ ┴ ┴┴ ┴   ║
-      ║                              ║
-      ║     + CREATIVITY = ∞         ║
-      ╚══════════════════════════════╝
-                `}</pre>
+            {/* Skills Preview */}
+            <div className="card p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-r from-success-500 to-accent-500 rounded-xl flex items-center justify-center">
+                  <BookOpen className="text-white" size={24} />
+                </div>
+                <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
+                  Core Expertise
+                </h3>
               </div>
-            </TerminalWindow>
+              
+              <div className="grid grid-cols-2 gap-4">
+                {['AI/ML', 'Full-Stack', 'Cloud', 'DevOps'].map((skill, index) => (
+                  <div key={skill} className="text-center p-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg">
+                    <div className="text-2xl font-bold gradient-text">{85 + index * 5}%</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400">{skill}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
