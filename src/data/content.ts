@@ -62,12 +62,12 @@ export const content = {
         ]
       },
       interests: [
-        'Problem solving on HackerRank',
+        'Problem solving on HackerRank, LeetCode',
         'Writing content on Medium',
         'Kaggle contributor',
         'Theatre group member at Bangladesh Shilpakala Academy',
-        'Film society organizer (Zero Definition)',
-        'Video production & motion graphics'
+        // 'Film society organizer (Zero Definition)',
+        // 'Video production & motion graphics'
       ]
     },
     
@@ -403,12 +403,12 @@ export const content = {
         ]
       },
       interests: [
-        'হ্যাকার র‍্যাঙ্কে সমস্যা সমাধান',
+        'হ্যাকার র‍্যাঙ্কে ও লইত কোডে সমস্যা সমাধান',
         'মিডিয়ামে কন্টেন্ট লেখা',
         'ক্যাগল অবদানকারী',
         'বাংলাদেশ শিল্পকলা একাডেমিতে নাট্য দলের সদস্য',
-        'ফিল্ম সোসাইটি সংগঠক (জিরো ডেফিনিশন)',
-        'ভিডিও প্রোডাকশন ও মোশন গ্রাফিক্স'
+        // 'ফিল্ম সোসাইটি সংগঠক (জিরো ডেফিনিশন)',
+        // 'ভিডিও প্রোডাকশন ও মোশন গ্রাফিক্স'
       ]
     },
     
