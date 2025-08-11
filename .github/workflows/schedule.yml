@@ -1,0 +1,17 @@
+name: Call Supabase API on schedule
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'  # Every day
+
+jobs:
+  call-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Supabase Edge Function
+        run: |
+            curl -X POST 'https://tlapmuaszjrzkzccrxkg.supabase.co/functions/v1/hyper-worker' \
+            -H 'Authorization: Bearer ${{ secrets.SUPABASE_ABIRDEV_AUTH_TOKEN }}' \
+            -H 'Content-Type: application/json' \
+            --data '{"name":"- Stay alive!"}'
