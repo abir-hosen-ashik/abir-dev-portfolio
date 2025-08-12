@@ -28,6 +28,7 @@ const en_personal_info = {
   medium: "abirdox",
   youtube: "abirdox",
   fb: "abirdox",
+  x: "abirdox",
   gitlab: "abir-hosen",
   kaggle: "abirhosenashik",
   objective_p1:
@@ -45,6 +46,7 @@ const bn_personal_info = {
   medium: "abirdox",
   youtube: "abirdox",
   fb: "abirdox",
+  x: "abirdox",
   gitlab: "abir-hosen",
   kaggle: "abirhosenashik",
   objective_p1:
