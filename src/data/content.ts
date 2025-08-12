@@ -28,7 +28,11 @@ const en_personal_info = {
   medium: "abirdev",
   gitlab: "abir-hosen",
   kaggle: "abirhosenashik",
-  objective: `With 5+ years of experience in full-stack development and AI, I am deeply passionate about leveraging AI and software development to drive innovation. My expertise spans AI-driven applications with hands-on experience in LLM integration, vector databases, and scalable back-end architectures.`,
+  // objective: `With 5+ years of experience in full-stack development and AI, I am deeply passionate about leveraging AI and software development to drive innovation. My expertise spans AI-driven applications with hands-on experience in LLM integration, vector databases, and scalable back-end architectures.`,
+  objective_p1:
+    "I’m Abir Hosen, a full-stack software engineer from Bangladesh with over 5 years of experience building intelligent and scalable enterprise applications. I specialize in backend development using NestJS, Prisma, and Spring Boot, alongside frontend frameworks like React and AngularJS. Passionate about integrating AI technologies, I work with large language models and cutting-edge tools to create innovative solutions.",
+  objective_p2:
+    "I thrive on designing clean, maintainable code and crafting seamless user experiences, especially in ERP, Marketing Automation, Sound & Music, Recruiting Platform, Workflow Automation systems and complex business workflows. A dedicated learner and problem solver, I enjoy mentoring and continuously exploring new technologies to empower businesses worldwide.",
 };
 
 const bn_personal_info = {
@@ -40,14 +44,18 @@ const bn_personal_info = {
   medium: "abirdev",
   gitlab: "abir-hosen",
   kaggle: "abirhosenashik",
-  objective: `ফুল-স্ট্যাক ডেভেলপমেন্ট এবং এআই-তে ৫+ বছরের অভিজ্ঞতার সাথে, আমি এআই এবং সফটওয়্যার ডেভেলপমেন্ট ব্যবহার করে উদ্ভাবন চালানোর জন্য গভীরভাবে আগ্রহী। আমার দক্ষতা এআই-চালিত অ্যাপ্লিকেশন জুড়ে বিস্তৃত।`,
+  objective_p1:
+    "আমি আবির হোসেন, বাংলাদেশ থেকে একজন ফুলস্ট্যাক সফটওয়্যার ইঞ্জিনিয়ার, যিনি পাঁচ বছরেরও বেশি সময় ধরে বুদ্ধিমান এবং স্কেলেবল এন্টারপ্রাইজ অ্যাপ্লিকেশন নির্মাণে অভিজ্ঞ। আমি প্রধানত ব্যাকএন্ড ডেভেলপমেন্টে দক্ষ, NestJS, Prisma, এবং Spring Boot ব্যবহার করে, পাশাপাশি React ও AngularJS এর মতো ফ্রন্টএন্ড ফ্রেমওয়ার্কেও কাজ করি। AI প্রযুক্তি একীভূত করতে আগ্রহী হয়ে, আমি বড় ভাষার মডেল এবং আধুনিক টুল ব্যবহার করে উদ্ভাবনী সমাধান তৈরি করি।",
+  objective_p2:
+    "আমি পরিষ্কার, রক্ষণাবেক্ষণযোগ্য কোড ডিজাইন এবং ব্যবহারকারী অভিজ্ঞতা গড়ে তোলায় মনোযোগী, বিশেষ করে ERP, মার্কেটিং অটোমেশন, সাউন্ড ও মিউজিক, রিক্রুটিং প্ল্যাটফর্ম, ওয়ার্কফ্লো অটোমেশন সিস্টেম এবং জটিল ব্যবসায়িক কাজের প্রবাহে। আমি একজন নিবেদিত শিক্ষার্থী এবং সমস্যা সমাধানকারী, যিনি মেন্টরিং পছন্দ করি এবং বিশ্বব্যাপী ব্যবসাকে ক্ষমতায়িত করার জন্য নতুন প্রযুক্তি আবিষ্কারে নিয়মিত থাকি।",
 };
 
 const en_home = {
   greeting: "Hello, I am",
   name: "Abir Hosen",
   title: "AI Engineer & Full-Stack Developer",
-  subtitle: "Building intelligent solutions with code",
+  subtitle: "Building Intelligence that Empowers the World",
+  slogan: 'Turning ideas into intelligent, scalable solutions',
   prompt: "abir@terminal:~$",
   commands: [
     "whoami",
@@ -61,7 +69,9 @@ const bn_home = {
   greeting: "হ্যালো, আমি",
   name: "আবির হোসেন",
   title: "এআই ইঞ্জিনিয়ার ও ফুল-স্ট্যাক ডেভেলপার",
-  subtitle: "কোডের মাধ্যমে বুদ্ধিমান সমাধান তৈরি করছি",
+  subtitle:
+    "নির্মাণ করছি - অগ্রগতির পথে বিশ্বকে নিয়ে যাওয়া স্মার্ট প্রযুক্তি",
+  slogan: 'প্রযুক্তির শক্তিতে নতুন সম্ভাবনার দুয়ার উন্মোচন',
   prompt: "abir@terminal:~$",
   commands: [
     "whoami",
@@ -117,13 +127,28 @@ const en_about_interests = [
 ];
 
 const bn_about_interests = [
-  "হ্যাকার র‍্যাঙ্কে ও লইত কোডে সমস্যা সমাধান",
+  "হ্যাকার র‍্যাঙ্কে ও লীট কোডে সমস্যা সমাধান",
   "মিডিয়ামে কন্টেন্ট লেখা",
-  "ক্যাগল অবদানকারী",
+  "ক্যাগলে সক্রিয় অংশগ্রহণকারী",
   "বাংলাদেশ শিল্পকলা একাডেমিতে নাট্য দলের সদস্য",
   // 'ফিল্ম সোসাইটি সংগঠক (জিরো ডেফিনিশন)',
   // 'ভিডিও প্রোডাকশন ও মোশন গ্রাফিক্স'
 ];
+
+const en_about_core = [
+  ["Cloud", 85],
+  ["DevOps", 90],
+  ["AI/ML", 95],
+  ["Full-Stack", 100],
+];
+
+const bn_about_core = [
+  ["Cloud", "৮৫"],
+  ["DevOps", "৯০"],
+  ["AI/ML", "৯৫"],
+  ["Full-Stack", "১০০"],
+];
+
 const en_project_1 = {
   id: "1",
   title: "Jamahook – AI Music Generator",
@@ -467,6 +492,8 @@ const bn_project_11 = {
 
 const en_projects = {
   title: "Featured Projects",
+  subTitle:
+    "Showcasing innovative solutions in AI, full-stack development, and cloud architecture",
   allTitle: "All Projects",
   viewAll: "View All Projects",
   filters: {
@@ -491,6 +518,7 @@ const en_projects = {
 
 const bn_projects = {
   title: "বিশেষ প্রকল্পসমূহ",
+  subTitle: "এআই, ফুলস্ট্যাক, এবং ক্লাউড আর্কিটেকচারে উদ্ভাবনী কাজের প্রদর্শনী",
   allTitle: "সকল প্রকল্প",
   viewAll: "সকল প্রকল্প দেখুন",
   filters: {
@@ -596,12 +624,14 @@ const bn_experience_3 = {
 
 const en_experience = {
   title: "Professional Experience",
+  subTitle: "A journey through innovative companies",
   allTitle: "Complete Work Experience",
   viewAll: "View All Experience",
   items: [en_experience_1, en_experience_2, en_experience_3] as Experience[],
 };
 const bn_experience = {
   title: "পেশাগত অভিজ্ঞতা",
+  subTitle: "উদ্ভাবনী কোম্পানি ও প্রতিষ্ঠানে অংশগ্রহণ",
   allTitle: "সম্পূর্ণ কর্ম অভিজ্ঞতা",
   viewAll: "সকল অভিজ্ঞতা দেখুন",
   items: [bn_experience_1, bn_experience_2, bn_experience_3] as Experience[],
@@ -788,6 +818,16 @@ const en_ui = {
   language: "Language",
   loading: "Loading...",
   copied: "Copied!",
+  core_expertise: "Core Expertise",
+  beyond_coding: "Beyond Coding",
+  key_responsibilities: "Key Responsibilities",
+  proficiency_overview: "Proficiency Overview",
+  get_in_touch: "Get In Touch",
+  send_message: "Send Message",
+  expert_level: "Expert Level",
+  advance: "Advanced",
+  intermediate: "Intermediate",
+  phone: "Phone",
   terminal: {
     prompt: "abir@portfolio:~$",
     welcome: "Welcome to Abir's Terminal Portfolio",
@@ -796,7 +836,7 @@ const en_ui = {
 };
 
 const bn_ui = {
-  downloadResume: "জীবনবৃত্তান্ত ডাউনলোড",
+  downloadResume: "ক্যারিয়ার সারসংক্ষেপ ডাউনলোড",
   viewProject: "প্রকল্প দেখুন",
   learnMore: "আরো জানুন",
   backToTop: "উপরে ফিরুন",
@@ -804,6 +844,16 @@ const bn_ui = {
   language: "ভাষা",
   loading: "লোড হচ্ছে...",
   copied: "কপি হয়েছে!",
+  core_expertise: "প্রধান দক্ষতা",
+  beyond_coding: "কোডিং এর বাইরে যা করি",
+  key_responsibilities: "প্রধান দায়িত্বসমূহ",
+  proficiency_overview: "দক্ষতার সাধারণ চিত্র",
+  get_in_touch: "যোগাযোগ করুন",
+  send_message: "বার্তা পাঠান",
+  expert_level: "বিশেষজ্ঞ স্তর",
+  advance: "উন্নত",
+  intermediate: "মধ্যম",
+  phone: "ফোন",
   terminal: {
     prompt: "abir@portfolio:~$",
     welcome: "আবিরের টার্মিনাল পোর্টফোলিওতে স্বাগতম",
@@ -820,11 +870,14 @@ export const content = {
       title: "About Me",
       education: en_about_education,
       interests: en_about_interests,
+      core: en_about_core,
     },
     projects: en_projects,
     experience: en_experience,
     techStack: {
       title: "Technical Arsenal",
+      subTitle:
+        "Cutting-edge technologies and tools that power modern solutions",
       categories: {
         ai: en_tech_stack_categories_ai,
         backend: en_tech_stack_categories_backend,
@@ -846,11 +899,14 @@ export const content = {
       title: "আমার সম্পর্কে",
       education: bn_about_education,
       interests: bn_about_interests,
+      core: bn_about_core,
     },
     projects: bn_projects,
     experience: bn_experience,
     techStack: {
       title: "প্রযুক্তিগত দক্ষতা",
+      subTitle:
+        "আমি যেসব সর্বাধুনিক প্রযুক্তি ও সরঞ্জাম ব্যবহার করি, যা আধুনিক সমাধানগুলিকে চালনা করে",
       categories: {
         ai: bn_tech_stack_categories_ai,
         backend: bn_tech_stack_categories_backend,

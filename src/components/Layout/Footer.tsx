@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
           {/* Quote */}
           <div className="text-center max-w-2xl">
             <p className="text-lg text-neutral-600 dark:text-neutral-400 italic">
-              "Building the future with AI and innovative software solutions"
+              {t.home.slogan}
             </p>
           </div>
 
@@ -111,7 +111,11 @@ export const Footer: React.FC = () => {
               <Code2 className="text-primary-500 dark:text-secondary-500" size={16} />
             </p>
             <p className="mt-2 text-xs">
-              Powered by React + TypeScript + Tailwind CSS
+              Powered by &nbsp;
+              <a href="http://cryptdox.com" target="_blank" className="font-display font-bold  gradient-text">
+                [CryptDox]
+              </a>
+              &nbsp;React + TypeScript + Tailwind CSS
             </p>
           </div>
         </div>

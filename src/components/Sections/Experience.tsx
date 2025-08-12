@@ -16,7 +16,7 @@ export const Experience: React.FC = () => {
               {t.experience.title}
             </h2>
             <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-              A journey through innovative companies and challenging projects
+              {t.experience.subTitle}
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mt-6"></div>
           </div>
@@ -69,7 +69,7 @@ export const Experience: React.FC = () => {
                     <div className="border-t border-neutral-200 dark:border-neutral-700 pt-6">
                       <h4 className="font-semibold text-neutral-700 dark:text-neutral-300 mb-4 flex items-center space-x-2">
                         <Briefcase size={16} />
-                        <span>Key Responsibilities:</span>
+                        <span>{t.ui.key_responsibilities}:</span>
                       </h4>
                       <div className="grid md:grid-cols-2 gap-3">
                         {exp.responsibilities.map((resp, idx) => (

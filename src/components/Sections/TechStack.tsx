@@ -32,7 +32,7 @@ export const TechStack: React.FC = () => {
             {t.techStack.title}
           </h2>
           <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-            Cutting-edge technologies and tools that power modern solutions
+            {t.techStack.subTitle}
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mt-6"></div>
         </div>
@@ -97,7 +97,7 @@ export const TechStack: React.FC = () => {
                         </span>
                       </div>
                       <div className="text-xs text-neutral-400 dark:text-neutral-500 font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        {85 + (index % 15)}%
+                        {/* {85 + (index % 15)}% */}
                       </div>
                     </div>
                   </div>
@@ -107,26 +107,26 @@ export const TechStack: React.FC = () => {
               {/* Skill Level Visualization */}
               <div className="border-t border-neutral-200 dark:border-neutral-700 pt-8">
                 <h4 className="font-semibold text-neutral-700 dark:text-neutral-300 mb-6">
-                  Proficiency Overview
+                  {t.ui.proficiency_overview}
                 </h4>
                 <div className="grid sm:grid-cols-3 gap-6">
                   <div className="text-center">
                     <div className="w-16 h-16 bg-gradient-to-r from-success-500 to-success-600 rounded-full flex items-center justify-center mx-auto mb-3">
                       <span className="text-white font-bold text-lg">85%</span>
                     </div>
-                    <div className="text-sm text-neutral-600 dark:text-neutral-400">Expert Level</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400">{t.ui.expert_level}</div>
                   </div>
                   <div className="text-center">
                     <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-3">
                       <span className="text-white font-bold text-lg">90%</span>
                     </div>
-                    <div className="text-sm text-neutral-600 dark:text-neutral-400">Advanced</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400">{t.ui.advance}</div>
                   </div>
                   <div className="text-center">
                     <div className="w-16 h-16 bg-gradient-to-r from-accent-500 to-accent-600 rounded-full flex items-center justify-center mx-auto mb-3">
                       <span className="text-white font-bold text-lg">75%</span>
                     </div>
-                    <div className="text-sm text-neutral-600 dark:text-neutral-400">Intermediate</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400">{t.ui.intermediate}</div>
                   </div>
                 </div>
               </div>

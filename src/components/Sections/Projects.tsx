@@ -18,7 +18,7 @@ export const Projects: React.FC = () => {
               {t.projects.title}
             </h2>
             <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-              Showcasing innovative solutions in AI, full-stack development, and cloud architecture
+              {t.projects.subTitle}
             </p>
             <div className="w-24 h-1 mb-5 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mt-6"></div>
           </div>

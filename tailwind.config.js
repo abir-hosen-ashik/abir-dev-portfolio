@@ -97,6 +97,7 @@ export default {
         }
       },
       animation: {
+        'fade-in-out': 'fadeInOut 3s ease-in-out infinite',
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.6s ease-out',
         'slide-in-left': 'slideInLeft 0.6s ease-out',
@@ -107,6 +108,10 @@ export default {
         'float': 'float 6s ease-in-out infinite',
       },
       keyframes: {
+        fadeInOut: {
+          '0%, 100%': { opacity: 0 },
+          '20%, 80%': { opacity: 1 },
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },

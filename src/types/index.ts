@@ -27,7 +27,8 @@ export interface PersonalInfo {
   medium?: string;
   gitlab: string;
   kaggle: string;
-  objective: string;
+  objective_p1: string;
+  objective_p2: string;
 }
 
 export type Language = 'en' | 'bn';

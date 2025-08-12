@@ -27,10 +27,11 @@ export const About: React.FC = () => {
                   About Me
                 </h3>
               </div>
-              
+
               <div className="space-y-4 text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                <p>{t.personalInfo.objective}</p>
-                
+                <p>{t.personalInfo.objective_p1}</p>
+                <p>{t.personalInfo.objective_p2}</p>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
                   <div>
                     <span className="text-primary-500 dark:text-secondary-500 font-semibold">Email:</span>
@@ -51,10 +52,10 @@ export const About: React.FC = () => {
                   <Heart className="text-white" size={24} />
                 </div>
                 <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-                  Beyond Coding
+                  {t.ui.beyond_coding}
                 </h3>
               </div>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {t.about.interests.map((interest, index) => (
                   <div key={index} className="flex items-start space-x-3 p-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
@@ -77,7 +78,7 @@ export const About: React.FC = () => {
                   {t.about.education.title}
                 </h3>
               </div>
-              
+
               <div className="space-y-6">
                 {t.about.education.items.map((edu, index) => (
                   <div key={index} className="relative pl-6 border-l-2 border-gradient-to-b from-primary-500 to-secondary-500">
@@ -112,15 +113,15 @@ export const About: React.FC = () => {
                   <BookOpen className="text-white" size={24} />
                 </div>
                 <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-                  Core Expertise
+                  {t.ui.core_expertise}
                 </h3>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
-                {[ 'Cloud', 'DevOps', 'AI/ML', 'Full-Stack'].map((skill, index) => (
-                  <div key={skill} className="text-center p-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg">
-                    <div className="text-2xl font-bold gradient-text">{85 + index * 5}%</div>
-                    <div className="text-sm text-neutral-600 dark:text-neutral-400">{skill}</div>
+                {t.about.core.map((skill, index) => (
+                  <div key={skill[0]} className="text-center p-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg">
+                    <div className="text-2xl font-bold gradient-text">{skill[1]}%</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400">{skill[0]}</div>
                   </div>
                 ))}
               </div>

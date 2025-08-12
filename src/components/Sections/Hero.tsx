@@ -60,11 +60,11 @@ export const Hero: React.FC = () => {
 
             {/* Animated Role */}
             <div className="h-20 flex items-center justify-center">
-              <div className="flex items-center space-x-3 text-2xl lg:text-4xl font-semibold text-neutral-800 dark:text-neutral-200">
+              <div key={currentRole}  className="flex animate-fade-in-out items-center space-x-3 text-2xl lg:text-4xl font-semibold text-neutral-800 dark:text-neutral-200">
                 <div className="text-primary-500 dark:text-secondary-500 animate-pulse">
                   {roles[currentRole].icon}
                 </div>
-                <span className="animate-fade-in">{roles[currentRole].text}</span>
+                <span>{roles[currentRole].text}</span>
               </div>
             </div>
 

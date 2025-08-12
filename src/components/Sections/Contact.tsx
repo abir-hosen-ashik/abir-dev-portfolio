@@ -101,7 +101,7 @@ export const Contact: React.FC = () => {
                   <MessageCircle className="text-white" size={24} />
                 </div>
                 <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-                  Get In Touch
+                  {t.ui.get_in_touch}
                 </h3>
               </div>
 
@@ -113,7 +113,7 @@ export const Contact: React.FC = () => {
                       <Mail className="text-white" size={18} />
                     </div>
                     <div>
-                      <div className="text-primary-500 dark:text-secondary-500 font-semibold text-sm">Email</div>
+                      <div className="text-primary-500 dark:text-secondary-500 font-semibold text-sm">{t.contact.form.email}</div>
                       <div className="text-neutral-700 dark:text-neutral-300 font-mono">{t.personalInfo.email}</div>
                     </div>
                   </div>
@@ -131,7 +131,7 @@ export const Contact: React.FC = () => {
                       <Phone className="text-white" size={18} />
                     </div>
                     <div>
-                      <div className="text-success-500 font-semibold text-sm">Phone</div>
+                      <div className="text-success-500 font-semibold text-sm">{t.ui.phone}</div>
                       <div className="text-neutral-700 dark:text-neutral-300 font-mono">{t.personalInfo.phone}</div>
                     </div>
                   </div>
