@@ -30,7 +30,6 @@ const en_personal_info = {
   fb: "abirdox",
   gitlab: "abir-hosen",
   kaggle: "abirhosenashik",
-  // objective: `With 5+ years of experience in full-stack development and AI, I am deeply passionate about leveraging AI and software development to drive innovation. My expertise spans AI-driven applications with hands-on experience in LLM integration, vector databases, and scalable back-end architectures.`,
   objective_p1:
     "I’m Abir Hosen, a full-stack software engineer from Bangladesh with over 5 years of experience building intelligent and scalable enterprise applications. I specialize in backend development using NestJS, Prisma, and Spring Boot, alongside frontend frameworks like React and AngularJS. Passionate about integrating AI technologies, I work with large language models and cutting-edge tools to create innovative solutions.",
   objective_p2:
