@@ -41,7 +41,7 @@ const bn_personal_info = {
   name: "আবির হোসেন",
   email: "abir71.hosen@gmail.com",
   phone: "+৮৮০ ১৩১০ ৬৮৫৪৫০",
-  github: "abirdox",
+  github: "abir-hosen-ashik",
   linkedin: "abir-hosen-ashik",
   medium: "abir-hosen-ashik",
   youtube: "abir-hosen-ashik",
