@@ -13,7 +13,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
 
   if (!isOpen) return null;
 
-  const allProjects = t.projects.items;
+  const allProjects = t.projects.items.slice().sort((a:any, b:any) => b.id - a.id);;
   
   const filteredProjects = allProjects.filter(project => {
     if (activeFilter === 'featured') return project.featured;

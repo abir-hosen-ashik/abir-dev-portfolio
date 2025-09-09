@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { GraduationCap, User, Heart, BookOpen, Award, MapPin, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { AboutMeModal } from '../Modals/AboutMeModal';
+import FormattedStringParser from '../UI/FormatedStringParser';
 
 export const About: React.FC = () => {
   const { t } = useLanguage();
-    const [showAllAboutMe, setShowAllAboutMe] = useState(false);
-  
+  const [showAllAboutMe, setShowAllAboutMe] = useState(false);
+
 
   return (
     <section id="about" className="section-padding bg-neutral-50 dark:bg-neutral-900">
@@ -32,7 +33,7 @@ export const About: React.FC = () => {
               </div>
 
               <div className="space-y-4 text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                <p style={{textAlign: 'justify'}}>{t.about.about_me.objective}</p>
+                <p style={{ textAlign: 'justify' }}><FormattedStringParser text={t.about.about_me.objective} /></p>
                 {/* <p  style={{textAlign: 'justify'}}>{t.personalInfo.objective_p2}</p> */}
 
                 {/* View All Projects Button */}
@@ -42,7 +43,7 @@ export const About: React.FC = () => {
                     className="inline-flex btn-secondary group"
                   >
                     <span>{t.about.viewAll}</span>
-                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform px-1 w-10"/>
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform px-1 w-10" />
                   </button>
                 </div>
 
@@ -144,11 +145,11 @@ export const About: React.FC = () => {
         </div>
       </div>
 
-            {/* Projects Modal */}
-            <AboutMeModal
-              isOpen={showAllAboutMe}
-              onClose={() => setShowAllAboutMe(false)}
-            />
+      {/* Projects Modal */}
+      <AboutMeModal
+        isOpen={showAllAboutMe}
+        onClose={() => setShowAllAboutMe(false)}
+      />
     </section>
   );
 };

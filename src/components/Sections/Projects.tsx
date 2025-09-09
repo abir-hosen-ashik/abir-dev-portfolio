@@ -7,7 +7,7 @@ export const Projects: React.FC = () => {
   const { t } = useLanguage();
   const [showAllProjects, setShowAllProjects] = useState(false);
 
-  const featuredProjects = t.projects.items.filter(project => project.featured);
+  const featuredProjects = t.projects.items.filter(project => project.featured).slice().sort((a:any, b:any) => b.id - a.id);
 
   return (
     <>

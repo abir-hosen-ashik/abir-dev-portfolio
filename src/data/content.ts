@@ -3,6 +3,8 @@ import { PersonalInfo, Project, Experience } from "../types";
 export const resume_url =
   "https://tlapmuaszjrzkzccrxkg.supabase.co/storage/v1/object/public/public-bucket/Resume%20-%20Abir%20Hosen.pdf";
 
+  const totalExpYear = (new Date()).getFullYear() - 2020
+
 const en_nav = {
   home: "home",
   about: "about",
@@ -25,8 +27,8 @@ const bn_nav = {
 
 const en_about_me = {
   filters: {
-    general: "General",
-    client: "Client",
+    general: "In General",
+    client: "As Client",
   },
   who_am_i: "Who Am I?",
   what_i_want: "What I want?",
@@ -34,11 +36,11 @@ const en_about_me = {
   what_i_can_do: "What I can do?",
   why_i_am_important: "Why I am important for you?",
   objective:
-    `With over ${(new Date()).getFullYear() - 2020} years of experience in backend infrastructure advancement, complemented by 3 years in responsive, pixelperfect frontend engineering and a deep theoretical understanding of AI, paired with 1 year of LLM-focused industry work, I characterize myself as a Full-Spectrum Software Engineer specializing in end-to-end development, deployment and maintenance. I aim to drive the development of secure, maintainable, high-performing systems while contributing to technical decisions, aligning engineering with business goals, and innovating with modern technologies. My expertise in ERP, recruiting platforms, lead generation, sales and marketing automation, dynamic multimedia handling, and Agentic AI development using LLM, RAG, and MCP, combined with skills in database design, clean modular architecture, CI/CD, secure REST/GraphQL APIs, real-time socket systems, event-driven microservices, and translating complex business requirements, enables the delivery of high-impact applications that advance organizational goals.`,
+    `With <b>over ${totalExpYear} years</b> of experience in <b>backend</b> infrastructure advancement, complemented by <b>3 years</b> in responsive, pixel-perfect <b>frontend</b> engineering and a <b>deep theoretical understanding of AI</b>, paired with 1 year of LLM-focused industry work, I characterize myself as a Full-Spectrum Software Engineer specializing in <b>end-to-end development, deployment and maintenance</b>. I aim to drive the development of secure, maintainable, high-performing systems while contributing to technical decisions, aligning engineering with business goals, and innovating with modern technologies. My expertise in ERP, recruiting platforms, lead generation, sales and marketing automation, dynamic multimedia handling, and <b>Agentic AI</b> development using LLM, RAG, and MCP, combined with skills in database design, clean modular architecture, CI/CD, secure REST/GraphQL APIs, real-time socket systems, event-driven microservices, and translating complex business requirements, enables the delivery of high-impact applications that advance organizational goals.`,
   general: {
     who_am_i: [
-      "With over 5 years of hands-on experience in backend infrastructure advancement, I have consistently contributed to the design, development, and optimization of scalable enterprise systems. This journey is complemented by 3 years of expertise in building responsive, pixel-perfect frontend applications that deliver seamless user experiences. Beyond software engineering fundamentals, I hold a deep theoretical foundation in Artificial Intelligence, further strengthened by 1 year of practical, industry-level work focused on large language models (LLMs).",
-      "I characterize myself as a Full-Spectrum Software Engineer, specializing in end-to-end development, deployment, and long-term maintenance. My work spans backend services, frontend interfaces, and AI-powered solutions, allowing me to bridge the gap between technical execution and business value. I thrive in environments where innovation, scalability, and reliability are critical, and I bring a problem-solving mindset that balances immediate needs with long-term architectural vision.",
+      `With <b>over ${totalExpYear}</b> years of hands-on experience in backend infrastructure advancement, I have consistently contributed to the design, development, and optimization of scalable enterprise systems. This journey is complemented by 3 years of expertise in building responsive, pixel-perfect frontend applications that deliver seamless user experiences. Beyond software engineering fundamentals, I hold a deep theoretical foundation in Artificial Intelligence, further strengthened by 1 year of practical, industry-level work focused on large language models (LLMs).`,
+      "I characterize myself as a Full-Spectrum Software Engineer, specializing in end-to-end development, deployment, and long-term maintenance. My work spans <b>backend services, frontend interfaces, and AI-powered solutions</b>, allowing me to bridge the gap between technical execution and business value. I thrive in environments where innovation, scalability, and reliability are critical, and I bring a problem-solving mindset that balances immediate needs with long-term architectural vision.",
     ],
     what_i_want: [
       "I aspire to contribute not only as a developer but as a strategic partner in shaping technical direction and delivering impactful solutions. My goal is to drive the development of secure, maintainable, and high-performing systems while actively engaging in technical decision-making and architectural planning. I seek opportunities where I can align engineering efforts with broader business goals, ensuring that technology serves as a direct enabler of growth and innovation.",
@@ -54,30 +56,30 @@ const en_about_me = {
   },
   client: {
     who_am_i: [
-      "I am a full-spectrum software engineer who understands both business needs and technical solutions. For over 5 years, I have worked on designing and developing backend systems that ensure enterprise data and services are secure, fast, and reliable. Alongside this, I have over 3 years of experience in frontend or user interface design, creating applications that are easy, visually appealing, and efficient for users.",
-      "I have also worked with Artificial Intelligence (AI) and Large Language Models (LLMs), which allows me to leverage technology for complex data analysis, automation, and decision-making to benefit your business.",
+      `I am a full-spectrum software engineer who understands both business needs and technical solutions. For <b>over ${totalExpYear} years</b>, I have worked on designing and developing <b>backend</b> systems that ensure enterprise data and services are secure, fast, and reliable. Alongside this, I have over 3 years of experience in <b>frontend</b> or user interface design, creating applications that are easy, visually appealing, and efficient for users.`,
+      "I have also worked with <b>Artificial Intelligence (AI)</b> and <b>Large Language Models (LLMs)</b>, which allows me to leverage technology for <b>complex data analysis, automation, and decision-making to benefit your business.</b>",
     ],
     what_i_can_do: [
-      "I develop software that makes your business operations faster, safer, and easier. For example, I can create ERP systems, recruiting platforms, lead generation tools, and sales & marketing automation, helping your team save time and achieve better results. Additionally, I can develop multimedia, video, or audio processing solutions and AI-powered smart applications to make your business more modern and efficient.",
+      "I develop software that makes your business operations faster, safer, and easier. For example, I can create <b>ERP systems, recruiting platforms, lead generation tools, and sales & marketing automation</b>, helping your team save time and achieve better results. Additionally, I can develop <b>multimedia, video, or audio processing</b> solutions and <b>AI-powered smart applications</b> to make your business more modern and efficient.",
       "I ensure that your software is secure, user-friendly, and sustainable over time. I can provide customized solutions tailored to your business needs, allowing you to focus on achieving your goals.",
     ],
     why_i_am_important: [
       "I don’t just write code—I understand business problems and solve them through technology. The core focus of my work is:",
       [
-        "Keeping data and information secure",
-        "Ensuring software is fast and reliable",
-        "Adding new features and fixing existing issues",
-        "Making your team’s work easier",
+        "Keeping data and information <b>secure</b>",
+        "Ensuring software is <b>fast and reliable</b>",
+        "Adding new features and <b>fixing</b> existing issues",
+        "Making your team’s <b>work easier</b>",
       ],
-      "As a client, you want software that is long-lasting, user-friendly, secure, and high-quality. I am here to make sure your technology achieves these goals.",
+      "As a client, you want software that is <b>long-lasting, user-friendly, secure</b>, and <b>high-quality</b>. I am here to make sure your technology achieves these goals.",
     ],
   },
 };
 
 const bn_about_me = {
   filters: {
-    general: "General",
-    client: "Client",
+    general: "সাধারণভাবে",
+    client: "ক্লায়েন্ট হিসেবে",
   },
   who_am_i: "আমি কে?",
   what_i_want: "আমার লক্ষ্য কী?",
@@ -85,10 +87,10 @@ const bn_about_me = {
   what_i_can_do: "আমি কি করতে পারি?",
   why_i_am_important: "কেন আমি আপনার জন্য গুরুত্বপূর্ণ?",
   objective:
-    "ব্যাকএন্ড ইনফ্রাস্ট্রাকচার উন্নয়নে ৫ বছরেরও বেশি অভিজ্ঞতা, তার সাথে ৩ বছরের রেসপন্সিভ ও পিক্সেল-নিখুঁত ফ্রন্টএন্ড ইঞ্জিনিয়ারিং দক্ষতা এবং কৃত্রিম বুদ্ধিমত্তায় গভীর তাত্ত্বিক জ্ঞান, যা ১ বছরের LLM-ভিত্তিক ইন্ডাস্ট্রি অভিজ্ঞতার মাধ্যমে আরও দৃঢ় হয়েছে—এসবের সমন্বয়ে আমি নিজেকে একটি ফুল-স্পেকট্রাম সফটওয়্যার ইঞ্জিনিয়ার হিসেবে পরিচিত করি, যিনি end-to-end ডেভেলপমেন্ট, ডিপ্লয়মেন্ট ও মেইনটেন্যান্স-এ বিশেষজ্ঞ। আমার লক্ষ্য হলো নিরাপদ, রক্ষণাবেক্ষণযোগ্য এবং উচ্চ-কার্যক্ষম সিস্টেম নির্মাণ করা, যেখানে আমি প্রযুক্তিগত সিদ্ধান্ত গ্রহণে অবদান রাখতে পারি, ইঞ্জিনিয়ারিং কার্যক্রমকে ব্যবসার লক্ষ্যগুলোর সাথে সামঞ্জস্য করতে পারি এবং আধুনিক প্রযুক্তি ব্যবহার করে নতুনত্ব আনতে পারি। ERP, রিক্রুটিং প্ল্যাটফর্ম, লিড জেনারেশন, সেলস ও মার্কেটিং অটোমেশন, ডাইনামিক মাল্টিমিডিয়া প্রসেসিং এবং LLM, RAG ও MCP ব্যবহার করে এজেন্টিক এআই ডেভেলপমেন্ট-এ আমার অভিজ্ঞতা, সাথে ডাটাবেস ডিজাইন, পরিচ্ছন্ন মডুলার আর্কিটেকচার, CI/CD, নিরাপদ REST/GraphQL API, রিয়েল-টাইম সকেট সিস্টেম, ইভেন্ট-ড্রিভেন মাইক্রোসার্ভিস এবং জটিল ব্যবসায়িক চাহিদাকে প্রযুক্তিগত সমাধানে রূপান্তরের দক্ষতা—এসব মিলিয়ে আমি এমন উচ্চ-প্রভাবসম্পন্ন অ্যাপ্লিকেশন তৈরি করতে পারি, যা প্রতিষ্ঠানকে তাদের লক্ষ্য অর্জনে এগিয়ে নেয়।",
+    `ব্যাকএন্ড ইনফ্রাস্ট্রাকচার উন্নয়নে ${totalExpYear} বছরেরও বেশি অভিজ্ঞতা, তার সাথে ৩ বছরের রেসপন্সিভ ও পিক্সেল-নিখুঁত ফ্রন্টএন্ড ইঞ্জিনিয়ারিং দক্ষতা এবং কৃত্রিম বুদ্ধিমত্তায় গভীর তাত্ত্বিক জ্ঞান, যা ১ বছরের LLM-ভিত্তিক ইন্ডাস্ট্রি অভিজ্ঞতার মাধ্যমে আরও দৃঢ় হয়েছে—এসবের সমন্বয়ে আমি নিজেকে একটি ফুল-স্পেকট্রাম সফটওয়্যার ইঞ্জিনিয়ার হিসেবে পরিচিত করি, যিনি end-to-end ডেভেলপমেন্ট, ডিপ্লয়মেন্ট ও মেইনটেন্যান্স-এ বিশেষজ্ঞ। আমার লক্ষ্য হলো নিরাপদ, রক্ষণাবেক্ষণযোগ্য এবং উচ্চ-কার্যক্ষম সিস্টেম নির্মাণ করা, যেখানে আমি প্রযুক্তিগত সিদ্ধান্ত গ্রহণে অবদান রাখতে পারি, ইঞ্জিনিয়ারিং কার্যক্রমকে ব্যবসার লক্ষ্যগুলোর সাথে সামঞ্জস্য করতে পারি এবং আধুনিক প্রযুক্তি ব্যবহার করে নতুনত্ব আনতে পারি। ERP, রিক্রুটিং প্ল্যাটফর্ম, লিড জেনারেশন, সেলস ও মার্কেটিং অটোমেশন, ডাইনামিক মাল্টিমিডিয়া প্রসেসিং এবং LLM, RAG ও MCP ব্যবহার করে এজেন্টিক এআই ডেভেলপমেন্ট-এ আমার অভিজ্ঞতা, সাথে ডাটাবেস ডিজাইন, পরিচ্ছন্ন মডুলার আর্কিটেকচার, CI/CD, নিরাপদ REST/GraphQL API, রিয়েল-টাইম সকেট সিস্টেম, ইভেন্ট-ড্রিভেন মাইক্রোসার্ভিস এবং জটিল ব্যবসায়িক চাহিদাকে প্রযুক্তিগত সমাধানে রূপান্তরের দক্ষতা—এসব মিলিয়ে আমি এমন উচ্চ-প্রভাবসম্পন্ন অ্যাপ্লিকেশন তৈরি করতে পারি, যা প্রতিষ্ঠানকে তাদের লক্ষ্য অর্জনে এগিয়ে নেয়।`,
   general: {
     who_am_i: [
-      "ব্যাকএন্ড ইনফ্রাস্ট্রাকচার উন্নয়নে ৫ বছরেরও বেশি বাস্তব অভিজ্ঞতার মাধ্যমে, আমি ধারাবাহিকভাবে স্কেলেবল এন্টারপ্রাইজ সিস্টেমের ডিজাইন, ডেভেলপমেন্ট এবং অপ্টিমাইজেশনে অবদান রেখেছি। এই যাত্রা ৩ বছরের বেশি সময়ের রেসপন্সিভ, পিক্সেল-নিখুঁত ফ্রন্টএন্ড অ্যাপ্লিকেশন তৈরি করার দক্ষতার মাধ্যমে পরিপূরক, যা ব্যবহারকারীদের জন্য সহজ এবং স্বচ্ছ অভিজ্ঞতা প্রদান করে। সফটওয়্যার ইঞ্জিনিয়ারিংয়ের মূল ধারণার বাইরে, আমি কৃত্রিম বুদ্ধিমত্তায় (AI) গভীর তাত্ত্বিক জ্ঞান রাখি, যা ১ বছরের LLM-ভিত্তিক শিল্প স্তরের বাস্তব অভিজ্ঞতার মাধ্যমে আরও দৃঢ় হয়েছে।",
+      `ব্যাকএন্ড ইনফ্রাস্ট্রাকচার উন্নয়নে ${totalExpYear} বছরেরও বেশি বাস্তব অভিজ্ঞতার মাধ্যমে, আমি ধারাবাহিকভাবে স্কেলেবল এন্টারপ্রাইজ সিস্টেমের ডিজাইন, ডেভেলপমেন্ট এবং অপ্টিমাইজেশনে অবদান রেখেছি। এই যাত্রা ৩ বছরের বেশি সময়ের রেসপন্সিভ, পিক্সেল-নিখুঁত ফ্রন্টএন্ড অ্যাপ্লিকেশন তৈরি করার দক্ষতার মাধ্যমে পরিপূরক, যা ব্যবহারকারীদের জন্য সহজ এবং স্বচ্ছ অভিজ্ঞতা প্রদান করে। সফটওয়্যার ইঞ্জিনিয়ারিংয়ের মূল ধারণার বাইরে, আমি কৃত্রিম বুদ্ধিমত্তায় (AI) গভীর তাত্ত্বিক জ্ঞান রাখি, যা ১ বছরের LLM-ভিত্তিক শিল্প স্তরের বাস্তব অভিজ্ঞতার মাধ্যমে আরও দৃঢ় হয়েছে।`,
       "আমি নিজেকে একটি ফুল-স্পেকট্রাম সফটওয়্যার ইঞ্জিনিয়ার হিসেবে পরিচিত করি, যিনি end-to-end ডেভেলপমেন্ট, ডিপ্লয়মেন্ট এবং দীর্ঘমেয়াদি মেইনটেন্যান্স-এ বিশেষজ্ঞ। আমার কাজের পরিধি ব্যাকএন্ড সার্ভিস, ফ্রন্টএন্ড ইন্টারফেস এবং AI-চালিত সমাধান পর্যন্ত বিস্তৃত, যা প্রযুক্তিগত বাস্তবায়ন এবং ব্যবসায়িক মানের মধ্যে সেতুবন্ধন তৈরি করে। আমি এমন পরিবেশে উজ্জ্বলভাবে কাজ করি যেখানে উদ্ভাবন, স্কেলেবিলিটি এবং নির্ভরযোগ্যতা গুরুত্বপূর্ণ, এবং আমি এমন সমস্যা সমাধানের মনোভাব নিয়ে কাজ করি যা তাৎক্ষণিক প্রয়োজনের সাথে দীর্ঘমেয়াদি আর্কিটেকচারাল দৃষ্টিভঙ্গি সামঞ্জস্য করে।",
     ],
     what_i_want: [
@@ -105,7 +107,7 @@ const bn_about_me = {
   },
   client: {
     who_am_i: [
-      "আমি একজন পূর্ণাঙ্গ সফটওয়্যার ইঞ্জিনিয়ার, যিনি ব্যবসায়িক প্রয়োজন এবং প্রযুক্তিগত সমাধান—উভয়ই ভালোভাবে বুঝি। গত ৫ বছরের বেশি সময় ধরে আমি ব্যাকএন্ড সিস্টেম ডিজাইন ও ডেভেলপমেন্টে কাজ করেছি, যা এন্টারপ্রাইজ ডেটা এবং সার্ভিসকে নিরাপদ, দ্রুত ও নির্ভরযোগ্য রাখে। পাশাপাশি, আমি ৩ বছরেরও বেশি সময় ধরে ফ্রন্টএন্ড বা ইউজার ইন্টারফেস ডিজাইনে অভিজ্ঞ, যেখানে ব্যবহারকারীদের জন্য সহজ, দৃষ্টিনন্দন এবং কার্যকর অ্যাপ্লিকেশন তৈরি করেছি।",
+      `আমি একজন পূর্ণাঙ্গ সফটওয়্যার ইঞ্জিনিয়ার, যিনি ব্যবসায়িক প্রয়োজন এবং প্রযুক্তিগত সমাধান—উভয়ই ভালোভাবে বুঝি। গত ${totalExpYear} বছরের বেশি সময় ধরে আমি ব্যাকএন্ড সিস্টেম ডিজাইন ও ডেভেলপমেন্টে কাজ করেছি, যা এন্টারপ্রাইজ ডেটা এবং সার্ভিসকে নিরাপদ, দ্রুত ও নির্ভরযোগ্য রাখে। পাশাপাশি, আমি ৩ বছরেরও বেশি সময় ধরে ফ্রন্টএন্ড বা ইউজার ইন্টারফেস ডিজাইনে অভিজ্ঞ, যেখানে ব্যবহারকারীদের জন্য সহজ, দৃষ্টিনন্দন এবং কার্যকর অ্যাপ্লিকেশন তৈরি করেছি।`,
 
       "আমি কৃত্রিম বুদ্ধিমত্তা (AI) এবং বড় ভাষা মডেল (LLMs) নিয়েও কাজ করেছি, যা আমাকে জটিল ডেটা বিশ্লেষণ, অটোমেশন এবং সিদ্ধান্ত গ্রহণে প্রযুক্তিকে ব্যবহার করার সুযোগ দেয়—যা আপনার ব্যবসার জন্য উপকারী হতে পারে।",
     ],
@@ -241,21 +243,21 @@ const bn_about_interests = [
 ];
 
 const en_about_core = [
-  ["Cloud", 85],
+  ["Backend", 100],
+  ["Frontend", 100],
+  ["AI/ML", 100],
   ["DevOps", 90],
-  ["AI/ML", 95],
-  ["Full-Stack", 100],
 ];
 
 const bn_about_core = [
-  ["Cloud", "৮৫"],
-  ["DevOps", "৯০"],
-  ["AI/ML", "৯৫"],
-  ["Full-Stack", "১০০"],
+  ["ব্যাকএন্ড", "১০০"],
+  ["ফ্রন্টএন্ড", "১০০"],
+  ["এ.আই./মেশিন লার্নিং", "১০০"],
+  ["ডেভ ওপস", "৯০"],
 ];
 
-const en_project_1 = {
-  id: "1",
+const en_project_11 = {
+  id: "11",
   title: "Jamahook – AI Music Generator",
   duration: "May 2025 - Present",
   description:
@@ -268,8 +270,8 @@ const en_project_1 = {
   techStack: ["AI/ML", "Stable Audio", "Python", "FastAPI", "Docker"],
   featured: true,
 };
-const bn_project_1 = {
-  id: "1",
+const bn_project_11 = {
+  id: "11",
   title: "জামাহুক – এআই মিউজিক জেনারেটর",
   duration: "মে ২০২৫ - বর্তমান",
   description:
@@ -282,8 +284,8 @@ const bn_project_1 = {
   techStack: ["AI/ML", "Stable Audio", "Python", "FastAPI", "Docker"],
   featured: true,
 };
-const en_project_2 = {
-  id: "2",
+const en_project_10 = {
+  id: "10",
   title: "Chat Brokers",
   duration: "March 2025 - May 2025",
   description:
@@ -296,8 +298,8 @@ const en_project_2 = {
   techStack: ["LangChain", "RAG", "MCP", "Python", "FastAPI", "PostgreSQL"],
   featured: true,
 };
-const bn_project_2 = {
-  id: "2",
+const bn_project_10 = {
+  id: "10",
   title: "চ্যাট ব্রোকার্স",
   duration: "মার্চ ২০২৫ - মে ২০২৫",
   description:
@@ -310,8 +312,8 @@ const bn_project_2 = {
   techStack: ["LangChain", "RAG", "MCP", "Python", "FastAPI", "PostgreSQL"],
   featured: true,
 };
-const en_project_3 = {
-  id: "3",
+const en_project_9 = {
+  id: "9",
   title: "Cannella Recruitment Service (AI)",
   duration: "Feb 2025 - April 2025",
   description:
@@ -330,8 +332,8 @@ const en_project_3 = {
   ],
   featured: true,
 };
-const bn_project_3 = {
-  id: "3",
+const bn_project_9 = {
+  id: "9",
   title: "কানেলা রিক্রুটমেন্ট সার্ভিস (এআই)",
   duration: "ফেব্রুয়ারি ২০২৫ - এপ্রিল ২০২৫",
   description:
@@ -351,8 +353,8 @@ const bn_project_3 = {
   featured: true,
 };
 
-const en_project_4 = {
-  id: "4",
+const en_project_8 = {
+  id: "8",
   title: "Query AI",
   duration: "Oct 2024 - Jan 2025",
   description:
@@ -365,8 +367,8 @@ const en_project_4 = {
   techStack: ["NLP", "FastAPI", "PostgreSQL", "pgVector", "Python"],
   featured: true,
 };
-const bn_project_4 = {
-  id: "4",
+const bn_project_8 = {
+  id: "8",
   title: "কোয়েরি এআই",
   duration: "অক্টোবর ২০২৪ - জানুয়ারি ২০২৫",
   description:
@@ -378,6 +380,64 @@ const bn_project_4 = {
   ],
   techStack: ["NLP", "FastAPI", "PostgreSQL", "pgVector", "Python"],
   featured: true,
+};
+
+const en_project_7 = {
+  id: "7",
+  title: "Probashkormi",
+  duration: "Aug 2023 - Ongoing",
+  description:
+    "Recruitment management system for individuals seeking jobs abroad, eliminating middlemen.",
+  responsibilities: [
+    "Developed backend with NestJS, Prisma, GraphQL and MongoDB",
+    "Integrated AWS S3 for file storage",
+    "Responsible for complete DB design and API pipeline",
+  ],
+  techStack: ["NestJS", "GraphQL", "MongoDB", "AWS S3", "Prisma"],
+  featured: false,
+};
+const bn_project_7 = {
+  id: "7",
+  title: "প্রবাসকর্মী",
+  duration: "আগস্ট ২০২৩ - চলমান",
+  description:
+    "বিদেশে চাকরি খোঁজার জন্য ব্যক্তিদের জন্য রিক্রুটমেন্ট ম্যানেজমেন্ট সিস্টেম, মধ্যস্বত্বভোগীদের সরিয়ে।",
+  responsibilities: [
+    "NestJS, Prisma, GraphQL এবং MongoDB দিয়ে ব্যাকএন্ড ডেভেলপ করা",
+    "ফাইল সংরক্ষণের জন্য AWS S3 ইন্টিগ্রেট করা",
+    "সম্পূর্ণ ডাটাবেস ডিজাইন এবং API পাইপলাইন এর দায়িত্বে ছিলাম",
+  ],
+  techStack: ["NestJS", "GraphQL", "MongoDB", "AWS S3", "Prisma"],
+  featured: false,
+};
+
+const en_project_6 = {
+  id: "6",
+  title: "Singistic",
+  duration: "March 2023 - Aug 2023",
+  description:
+    "An online karaoke app for Web, Android and iOS users with a wide range of songs in multiple languages.",
+  responsibilities: [
+    "Developed backend with NestJS and DynamoDB",
+    "Implemented audio processing using ffmpeg, Spleeter and ImageMagick",
+    "Managed file storage with AWS S3",
+  ],
+  techStack: ["NestJS", "DynamoDB", "AWS S3", "FFmpeg", "Spleeter"],
+  featured: false,
+};
+const bn_project_6 = {
+  id: "6",
+  title: "সিংগিস্টিক",
+  duration: "মার্চ ২০২৩ - আগস্ট ২০২৩",
+  description:
+    "ওয়েব, অ্যান্ড্রয়েড এবং iOS ব্যবহারকারীদের জন্য অনলাইন কারাওকে অ্যাপ, যা একাধিক ভাষায় বিস্তৃত গান সমর্থন করে।",
+  responsibilities: [
+    "NestJS এবং DynamoDB দিয়ে ব্যাকএন্ড ডেভেলপ করা",
+    "ffmpeg, Spleeter এবং ImageMagick ব্যবহার করে অডিও প্রসেসিং বাস্তবায়ন",
+    "AWS S3 দিয়ে ফাইল সংরক্ষণ ব্যবস্থাপনা করা",
+  ],
+  techStack: ["NestJS", "DynamoDB", "AWS S3", "FFmpeg", "Spleeter"],
+  featured: false,
 };
 
 const en_project_5 = {
@@ -421,66 +481,8 @@ const bn_project_5 = {
   featured: false,
 };
 
-const en_project_6 = {
-  id: "6",
-  title: "Singistic",
-  duration: "March 2023 - Aug 2023",
-  description:
-    "An online karaoke app for Web, Android and iOS users with a wide range of songs in multiple languages.",
-  responsibilities: [
-    "Developed backend with NestJS and DynamoDB",
-    "Implemented audio processing using ffmpeg, Spleeter and ImageMagick",
-    "Managed file storage with AWS S3",
-  ],
-  techStack: ["NestJS", "DynamoDB", "AWS S3", "FFmpeg", "Spleeter"],
-  featured: false,
-};
-const bn_project_6 = {
-  id: "6",
-  title: "সিংগিস্টিক",
-  duration: "মার্চ ২০২৩ - আগস্ট ২০২৩",
-  description:
-    "ওয়েব, অ্যান্ড্রয়েড এবং iOS ব্যবহারকারীদের জন্য অনলাইন কারাওকে অ্যাপ, যা একাধিক ভাষায় বিস্তৃত গান সমর্থন করে।",
-  responsibilities: [
-    "NestJS এবং DynamoDB দিয়ে ব্যাকএন্ড ডেভেলপ করা",
-    "ffmpeg, Spleeter এবং ImageMagick ব্যবহার করে অডিও প্রসেসিং বাস্তবায়ন",
-    "AWS S3 দিয়ে ফাইল সংরক্ষণ ব্যবস্থাপনা করা",
-  ],
-  techStack: ["NestJS", "DynamoDB", "AWS S3", "FFmpeg", "Spleeter"],
-  featured: false,
-};
-
-const en_project_7 = {
-  id: "7",
-  title: "Probashkormi",
-  duration: "Aug 2023 - Ongoing",
-  description:
-    "Recruitment management system for individuals seeking jobs abroad, eliminating middlemen.",
-  responsibilities: [
-    "Developed backend with NestJS, Prisma, GraphQL and MongoDB",
-    "Integrated AWS S3 for file storage",
-    "Responsible for complete DB design and API pipeline",
-  ],
-  techStack: ["NestJS", "GraphQL", "MongoDB", "AWS S3", "Prisma"],
-  featured: false,
-};
-const bn_project_7 = {
-  id: "7",
-  title: "প্রবাসকর্মী",
-  duration: "আগস্ট ২০২৩ - চলমান",
-  description:
-    "বিদেশে চাকরি খোঁজার জন্য ব্যক্তিদের জন্য রিক্রুটমেন্ট ম্যানেজমেন্ট সিস্টেম, মধ্যস্বত্বভোগীদের সরিয়ে।",
-  responsibilities: [
-    "NestJS, Prisma, GraphQL এবং MongoDB দিয়ে ব্যাকএন্ড ডেভেলপ করা",
-    "ফাইল সংরক্ষণের জন্য AWS S3 ইন্টিগ্রেট করা",
-    "সম্পূর্ণ ডাটাবেস ডিজাইন এবং API পাইপলাইন এর দায়িত্বে ছিলাম",
-  ],
-  techStack: ["NestJS", "GraphQL", "MongoDB", "AWS S3", "Prisma"],
-  featured: false,
-};
-
-const en_project_8 = {
-  id: "8",
+const en_project_4 = {
+  id: "4",
   title: "SoftCollab",
   duration: "April 2023 - Ongoing",
   description:
@@ -493,8 +495,8 @@ const en_project_8 = {
   techStack: ["ExpressJS", "SocketIO", "MySQL", "AWS S3", "FFmpeg"],
   featured: false,
 };
-const bn_project_8 = {
-  id: "8",
+const bn_project_4 = {
+  id: "4",
   title: "সফটকোল্যাব",
   duration: "এপ্রিল ২০২৩ - চলমান",
   description:
@@ -508,8 +510,8 @@ const bn_project_8 = {
   featured: false,
 };
 
-const en_project_9 = {
-  id: "9",
+const en_project_3 = {
+  id: "3",
   title: "Cloud Infra",
   duration: "May 2021 - July 2022",
   description:
@@ -522,8 +524,8 @@ const en_project_9 = {
   techStack: ["ReactJS", "Redux", "Docker", "Keycloak", "Axios"],
   featured: false,
 };
-const bn_project_9 = {
-  id: "9",
+const bn_project_3 = {
+  id: "3",
   title: "ক্লাউড ইনফ্রা",
   duration: "মে ২০২১ - জুলাই ২০২২",
   description:
@@ -537,8 +539,8 @@ const bn_project_9 = {
   featured: false,
 };
 
-const en_project_10 = {
-  id: "10",
+const en_project_2 = {
+  id: "2",
   title: "Roboket - Marketing Automation System",
   duration: "Feb 2021 - March 2023",
   description:
@@ -551,8 +553,8 @@ const en_project_10 = {
   techStack: ["FastAPI", "ReactJS", "Redux", "Keycloak", "Docker"],
   featured: false,
 };
-const bn_project_10 = {
-  id: "10",
+const bn_project_2 = {
+  id: "2",
   title: "রোবোকেট - মার্কেটিং অটোমেশন সিস্টেম",
   duration: "ফেব্রুয়ারি ২০২১ - মার্চ ২০২৩",
   description:
@@ -566,8 +568,8 @@ const bn_project_10 = {
   featured: false,
 };
 
-const en_project_11 = {
-  id: "11",
+const en_project_1 = {
+  id: "1",
   title: "Tiger ERP",
   duration: "Jan 2020 - Jan 2021",
   description:
@@ -580,8 +582,8 @@ const en_project_11 = {
   techStack: ["Spring Boot", "AngularJS", "JWT", "MySQL", "Maven"],
   featured: false,
 };
-const bn_project_11 = {
-  id: "11",
+const bn_project_1 = {
+  id: "1",
   title: "টাইগার ইআরপি",
   duration: "জানুয়ারি ২০২০ - জানুয়ারি ২০২১",
   description:

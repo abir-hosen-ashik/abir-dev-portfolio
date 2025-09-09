@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Calendar, Code, ExternalLink, Filter, X, Star } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import FormattedStringParser from '../UI/FormatedStringParser';
 
 interface AboutMeModalProps {
   isOpen: boolean;
@@ -70,7 +71,7 @@ export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) =
         <div className="p-8 overflow-y-auto max-h-[calc(90vh-200px)]">
           {Object.keys(t.about.about_me[activeFilter]).map((key) => (
             <>
-              <div className="grid lg:grid-cols-1 gap-6">
+              <div className="grid lg:grid-cols-1 gap-6 p-8">
                 <div key={1} className="group">
                   <div className="card p-6 hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative overflow-hidden">
                     {/* Featured Badge */}
@@ -94,12 +95,13 @@ export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) =
                         {
                           typeof value == "string" ?
                             <p style={{ textAlign: 'justify' }} className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4">
-                              {value}
+                              <FormattedStringParser text={value} />
                             </p>
                             :
                             value.map((v) => (
                               < ul style={{ textAlign: 'justify' }} className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4">
-                                🔘 {v}
+                                <FormattedStringParser text={'🔘 ' + v} />
+
                               </ul>
                             ))
                         }
