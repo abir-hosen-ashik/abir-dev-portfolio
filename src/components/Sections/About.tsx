@@ -1,9 +1,12 @@
-import React from 'react';
-import { GraduationCap, User, Heart, BookOpen, Award, MapPin } from 'lucide-react';
+import React, { useState } from 'react';
+import { GraduationCap, User, Heart, BookOpen, Award, MapPin, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { AboutMeModal } from '../Modals/AboutMeModal';
 
 export const About: React.FC = () => {
   const { t } = useLanguage();
+    const [showAllAboutMe, setShowAllAboutMe] = useState(false);
+  
 
   return (
     <section id="about" className="section-padding bg-neutral-50 dark:bg-neutral-900">
@@ -24,13 +27,24 @@ export const About: React.FC = () => {
                   <User className="text-white" size={24} />
                 </div>
                 <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-                  About Me
+                  {t.about.title}
                 </h3>
               </div>
 
               <div className="space-y-4 text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                <p>{t.personalInfo.objective_p1}</p>
-                <p>{t.personalInfo.objective_p2}</p>
+                <p style={{textAlign: 'justify'}}>{t.about.about_me.objective}</p>
+                {/* <p  style={{textAlign: 'justify'}}>{t.personalInfo.objective_p2}</p> */}
+
+                {/* View All Projects Button */}
+                <div className="text-center mt-12 fade-in-up">
+                  <button
+                    onClick={() => setShowAllAboutMe(true)}
+                    className="inline-flex btn-secondary group"
+                  >
+                    <span>{t.about.viewAll}</span>
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform px-1 w-10"/>
+                  </button>
+                </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
                   <div>
@@ -129,6 +143,12 @@ export const About: React.FC = () => {
           </div>
         </div>
       </div>
+
+            {/* Projects Modal */}
+            <AboutMeModal
+              isOpen={showAllAboutMe}
+              onClose={() => setShowAllAboutMe(false)}
+            />
     </section>
   );
 };

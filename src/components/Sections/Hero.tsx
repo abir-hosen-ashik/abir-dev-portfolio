@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Download, ChevronDown, Sparkles, Code, Cpu } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { resume_url } from '../../data/content';
 
 export const Hero: React.FC = () => {
   const { t } = useLanguage();
+  const startCareerYear = 2020
   const [currentRole, setCurrentRole] = useState(0);
+  const [experience, setExperience] = useState((new Date()).getFullYear() - startCareerYear);
 
   const roles = [
     { text: 'AI Engineer', icon: <Cpu size={24} /> },
     { text: 'Full-Stack Developer', icon: <Code size={24} /> },
     { text: 'Software Architect', icon: <Sparkles size={24} /> }
   ];
+
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,7 +65,7 @@ export const Hero: React.FC = () => {
 
             {/* Animated Role */}
             <div className="h-20 flex items-center justify-center">
-              <div key={currentRole}  className="flex animate-fade-in-out items-center space-x-3 text-2xl lg:text-4xl font-semibold text-neutral-800 dark:text-neutral-200">
+              <div key={currentRole} className="flex animate-fade-in-out items-center space-x-3 text-2xl lg:text-4xl font-semibold text-neutral-800 dark:text-neutral-200">
                 <div className="text-primary-500 dark:text-secondary-500 animate-pulse">
                   {roles[currentRole].icon}
                 </div>
@@ -79,7 +84,7 @@ export const Hero: React.FC = () => {
             <button
               className="inline-flex btn-primary group"
               onClick={() => {
-                const url = 'https://tlapmuaszjrzkzccrxkg.supabase.co/storage/v1/object/public/public-bucket/Resume%20-%20Abir%20Hosen.pdf'; // Replace with your URL
+                const url = resume_url; // Replace with your URL
                 window.open(url, '_blank', 'noopener,noreferrer');
               }}
             >
@@ -128,15 +133,15 @@ export const Hero: React.FC = () => {
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto mt-16">
             <div className="text-center">
-              <div className="text-3xl font-bold gradient-text">5+</div>
+              <div className="text-3xl font-bold gradient-text">{experience}+</div>
               <div className="text-neutral-600 dark:text-neutral-400">Years Experience</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold gradient-text">20+</div>
+              <div className="text-3xl font-bold gradient-text">{t.projects.items.length}+</div>
               <div className="text-neutral-600 dark:text-neutral-400">Projects Completed</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold gradient-text">10+</div>
+              <div className="text-3xl font-bold gradient-text">{Object.values(t.techStack.categories).reduce((sum, category)=> sum + category.skills.length, 0)}+</div>
               <div className="text-neutral-600 dark:text-neutral-400">Technologies</div>
             </div>
           </div>

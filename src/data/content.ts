@@ -1,4 +1,8 @@
 import { PersonalInfo, Project, Experience } from "../types";
+
+export const resume_url =
+  "https://tlapmuaszjrzkzccrxkg.supabase.co/storage/v1/object/public/public-bucket/Resume%20-%20Abir%20Hosen.pdf";
+
 const en_nav = {
   home: "home",
   about: "about",
@@ -19,6 +23,110 @@ const bn_nav = {
   resume: "জীবনবৃত্তান্ত",
 };
 
+const en_about_me = {
+  filters: {
+    general: "General",
+    client: "Client",
+  },
+  who_am_i: "Who Am I?",
+  what_i_want: "What I want?",
+  what_i_offer: "What I Offer?",
+  what_i_can_do: "What I can do?",
+  why_i_am_important: "Why I am important for you?",
+  objective:
+    "With over 5 years of experience in backend infrastructure advancement, complemented by 3 years in responsive, pixelperfect frontend engineering and a deep theoretical understanding of AI, paired with 1 year of LLM-focused industry work, I characterize myself as a Full-Spectrum Software Engineer specializing in end-to-end development, deployment and maintenance. I aim to drive the development of secure, maintainable, high-performing systems while contributing to technical decisions, aligning engineering with business goals, and innovating with modern technologies. My expertise in ERP, recruiting platforms, lead generation, sales and marketing automation, dynamic multimedia handling, and Agentic AI development using LLM, RAG, and MCP, combined with skills in database design, clean modular architecture, CI/CD, secure REST/GraphQL APIs, real-time socket systems, event-driven microservices, and translating complex business requirements, enables the delivery of high-impact applications that advance organizational goals.",
+  general: {
+    who_am_i: [
+      "With over 5 years of hands-on experience in backend infrastructure advancement, I have consistently contributed to the design, development, and optimization of scalable enterprise systems. This journey is complemented by 3 years of expertise in building responsive, pixel-perfect frontend applications that deliver seamless user experiences. Beyond software engineering fundamentals, I hold a deep theoretical foundation in Artificial Intelligence, further strengthened by 1 year of practical, industry-level work focused on large language models (LLMs).",
+      "I characterize myself as a Full-Spectrum Software Engineer, specializing in end-to-end development, deployment, and long-term maintenance. My work spans backend services, frontend interfaces, and AI-powered solutions, allowing me to bridge the gap between technical execution and business value. I thrive in environments where innovation, scalability, and reliability are critical, and I bring a problem-solving mindset that balances immediate needs with long-term architectural vision.",
+    ],
+    what_i_want: [
+      "I aspire to contribute not only as a developer but as a strategic partner in shaping technical direction and delivering impactful solutions. My goal is to drive the development of secure, maintainable, and high-performing systems while actively engaging in technical decision-making and architectural planning. I seek opportunities where I can align engineering efforts with broader business goals, ensuring that technology serves as a direct enabler of growth and innovation.",
+      "I want to play a central role in mentoring developers, leading teams, and managing complex projects, fostering a culture of collaboration and knowledge-sharing. Beyond code, I aim to optimize enterprise-grade applications for scalability, reliability, and high availability, while continuously improving security practices and compliance awareness.",
+      "Equally, I am driven to stay ahead of the curve by introducing modern tools, frameworks, and methodologies, carefully balancing technical debt with the pursuit of new features. Ultimately, I want to contribute to building sustainable engineering practices that not only solve immediate challenges but also set a long-term technology roadmap aligned with the company’s vision.",
+    ],
+    what_i_offer: [
+      "I bring a unique combination of technical expertise, cross-domain experience, and business-oriented thinking that enables me to deliver software solutions with both immediate impact and long-term value. My track record spans diverse domains including ERP systems, recruiting platforms, lead generation tools, sales and marketing automation, dynamic multimedia processing, and Agentic AI development leveraging cutting-edge techniques such as LLMs, Retrieval-Augmented Generation (RAG), and Model Context Protocol (MCP).",
+      "On the engineering side, I specialize in database schema design, clean and modular architecture, and scalable backend systems, complemented by skills in building secure REST/GraphQL APIs, real-time socket-based applications, and event-driven microservices. I am proficient in setting up CI/CD pipelines and DevOps workflows, ensuring smooth delivery, deployment, and long-term maintainability of applications.",
+      "What truly differentiates me is my ability to translate complex business requirements into robust, production-grade technical solutions. By collaborating with stakeholders and cross-functional teams, I ensure that engineering outcomes align with organizational goals, whether the focus is on optimizing performance, improving reliability, or innovating with modern technologies.",
+      "In short, I offer the expertise to design, build, and scale high-impact applications, while also providing the vision, adaptability, and problem-solving mindset needed to advance both technical excellence and business success.",
+    ],
+  },
+  client: {
+    who_am_i: [
+      "I am a full-spectrum software engineer who understands both business needs and technical solutions. For over 5 years, I have worked on designing and developing backend systems that ensure enterprise data and services are secure, fast, and reliable. Alongside this, I have over 3 years of experience in frontend or user interface design, creating applications that are easy, visually appealing, and efficient for users.",
+      "I have also worked with Artificial Intelligence (AI) and Large Language Models (LLMs), which allows me to leverage technology for complex data analysis, automation, and decision-making to benefit your business.",
+    ],
+    what_i_can_do: [
+      "I develop software that makes your business operations faster, safer, and easier. For example, I can create ERP systems, recruiting platforms, lead generation tools, and sales & marketing automation, helping your team save time and achieve better results. Additionally, I can develop multimedia, video, or audio processing solutions and AI-powered smart applications to make your business more modern and efficient.",
+      "I ensure that your software is secure, user-friendly, and sustainable over time. I can provide customized solutions tailored to your business needs, allowing you to focus on achieving your goals.",
+    ],
+    why_i_am_important: [
+      "I don’t just write code—I understand business problems and solve them through technology. The core focus of my work is:",
+      [
+        "Keeping data and information secure",
+        "Ensuring software is fast and reliable",
+        "Adding new features and fixing existing issues",
+        "Making your team’s work easier",
+      ],
+      "As a client, you want software that is long-lasting, user-friendly, secure, and high-quality. I am here to make sure your technology achieves these goals.",
+    ],
+  },
+};
+
+const bn_about_me = {
+  filters: {
+    general: "General",
+    client: "Client",
+  },
+  who_am_i: "আমি কে?",
+  what_i_want: "আমার লক্ষ্য কী?",
+  what_i_offer: "আমি কী অফার করতে পারি?",
+  what_i_can_do: "আমি কি করতে পারি?",
+  why_i_am_important: "কেন আমি আপনার জন্য গুরুত্বপূর্ণ?",
+  objective:
+    "ব্যাকএন্ড ইনফ্রাস্ট্রাকচার উন্নয়নে ৫ বছরেরও বেশি অভিজ্ঞতা, তার সাথে ৩ বছরের রেসপন্সিভ ও পিক্সেল-নিখুঁত ফ্রন্টএন্ড ইঞ্জিনিয়ারিং দক্ষতা এবং কৃত্রিম বুদ্ধিমত্তায় গভীর তাত্ত্বিক জ্ঞান, যা ১ বছরের LLM-ভিত্তিক ইন্ডাস্ট্রি অভিজ্ঞতার মাধ্যমে আরও দৃঢ় হয়েছে—এসবের সমন্বয়ে আমি নিজেকে একটি ফুল-স্পেকট্রাম সফটওয়্যার ইঞ্জিনিয়ার হিসেবে পরিচিত করি, যিনি end-to-end ডেভেলপমেন্ট, ডিপ্লয়মেন্ট ও মেইনটেন্যান্স-এ বিশেষজ্ঞ। আমার লক্ষ্য হলো নিরাপদ, রক্ষণাবেক্ষণযোগ্য এবং উচ্চ-কার্যক্ষম সিস্টেম নির্মাণ করা, যেখানে আমি প্রযুক্তিগত সিদ্ধান্ত গ্রহণে অবদান রাখতে পারি, ইঞ্জিনিয়ারিং কার্যক্রমকে ব্যবসার লক্ষ্যগুলোর সাথে সামঞ্জস্য করতে পারি এবং আধুনিক প্রযুক্তি ব্যবহার করে নতুনত্ব আনতে পারি। ERP, রিক্রুটিং প্ল্যাটফর্ম, লিড জেনারেশন, সেলস ও মার্কেটিং অটোমেশন, ডাইনামিক মাল্টিমিডিয়া প্রসেসিং এবং LLM, RAG ও MCP ব্যবহার করে এজেন্টিক এআই ডেভেলপমেন্ট-এ আমার অভিজ্ঞতা, সাথে ডাটাবেস ডিজাইন, পরিচ্ছন্ন মডুলার আর্কিটেকচার, CI/CD, নিরাপদ REST/GraphQL API, রিয়েল-টাইম সকেট সিস্টেম, ইভেন্ট-ড্রিভেন মাইক্রোসার্ভিস এবং জটিল ব্যবসায়িক চাহিদাকে প্রযুক্তিগত সমাধানে রূপান্তরের দক্ষতা—এসব মিলিয়ে আমি এমন উচ্চ-প্রভাবসম্পন্ন অ্যাপ্লিকেশন তৈরি করতে পারি, যা প্রতিষ্ঠানকে তাদের লক্ষ্য অর্জনে এগিয়ে নেয়।",
+  general: {
+    who_am_i: [
+      "ব্যাকএন্ড ইনফ্রাস্ট্রাকচার উন্নয়নে ৫ বছরেরও বেশি বাস্তব অভিজ্ঞতার মাধ্যমে, আমি ধারাবাহিকভাবে স্কেলেবল এন্টারপ্রাইজ সিস্টেমের ডিজাইন, ডেভেলপমেন্ট এবং অপ্টিমাইজেশনে অবদান রেখেছি। এই যাত্রা ৩ বছরের বেশি সময়ের রেসপন্সিভ, পিক্সেল-নিখুঁত ফ্রন্টএন্ড অ্যাপ্লিকেশন তৈরি করার দক্ষতার মাধ্যমে পরিপূরক, যা ব্যবহারকারীদের জন্য সহজ এবং স্বচ্ছ অভিজ্ঞতা প্রদান করে। সফটওয়্যার ইঞ্জিনিয়ারিংয়ের মূল ধারণার বাইরে, আমি কৃত্রিম বুদ্ধিমত্তায় (AI) গভীর তাত্ত্বিক জ্ঞান রাখি, যা ১ বছরের LLM-ভিত্তিক শিল্প স্তরের বাস্তব অভিজ্ঞতার মাধ্যমে আরও দৃঢ় হয়েছে।",
+      "আমি নিজেকে একটি ফুল-স্পেকট্রাম সফটওয়্যার ইঞ্জিনিয়ার হিসেবে পরিচিত করি, যিনি end-to-end ডেভেলপমেন্ট, ডিপ্লয়মেন্ট এবং দীর্ঘমেয়াদি মেইনটেন্যান্স-এ বিশেষজ্ঞ। আমার কাজের পরিধি ব্যাকএন্ড সার্ভিস, ফ্রন্টএন্ড ইন্টারফেস এবং AI-চালিত সমাধান পর্যন্ত বিস্তৃত, যা প্রযুক্তিগত বাস্তবায়ন এবং ব্যবসায়িক মানের মধ্যে সেতুবন্ধন তৈরি করে। আমি এমন পরিবেশে উজ্জ্বলভাবে কাজ করি যেখানে উদ্ভাবন, স্কেলেবিলিটি এবং নির্ভরযোগ্যতা গুরুত্বপূর্ণ, এবং আমি এমন সমস্যা সমাধানের মনোভাব নিয়ে কাজ করি যা তাৎক্ষণিক প্রয়োজনের সাথে দীর্ঘমেয়াদি আর্কিটেকচারাল দৃষ্টিভঙ্গি সামঞ্জস্য করে।",
+    ],
+    what_i_want: [
+      "আমি কেবল একজন ডেভেলপার হিসেবে নয়, বরং প্রযুক্তিগত দিকনির্দেশনা নির্ধারণ এবং প্রভাবশালী সমাধান প্রদান করার ক্ষেত্রে একটি কৌশলগত অংশীদার হিসেবেও অবদান রাখতে আগ্রহী। আমার লক্ষ্য হলো নিরাপদ, রক্ষণাবেক্ষণযোগ্য এবং উচ্চ-কার্যক্ষম সিস্টেমের উন্নয়ন চালানো, যেখানে আমি সক্রিয়ভাবে প্রযুক্তিগত সিদ্ধান্ত গ্রহণ এবং আর্কিটেকচার পরিকল্পনায় অংশগ্রহণ করি। আমি এমন সুযোগ খুঁজি যেখানে আমি ইঞ্জিনিয়ারিং প্রচেষ্টাকে বৃহত্তর ব্যবসায়িক লক্ষ্যগুলোর সাথে সামঞ্জস্য করতে পারি, নিশ্চিত করে যে প্রযুক্তি সরাসরি বৃদ্ধি এবং উদ্ভাবনের সহায়ক হিসাবে কাজ করে।",
+      "আমি ডেভেলপারদের মেন্টরিং, টিম লিড এবং জটিল প্রকল্প পরিচালনায় কেন্দ্রীয় ভূমিকা পালন করতে চাই, এমন একটি পরিবেশ গড়ে তুলতে যেখানে সহযোগিতা এবং জ্ঞানের ভাগাভাগি উৎসাহিত হয়। কেবল কোডের বাইরে, আমি এন্টারপ্রাইজ-গ্রেড অ্যাপ্লিকেশনকে স্কেলেবিলিটি, নির্ভরযোগ্যতা এবং উচ্চ প্রাপ্যতার জন্য অপ্টিমাইজ করতে চাই, সাথে সাথে নিরাপত্তা প্রক্রিয়া এবং কমপ্লায়েন্স সচেতনতা ক্রমাগত উন্নত করতে চাই।",
+      "একইভাবে, আমি সর্বদা আধুনিক টুল, ফ্রেমওয়ার্ক এবং পদ্ধতি প্রবর্তনের মাধ্যমে প্রযুক্তিগত অগ্রগতির সঙ্গে সামঞ্জস্য রাখার চেষ্টা করি, যেখানে নতুন ফিচারের প্রয়াসের সঙ্গে প্রযুক্তিগত দেন-দেনের (technical debt) মধ্যে সূক্ষ্ম ভারসাম্য বজায় থাকে। শেষ পর্যন্ত, আমি এমন টেকসই ইঞ্জিনিয়ারিং প্র্যাকটিস তৈরি করতে অবদান রাখতে চাই, যা কেবল তাৎক্ষণিক চ্যালেঞ্জ সমাধান করে না, বরং দীর্ঘমেয়াদি প্রযুক্তি রোডম্যাপ নির্ধারণ করে যা কোম্পানির ভিশনের সাথে সামঞ্জস্যপূর্ণ।",
+    ],
+    what_i_offer: [
+      "আমি প্রযুক্তিগত দক্ষতা, ক্রস-ডোমেইন অভিজ্ঞতা এবং ব্যবসা-কেন্দ্রিক চিন্তাধারার একটি অনন্য সমন্বয় নিয়ে আসি, যা আমাকে এমন সফটওয়্যার সমাধান প্রদান করতে সক্ষম করে যা একদিকে তাৎক্ষণিক প্রভাব ফেলে এবং অন্যদিকে দীর্ঘমেয়াদী মূল্য যোগ করে। আমার অভিজ্ঞতা বিস্তৃত বিভিন্ন ক্ষেত্রে, যেমন ERP সিস্টেম, রিক্রুটিং প্ল্যাটফর্ম, লিড জেনারেশন টুল, সেলস ও মার্কেটিং অটোমেশন, ডায়নামিক মাল্টিমিডিয়া প্রসেসিং, এবং Agentic AI ডেভেলপমেন্ট—যেখানে LLMs, Retrieval-Augmented Generation (RAG), এবং Model Context Protocol (MCP)-এর মতো সর্বাধুনিক কৌশল ব্যবহার করা হয়েছে।",
+      "ইঞ্জিনিয়ারিং-এর ক্ষেত্রে আমি ডাটাবেজ স্কিমা ডিজাইন, পরিষ্কার ও মডুলার আর্কিটেকচার, এবং স্কেলযোগ্য ব্যাকএন্ড সিস্টেমে বিশেষজ্ঞ। পাশাপাশি, সিকিউর REST/GraphQL API, রিয়েল-টাইম সকেট-ভিত্তিক অ্যাপ্লিকেশন, এবং ইভেন্ট-ড্রিভেন মাইক্রোসার্ভিস তৈরির দক্ষতা রয়েছে। আমি CI/CD পাইপলাইন এবং DevOps ওয়ার্কফ্লো সেটআপে দক্ষ, যা অ্যাপ্লিকেশনের মসৃণ ডেলিভারি, ডেপ্লয়মেন্ট, এবং দীর্ঘমেয়াদী মেইনটেইনেবিলিটি নিশ্চিত করে।",
+      "যা আমাকে সত্যিই আলাদা করে তোলে তা হলো জটিল ব্যবসায়িক প্রয়োজনীয়তাকে দৃঢ়, প্রোডাকশন-গ্রেড টেকনিক্যাল সলিউশনে রূপান্তর করার ক্ষমতা। স্টেকহোল্ডার এবং ক্রস-ফাংশনাল টিমের সঙ্গে সহযোগিতা করে আমি নিশ্চিত করি যে ইঞ্জিনিয়ারিং ফলাফলগুলো সাংগঠনিক লক্ষ্যের সঙ্গে সামঞ্জস্যপূর্ণ—হোক সেটা পারফরম্যান্স অপ্টিমাইজেশন, রিলায়েবিলিটি উন্নয়ন, কিংবা আধুনিক প্রযুক্তির মাধ্যমে ইনোভেশন।",
+      "সংক্ষেপে, আমি উচ্চ-প্রভাবশালী অ্যাপ্লিকেশন ডিজাইন, তৈরি এবং স্কেল করার দক্ষতা প্রদান করি। পাশাপাশি, প্রযুক্তিগত উৎকর্ষ ও ব্যবসায়িক সফলতাকে এগিয়ে নিতে প্রয়োজনীয় ভিশন, অভিযোজনযোগ্যতা, এবং সমস্যা সমাধানের মানসিকতাও প্রদান করি।",
+    ],
+  },
+  client: {
+    who_am_i: [
+      "আমি একজন পূর্ণাঙ্গ সফটওয়্যার ইঞ্জিনিয়ার, যিনি ব্যবসায়িক প্রয়োজন এবং প্রযুক্তিগত সমাধান—উভয়ই ভালোভাবে বুঝি। গত ৫ বছরের বেশি সময় ধরে আমি ব্যাকএন্ড সিস্টেম ডিজাইন ও ডেভেলপমেন্টে কাজ করেছি, যা এন্টারপ্রাইজ ডেটা এবং সার্ভিসকে নিরাপদ, দ্রুত ও নির্ভরযোগ্য রাখে। পাশাপাশি, আমি ৩ বছরেরও বেশি সময় ধরে ফ্রন্টএন্ড বা ইউজার ইন্টারফেস ডিজাইনে অভিজ্ঞ, যেখানে ব্যবহারকারীদের জন্য সহজ, দৃষ্টিনন্দন এবং কার্যকর অ্যাপ্লিকেশন তৈরি করেছি।",
+
+      "আমি কৃত্রিম বুদ্ধিমত্তা (AI) এবং বড় ভাষা মডেল (LLMs) নিয়েও কাজ করেছি, যা আমাকে জটিল ডেটা বিশ্লেষণ, অটোমেশন এবং সিদ্ধান্ত গ্রহণে প্রযুক্তিকে ব্যবহার করার সুযোগ দেয়—যা আপনার ব্যবসার জন্য উপকারী হতে পারে।",
+    ],
+    what_i_can_do: [
+      "আমি এমন সফটওয়্যার তৈরি করি যা আপনার ব্যবসার কাজকে দ্রুততর, নিরাপদ এবং সহজ করে তোলে। উদাহরণস্বরূপ, আমি ERP সিস্টেম, রিক্রুটিং প্ল্যাটফর্ম, লিড জেনারেশন টুল এবং সেলস ও মার্কেটিং অটোমেশন সলিউশন তৈরি করতে পারি, যা আপনার টিমকে সময় বাঁচাতে এবং আরও ভালো ফলাফল অর্জনে সহায়তা করবে। এছাড়াও, আমি মাল্টিমিডিয়া, ভিডিও বা অডিও প্রসেসিং সলিউশন এবং AI-চালিত স্মার্ট অ্যাপ্লিকেশন তৈরি করতে পারি, যা আপনার ব্যবসাকে আরও আধুনিক ও কার্যকর করবে।",
+
+      "আমি নিশ্চিত করি যে আপনার সফটওয়্যার নিরাপদ, ব্যবহারবান্ধব এবং দীর্ঘমেয়াদে টেকসই হয়। আমি আপনার ব্যবসার প্রয়োজন অনুযায়ী কাস্টমাইজড সলিউশন দিতে পারি, যাতে আপনি আপনার মূল লক্ষ্য অর্জনে মনোযোগ দিতে পারেন।",
+    ],
+    why_i_am_important: [
+      "আমি শুধু কোড লিখি না—আমি ব্যবসায়িক সমস্যাগুলো বুঝে তা প্রযুক্তির মাধ্যমে সমাধান করি। আমার কাজের মূল লক্ষ্য হলো:",
+      [
+        "ডেটা ও তথ্য নিরাপদ রাখা",
+        "সফটওয়্যারকে দ্রুত ও নির্ভরযোগ্য রাখা",
+        "নতুন ফিচার যোগ করা এবং বিদ্যমান সমস্যাগুলো সমাধান করা",
+        "আপনার টিমের কাজকে আরও সহজ করা",
+      ],
+      "একজন ক্লায়েন্ট হিসেবে, আপনি এমন সফটওয়্যার চান যা দীর্ঘস্থায়ী, ব্যবহারবান্ধব, নিরাপদ এবং উচ্চমানের। আমি এখানে আছি যাতে আপনার প্রযুক্তি এসব লক্ষ্য পূরণ করে।",
+    ],
+  },
+};
+
 const en_personal_info = {
   name: "Abir Hosen",
   email: "abir71.hosen@gmail.com",
@@ -31,10 +139,6 @@ const en_personal_info = {
   x: "abirhosen_ashik",
   gitlab: "abir-hosen",
   kaggle: "abirhosenashik",
-  objective_p1:
-    "I’m Abir Hosen, a full-stack software engineer from Bangladesh with over 5 years of experience building intelligent and scalable enterprise applications. I specialize in backend development using NestJS, Prisma, and Spring Boot, alongside frontend frameworks like React and AngularJS. Passionate about integrating AI technologies, I work with large language models and cutting-edge tools to create innovative solutions.",
-  objective_p2:
-    "I thrive on designing clean, maintainable code and crafting seamless user experiences, especially in ERP, Marketing Automation, Sound & Music, Recruiting Platform, Workflow Automation systems and complex business workflows. A dedicated learner and problem solver, I enjoy mentoring and continuously exploring new technologies to empower businesses worldwide.",
 };
 
 const bn_personal_info = {
@@ -49,10 +153,6 @@ const bn_personal_info = {
   x: "abirhosen_ashik",
   gitlab: "abir-hosen",
   kaggle: "abirhosenashik",
-  objective_p1:
-    "আমি আবির হোসেন, বাংলাদেশ থেকে একজন ফুলস্ট্যাক সফটওয়্যার ইঞ্জিনিয়ার, যিনি পাঁচ বছরেরও বেশি সময় ধরে বুদ্ধিমান এবং স্কেলেবল এন্টারপ্রাইজ অ্যাপ্লিকেশন নির্মাণে অভিজ্ঞ। আমি প্রধানত ব্যাকএন্ড ডেভেলপমেন্টে দক্ষ, NestJS, Prisma, এবং Spring Boot ব্যবহার করে, পাশাপাশি React ও AngularJS এর মতো ফ্রন্টএন্ড ফ্রেমওয়ার্কেও কাজ করি। AI প্রযুক্তি একীভূত করতে আগ্রহী হয়ে, আমি বড় ভাষার মডেল এবং আধুনিক টুল ব্যবহার করে উদ্ভাবনী সমাধান তৈরি করি।",
-  objective_p2:
-    "আমি পরিষ্কার, রক্ষণাবেক্ষণযোগ্য কোড ডিজাইন এবং ব্যবহারকারী অভিজ্ঞতা গড়ে তোলায় মনোযোগী, বিশেষ করে ERP, মার্কেটিং অটোমেশন, সাউন্ড ও মিউজিক, রিক্রুটিং প্ল্যাটফর্ম, ওয়ার্কফ্লো অটোমেশন সিস্টেম এবং জটিল ব্যবসায়িক কাজের প্রবাহে। আমি একজন নিবেদিত শিক্ষার্থী এবং সমস্যা সমাধানকারী, যিনি মেন্টরিং পছন্দ করি এবং বিশ্বব্যাপী ব্যবসাকে ক্ষমতায়িত করার জন্য নতুন প্রযুক্তি আবিষ্কারে নিয়মিত থাকি।",
 };
 
 const en_home = {
@@ -60,7 +160,7 @@ const en_home = {
   name: "Abir Hosen",
   title: "AI Engineer & Full-Stack Developer",
   subtitle: "Building Intelligence that Empowers the World",
-  slogan: 'Turning ideas into intelligent, scalable solutions',
+  slogan: "Turning ideas into intelligent, scalable solutions",
   prompt: "abir@terminal:~$",
   commands: [
     "whoami",
@@ -76,7 +176,7 @@ const bn_home = {
   title: "এআই ইঞ্জিনিয়ার ও ফুল-স্ট্যাক ডেভেলপার",
   subtitle:
     "নির্মাণ করছি - অগ্রগতির পথে বিশ্বকে নিয়ে যাওয়া স্মার্ট প্রযুক্তি",
-  slogan: 'প্রযুক্তির শক্তিতে নতুন সম্ভাবনার দুয়ার উন্মোচন',
+  slogan: "প্রযুক্তির শক্তিতে নতুন সম্ভাবনার দুয়ার উন্মোচন",
   prompt: "abir@terminal:~$",
   commands: [
     "whoami",
@@ -873,6 +973,9 @@ export const content = {
     home: en_home,
     about: {
       title: "About Me",
+      objective: "Career Objective",
+      about_me: en_about_me,
+      viewAll: "More About Me",
       education: en_about_education,
       interests: en_about_interests,
       core: en_about_core,
@@ -902,6 +1005,9 @@ export const content = {
     home: bn_home,
     about: {
       title: "আমার সম্পর্কে",
+      objective: "পেশাগত লক্ষ্য",
+      about_me: bn_about_me,
+      viewAll: "আমার সম্পর্কে বিস্তারিত",
       education: bn_about_education,
       interests: bn_about_interests,
       core: bn_about_core,
