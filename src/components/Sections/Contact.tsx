@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin, Github, Linkedin, Send, Copy, Check, MessageCircle
 import { useLanguage } from '../../contexts/LanguageContext';
 import { insertMessage } from '../../utils/supabase';
 import Notification, { NotificationType } from '../UI/Notification';
+import { sendEmail } from '../../utils/apis';
 
 export const Contact: React.FC = () => {
   const { t } = useLanguage();
@@ -35,8 +36,17 @@ export const Contact: React.FC = () => {
           message: ''
         })
         setNotification({ type: "success", message: "Message sent successfully!" });
+        sendEmail({
+          name: formData.name,
+          contact: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        }).then(response => {
+          if(response.status) setNotification({ type: "success", message: "Email sent successfully!" });
+          else setNotification({ type: "error", message: "Failed to send email." });
+        })
       } else {
-        setNotification({ type: "error", message: "Failed to send message" });
+        setNotification({ type: "error", message: "Failed to send message." });
       }
     })
     console.log('Form submitted:', formData);
