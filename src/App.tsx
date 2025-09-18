@@ -8,6 +8,7 @@ import { Experience } from './components/Sections/Experience';
 import { TechStack } from './components/Sections/TechStack';
 import { Contact } from './components/Sections/Contact';
 import { Footer } from './components/Layout/Footer';
+import { Summery } from './components/Sections/Summery';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Experience />
             <TechStack />
             <Contact />
+            {/* <Summery/> */}
           </main>
           <Footer />
         </div>
