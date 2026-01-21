@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Calendar, Code, ExternalLink, Filter, X, Star } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import FormattedStringParser from '../UI/FormatedStringParser';
+// import ReactQuill from "react-quill";
+// import "react-quill/dist/quill.snow.css"; 
 
 interface AboutMeModalProps {
   isOpen: boolean;
@@ -11,6 +13,7 @@ interface AboutMeModalProps {
 export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) => {
   const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<'general' | 'client'>('general');
+  // const [value, setValue] = useState<string>("");
 
   if (!isOpen) return null;
 
@@ -21,6 +24,15 @@ export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) =
     { key: 'general', label: t.about.about_me.filters?.general || 'General' },
     { key: 'client', label: t.about.about_me.filters?.client || 'Client' },
   ];
+
+
+  // const handleChange = (content: string) => {
+  //   setValue(content);
+  // };
+
+  // const handleSubmit = () => {
+  //   console.log("Editor Content:", value);
+  // };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -107,6 +119,20 @@ export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) =
                         }
                       </>
                     ))}
+
+
+                    {/* <div>
+                      <ReactQuill
+                        theme="snow"
+                        value={value}
+                        onChange={handleChange}
+                        placeholder="Write something..."
+                      />
+                      <button onClick={handleSubmit} style={{ marginTop: "10px" }}>
+                        Submit
+                      </button>
+                    </div> */}
+
                     {/* Hover Effect Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                   </div>
