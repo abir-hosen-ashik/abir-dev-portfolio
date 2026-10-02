@@ -19,6 +19,7 @@ const LIST_TABLES = [
   "pf_experiences",
   "pf_tech_categories",
   "pf_checklist",
+  "pf_publications",
 ] as const;
 type ListTable = (typeof LIST_TABLES)[number];
 
@@ -31,6 +32,7 @@ const LABEL_GROUPS = [
   "nav", "ui", "ui.terminal", "about", "about.filters", "about.education",
   "projects", "projects.filters", "experience", "techStack",
   "contact", "contact.form", "contact.social", "summery",
+  "research", "research.filters", "research.types", "research.status",
 ];
 
 function labelTree(labels: Row[], lang: Language) {
@@ -83,6 +85,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
     ui: l.ui,
     personalInfo: {
       name: tr(profile, "name"),
+      nameEn: profile.name_en ?? "",
       email: profile.email ?? "",
       phone: tr(profile, "phone"),
       github: profile.github ?? "",
@@ -147,6 +150,29 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
     techStack: {
       ...l.techStack,
       categories: lists.pf_tech_categories.map(c => ({ id: c.id, title: tr(c, "title"), icon: c.icon, skills: c.skills ?? [] })),
+    },
+    research: {
+      ...l.research,
+      // Featured papers lead; otherwise the order set in the editor.
+      items: [...lists.pf_publications]
+        .sort((a, b) => Number(b.is_featured) - Number(a.is_featured))
+        .map(p => ({
+          id: p.id,
+          title: tr(p, "title"),
+          authors: p.authors ?? [],
+          venue: p.venue ?? undefined,
+          type: p.pub_type,
+          status: p.status,
+          year: p.year ?? undefined,
+          abstract: tr(p, "abstract") || undefined,
+          keywords: p.keywords ?? [],
+          doi: p.doi ?? undefined,
+          url: p.url ?? undefined,
+          pdfUrl: p.pdf_url ?? undefined,
+          codeUrl: p.code_url ?? undefined,
+          citation: p.citation ?? undefined,
+          featured: p.is_featured,
+        })),
     },
     contact: l.contact,
     summery: {

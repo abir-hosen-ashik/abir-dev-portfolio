@@ -14,6 +14,8 @@ export const Header: React.FC = () => {
     { key: 'about', href: '#about' },
     { key: 'projects', href: '#projects' },  
     { key: 'experience', href: '#experience' },
+    // The section renders nothing until a publication exists.
+    ...(t.research.items.length ? [{ key: 'research', href: '#research' }] : []),
     { key: 'techStack', href: '#tech-stack' },
     { key: 'contact', href: '#contact' }
   ];

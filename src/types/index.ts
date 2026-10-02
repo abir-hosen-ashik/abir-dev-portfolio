@@ -21,6 +21,8 @@ export interface Experience {
 
 export interface PersonalInfo {
   name: string;
+  /** The English name, which is how author lists spell it. */
+  nameEn: string;
   email: string;
   phone: string;
   github: string;
@@ -64,6 +66,26 @@ export interface TechCategory {
   skills: string[];
 }
 
+export type PublicationType = 'journal' | 'conference' | 'preprint' | 'thesis' | 'book_chapter' | 'other';
+
+export interface Publication {
+  id: string;
+  title: string;
+  authors: string[];
+  venue?: string;
+  type: PublicationType;
+  status: 'published' | 'accepted' | 'under_review';
+  year?: number;
+  abstract?: string;
+  keywords: string[];
+  doi?: string;
+  url?: string;
+  pdfUrl?: string;
+  codeUrl?: string;
+  citation?: string;
+  featured: boolean;
+}
+
 /** Labels (pf_labels) of one group, e.g. `nav` or `contact.form`. */
 type Group = Record<string, string>;
 
@@ -85,6 +107,7 @@ export interface Content {
   projects: Group & { filters: Group; items: Project[] };
   experience: Group & { items: Experience[] };
   techStack: Group & { categories: TechCategory[] };
+  research: Group & { filters: Group; types: Group; status: Group; items: Publication[] };
   contact: Group & { form: Group; social: Group };
   summery: Group & { check_list: { list: [string, number][] } };
 }

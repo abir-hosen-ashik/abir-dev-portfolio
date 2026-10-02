@@ -5,6 +5,7 @@ import { Hero } from './components/Sections/Hero';
 import { About } from './components/Sections/About';
 import { Projects } from './components/Sections/Projects';
 import { Experience } from './components/Sections/Experience';
+import { Research } from './components/Sections/Research';
 import { TechStack } from './components/Sections/TechStack';
 import { Contact } from './components/Sections/Contact';
 import { Footer } from './components/Layout/Footer';
@@ -21,6 +22,7 @@ function App() {
             <About />
             <Projects />
             <Experience />
+            <Research />
             <TechStack />
             <Contact />
             {/* <Summery/> */}
