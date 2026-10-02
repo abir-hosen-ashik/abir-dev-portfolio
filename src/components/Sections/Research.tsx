@@ -152,37 +152,52 @@ const PublicationCard: React.FC<{ pub: Publication; index: number }> = ({ pub, i
   );
 };
 
-/** Every publication, with type filters — the "View All" counterpart of ProjectsModal. */
-const ResearchModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+type FilterProps = { items: Publication[]; filter: string; setFilter: (f: string) => void };
+
+/** One chip per publication type that has papers, plus "All"; nothing if there is only one type. */
+const FilterChips: React.FC<FilterProps & { size?: 'md' | 'lg' }> = ({ items, filter, setFilter, size = 'md' }) => {
   const { t } = useLanguage();
   const r = t.research;
-  const [filter, setFilter] = useState<string>('all');
-
-  // Only types that actually have papers get a filter chip.
   const types = useMemo(() => {
     const counts = new Map<string, number>();
-    r.items.forEach(p => counts.set(p.type, (counts.get(p.type) ?? 0) + 1));
+    items.forEach(p => counts.set(p.type, (counts.get(p.type) ?? 0) + 1));
     return [...counts];
-  }, [r.items]);
+  }, [items]);
 
-  if (!isOpen) return null;
-  const shown = filter === 'all' ? r.items : r.items.filter(p => p.type === filter);
+  if (types.length < 2) return null;
 
   const chip = (key: string, label: string, count: number) => (
     <button
       key={key}
       onClick={() => setFilter(key)}
-      className={`px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 flex items-center space-x-2
+      className={`${size === 'lg' ? 'px-6 py-3' : 'px-5 py-2'} rounded-xl font-medium text-sm transition-all duration-300 flex items-center space-x-2
                   ${filter === key
                     ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white shadow-glow'
                     : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-neutral-200 dark:border-neutral-700'}`}
     >
       <span>{label}</span>
-      <span className={`px-2 py-1 rounded-lg text-xs font-bold ${filter === key ? 'bg-white/20 text-white' : 'bg-neutral-100 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'}`}>
+      <span className={`px-2 py-0.5 rounded-lg text-xs font-bold ${filter === key ? 'bg-white/20 text-white' : 'bg-neutral-100 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'}`}>
         {count}
       </span>
     </button>
   );
+
+  return (
+    <>
+      {chip('all', r.filters.all || 'All', items.length)}
+      {types.map(([type, count]) => chip(type, r.types[type] || type, count))}
+    </>
+  );
+};
+
+const byType = (items: Publication[], filter: string) =>
+  filter === 'all' ? items : items.filter(p => p.type === filter);
+
+/** Every publication, with the same type filter as the section — the "View All" counterpart of ProjectsModal. */
+const ResearchModal: React.FC<FilterProps & { isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose, items, filter, setFilter }) => {
+  const { t } = useLanguage();
+  const r = t.research;
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -195,22 +210,19 @@ const ResearchModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
           </button>
         </div>
 
-        {types.length > 1 && (
-          <div className="px-8 py-6 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
-            <div className="flex items-center space-x-3 mb-4">
-              <Filter className="text-primary-500 dark:text-secondary-500" size={20} />
-              <span className="text-primary-500 dark:text-secondary-500 font-semibold">{t.ui.filter}:</span>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {chip('all', r.filters.all || 'All', r.items.length)}
-              {types.map(([type, count]) => chip(type, r.types[type] || type, count))}
-            </div>
+        <div className="px-8 py-6 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+          <div className="flex items-center space-x-3 mb-4">
+            <Filter className="text-primary-500 dark:text-secondary-500" size={20} />
+            <span className="text-primary-500 dark:text-secondary-500 font-semibold">{t.ui.filter}:</span>
           </div>
-        )}
+          <div className="flex flex-wrap gap-3">
+            <FilterChips items={items} filter={filter} setFilter={setFilter} size="lg" />
+          </div>
+        </div>
 
         <div className="p-8 overflow-y-auto max-h-[calc(90vh-200px)]">
           <div className="grid lg:grid-cols-2 gap-6">
-            {shown.map((pub, i) => <PublicationCard key={pub.id} pub={pub} index={i} />)}
+            {byType(items, filter).map((pub, i) => <PublicationCard key={pub.id} pub={pub} index={i} />)}
           </div>
         </div>
       </div>
@@ -222,26 +234,33 @@ export const Research: React.FC = () => {
   const { t } = useLanguage();
   const r = t.research;
   const [showAll, setShowAll] = useState(false);
+  // Shared with the modal, so "View All" opens on the type already picked.
+  const [filter, setFilter] = useState<string>('all');
 
   if (r.items.length === 0) return null;
+  const filtered = byType(r.items, filter);
   // Items arrive featured-first, so the preview is the strongest work.
-  const preview = r.items.slice(0, PREVIEW_COUNT);
+  const preview = filtered.slice(0, PREVIEW_COUNT);
 
   return (
     <>
       <section id="research" className="section-padding">
         <div className="container-custom">
-          <div className="text-center mb-16 fade-in-up">
+          <div className="text-center mb-12 fade-in-up">
             <h2 className="text-4xl lg:text-5xl font-display font-bold gradient-text mb-6">{r.title}</h2>
             <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">{r.subTitle}</p>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mt-6"></div>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
+            <FilterChips items={r.items} filter={filter} setFilter={setFilter} />
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
             {preview.map((pub, i) => <PublicationCard key={pub.id} pub={pub} index={i} />)}
           </div>
 
-          {r.items.length > PREVIEW_COUNT && (
+          {filtered.length > PREVIEW_COUNT && (
             <div className="text-center mt-12 fade-in-up">
               <button onClick={() => setShowAll(true)} className="inline-flex btn-secondary group">
                 <span>{r.viewAll || r.allTitle || r.title}</span>
@@ -252,7 +271,13 @@ export const Research: React.FC = () => {
         </div>
       </section>
 
-      <ResearchModal isOpen={showAll} onClose={() => setShowAll(false)} />
+      <ResearchModal
+        isOpen={showAll}
+        onClose={() => setShowAll(false)}
+        items={r.items}
+        filter={filter}
+        setFilter={setFilter}
+      />
     </>
   );
 };
