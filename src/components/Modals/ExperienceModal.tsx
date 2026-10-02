@@ -42,11 +42,11 @@ export const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClos
           <div className="flex items-center space-x-6 text-sm">
             <div className="flex items-center space-x-2 text-info-500">
               <Briefcase size={16} />
-              <span className="font-semibold">Total Experience:</span>
+              <span className="font-semibold">{t.ui.total_experience}:</span>
             </div>
-            <span className="text-neutral-800 dark:text-neutral-200 font-bold">5+ Years</span>
+            <span className="text-neutral-800 dark:text-neutral-200 font-bold">{t.years}+ {t.ui.years}</span>
             <span className="text-neutral-400">•</span>
-            <span className="text-neutral-800 dark:text-neutral-200 font-bold">{allExperiences.length} Companies</span>
+            <span className="text-neutral-800 dark:text-neutral-200 font-bold">{allExperiences.length} {t.ui.companies}</span>
           </div>
         </div>
         
@@ -62,10 +62,10 @@ export const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClos
                 
                 <div className="card p-6 hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative overflow-hidden">
                   {/* Current Badge */}
-                  {index === 0 && (
+                  {exp.current && (
                     <div className="absolute top-4 right-4">
                       <div className="bg-gradient-to-r from-success-500 to-accent-500 text-white px-3 py-1 rounded-full text-xs font-medium">
-                        CURRENT
+                        {t.ui.current}
                       </div>
                     </div>
                   )}
@@ -100,7 +100,7 @@ export const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClos
                   <div className="border-t border-neutral-200 dark:border-neutral-700 pt-4">
                     <h4 className="font-semibold text-neutral-700 dark:text-neutral-300 mb-4 flex items-center space-x-2">
                       <Briefcase size={16} />
-                      <span>Key Responsibilities & Achievements:</span>
+                      <span>{t.ui.key_responsibilities_achievements}:</span>
                     </h4>
                     <div className="grid md:grid-cols-2 gap-3">
                       {exp.responsibilities.map((resp, idx) => (
@@ -116,7 +116,7 @@ export const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClos
                   <div className="border-t border-neutral-200 dark:border-neutral-700 pt-4 mt-4">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-primary-500 dark:text-secondary-500 font-semibold">
-                        Position Level:
+                        {t.ui.position_level}:
                       </span>
                       <div className="flex items-center space-x-2">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -126,8 +126,8 @@ export const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClos
                             ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white'
                             : 'bg-gradient-to-r from-info-500 to-info-600 text-white'
                         }`}>
-                          {exp.position.includes('Senior') || exp.position.includes('Lead') ? 'Senior Level' : 
-                           exp.position.includes('Engineer') ? 'Mid Level' : 'Entry Level'}
+                          {exp.position.includes('Senior') || exp.position.includes('Lead') ? t.ui.senior_level : 
+                           exp.position.includes('Engineer') ? t.ui.mid_level : t.ui.entry_level}
                         </span>
                       </div>
                     </div>

@@ -1,4 +1,4 @@
-import { supabase } from "./config";
+import { supabase, PORTFOLIO_USER_ID } from "./config";
 
 interface InsertMessageProps {
   name?: string;
@@ -9,8 +9,8 @@ interface InsertMessageProps {
 export async function insertMessage(messageInput: InsertMessageProps) {
   const { name, subject, contact, message } = messageInput;
   const response = await supabase
-    .from("message")
-    .insert([{ name, subject, contact, message }]);
+    .from("pf_messages")
+    .insert([{ user_id: PORTFOLIO_USER_ID, name, subject, contact, message }]);
 
   return response;
 }

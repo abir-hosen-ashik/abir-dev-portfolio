@@ -1,11 +1,15 @@
 const apiKey = import.meta.env.VITE_BREVO_API_KEY;
 
-export async function sendEmail(formData: {
-  name?: string;
-  contact?: string;
-  subject?: string;
-  message?: string;
-}) {
+export async function sendEmail(
+  formData: {
+    name?: string;
+    contact?: string;
+    subject?: string;
+    message?: string;
+  },
+  recipient: { email: string; name: string },
+) {
+  const brand = `${recipient.name} Portfolio`;
   const response = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
     headers: {
@@ -15,15 +19,10 @@ export async function sendEmail(formData: {
     },
     body: JSON.stringify({
       sender: {
-        name: "Abir Portfolio",
+        name: brand, // the sender address must stay a verified Brevo sender
         email: "abdox.ethos@gmail.com",
       },
-      to: [
-        {
-          email: "abir71.hosen@gmail.com",
-          name: "Abir Hosen",
-        },
-      ],
+      to: [recipient],
       subject: formData.subject + ' - from - '+ formData?.name,
       htmlContent: `
         <!doctype html>
@@ -81,7 +80,7 @@ export async function sendEmail(formData: {
                 <!-- Header -->
                 <div class="header">
                     <div style="display:flex;align-items:center;gap:12px">
-                    <div class="brand">${'Abir Portfolio'}</div>
+                    <div class="brand">${brand}</div>
                     <div style="flex:1"></div>
                     <div style="font-size:13px;opacity:0.95">New contact message</div>
                     </div>
@@ -123,8 +122,8 @@ export async function sendEmail(formData: {
 
                 <!-- Footer -->
                 <div class="footer">
-                    This message was sent from ${'Abir Portfolio'} • <span style="color:#9ca3af">Do not share user data publicly.</span>
-                    <div style="margin-top:6px;">&copy; <span id="year"></span> ${'Abir Portfolio'}. All rights reserved.</div>
+                    This message was sent from ${brand} • <span style="color:#9ca3af">Do not share user data publicly.</span>
+                    <div style="margin-top:6px;">&copy; <span id="year"></span> ${brand}. All rights reserved.</div>
                 </div>
                 </div>
             </td>

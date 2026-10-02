@@ -32,10 +32,10 @@ export const Experience: React.FC = () => {
                   
                   <div className="card p-8 hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative overflow-hidden">
                     {/* Current Badge */}
-                    {index === 0 && (
+                    {exp.current && (
                       <div className="absolute top-7 right-7">
                         <div className="bg-gradient-to-r from-success-500 to-accent-500 text-white px-3 py-1 rounded-full text-xs font-medium">
-                          CURRENT
+                          {t.ui.current}
                         </div>
                       </div>
                     )}

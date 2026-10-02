@@ -49,7 +49,7 @@ export const Header: React.FC = () => {
               <Code2 className="text-white" size={20} />
             </div>
             <div className="font-display font-bold text-xl gradient-text">
-              Abir Hosen
+              {t.personalInfo.name}
             </div>
           </div>
 

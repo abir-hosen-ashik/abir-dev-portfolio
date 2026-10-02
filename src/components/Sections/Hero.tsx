@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Download, ChevronDown, Sparkles, Code, Cpu } from 'lucide-react';
+import { Github, Linkedin, Download, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { resume_url } from '../../data/content';
+import { iconFor } from '../UI/icons';
 
 export const Hero: React.FC = () => {
   const { t } = useLanguage();
-  const startCareerYear = 2020
   const [currentRole, setCurrentRole] = useState(0);
-  const [experience, setExperience] = useState((new Date()).getFullYear() - startCareerYear);
-
-  const roles = [
-    { text: 'AI Engineer', icon: <Cpu size={24} /> },
-    { text: 'Full-Stack Developer', icon: <Code size={24} /> },
-    { text: 'Software Architect', icon: <Sparkles size={24} /> }
-  ];
-
+  const experience = t.years;
+  const roles = t.home.roles;
+  const role = roles[currentRole % Math.max(roles.length, 1)];
+  const RoleIcon = role && iconFor(role.icon);
 
 
   useEffect(() => {
+    if (roles.length < 2) return;
     const interval = setInterval(() => {
       setCurrentRole((prev) => (prev + 1) % roles.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [roles.length]);
 
   const scrollToAbout = () => {
     document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
@@ -64,14 +60,16 @@ export const Hero: React.FC = () => {
             </h1>
 
             {/* Animated Role */}
-            <div className="h-20 flex items-center justify-center">
-              <div key={currentRole} className="flex animate-fade-in-out items-center space-x-3 text-2xl lg:text-4xl font-semibold text-neutral-800 dark:text-neutral-200">
-                <div className="text-primary-500 dark:text-secondary-500 animate-pulse">
-                  {roles[currentRole].icon}
+            {role && (
+              <div className="h-20 flex items-center justify-center">
+                <div key={currentRole} className="flex animate-fade-in-out items-center space-x-3 text-2xl lg:text-4xl font-semibold text-neutral-800 dark:text-neutral-200">
+                  <div className="text-primary-500 dark:text-secondary-500 animate-pulse">
+                    <RoleIcon size={24} />
+                  </div>
+                  <span>{role.text}</span>
                 </div>
-                <span>{roles[currentRole].text}</span>
               </div>
-            </div>
+            )}
 
             {/* Subtitle */}
             <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed">
@@ -81,16 +79,15 @@ export const Hero: React.FC = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button
-              className="inline-flex btn-primary group"
-              onClick={() => {
-                const url = resume_url; // Replace with your URL
-                window.open(url, '_blank', 'noopener,noreferrer');
-              }}
-            >
-              <Download size={20} className="group-hover:animate-bounce-gentle px-1 w-8" />
-              <span>{t.ui.downloadResume}</span>
-            </button>
+            {t.personalInfo.resumeUrl && (
+              <button
+                className="inline-flex btn-primary group"
+                onClick={() => window.open(t.personalInfo.resumeUrl, '_blank', 'noopener,noreferrer')}
+              >
+                <Download size={20} className="group-hover:animate-bounce-gentle px-1 w-8" />
+                <span>{t.ui.downloadResume}</span>
+              </button>
+            )}
 
 
             <div className="flex space-x-4">
@@ -134,15 +131,15 @@ export const Hero: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto mt-16">
             <div className="text-center">
               <div className="text-3xl font-bold gradient-text">{experience}+</div>
-              <div className="text-neutral-600 dark:text-neutral-400">Years Experience</div>
+              <div className="text-neutral-600 dark:text-neutral-400">{t.ui.years_experience}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold gradient-text">{t.projects.items.length}+</div>
-              <div className="text-neutral-600 dark:text-neutral-400">Projects Completed</div>
+              <div className="text-neutral-600 dark:text-neutral-400">{t.ui.projects_completed}</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold gradient-text">{Object.values(t.techStack.categories).reduce((sum, category)=> sum + category.skills.length, 0)}+</div>
-              <div className="text-neutral-600 dark:text-neutral-400">Technologies</div>
+              <div className="text-3xl font-bold gradient-text">{t.techStack.categories.reduce((sum, category) => sum + category.skills.length, 0)}+</div>
+              <div className="text-neutral-600 dark:text-neutral-400">{t.ui.technologies}</div>
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ export const Projects: React.FC = () => {
   const { t } = useLanguage();
   const [showAllProjects, setShowAllProjects] = useState(false);
 
-  const featuredProjects = t.projects.items.filter(project => project.featured).slice().sort((a:any, b:any) => b.id - a.id);
+  const featuredProjects = t.projects.items.filter(project => project.featured);
 
   return (
     <>
@@ -31,7 +31,7 @@ export const Projects: React.FC = () => {
                   <div className="absolute top-4 right-4">
                     <div className="flex items-center space-x-1 bg-gradient-to-r from-accent-500 to-success-500 text-white px-3 py-1 rounded-full text-xs font-medium">
                       <Star size={12} />
-                      <span>FEATURED</span>
+                      <span>{t.ui.featured}</span>
                     </div>
                   </div>
 
@@ -55,7 +55,7 @@ export const Projects: React.FC = () => {
                   <div className="mb-6">
                     <div className="flex items-center space-x-2 mb-3">
                       <Code size={16} className="text-primary-500 dark:text-secondary-500" />
-                      <span className="font-semibold text-neutral-700 dark:text-neutral-300">Tech Stack</span>
+                      <span className="font-semibold text-neutral-700 dark:text-neutral-300">{t.ui.tech_stack}</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {project.techStack.map((tech) => (
@@ -72,7 +72,7 @@ export const Projects: React.FC = () => {
 
                   {/* Key Responsibilities Preview */}
                   <div className="mb-6">
-                    <h4 className="font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Key Highlights:</h4>
+                    <h4 className="font-semibold text-neutral-700 dark:text-neutral-300 mb-2">{t.ui.key_highlights}:</h4>
                     <ul className="space-y-1">
                       {project.responsibilities.slice(0, 2).map((resp, idx) => (
                         <li key={idx} className="flex items-start space-x-2 text-sm text-neutral-600 dark:text-neutral-400">
@@ -94,7 +94,7 @@ export const Projects: React.FC = () => {
                           className="flex items-center space-x-2 text-primary-500 dark:text-secondary-500 hover:text-primary-600 dark:hover:text-secondary-600 transition-colors"
                         >
                           <ExternalLink size={16} />
-                          <span className="text-sm font-medium">View Project</span>
+                          <span className="text-sm font-medium">{t.ui.viewProject}</span>
                         </a>
                       )}
                     </div>

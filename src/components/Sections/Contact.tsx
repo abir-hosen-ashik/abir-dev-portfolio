@@ -35,18 +35,19 @@ export const Contact: React.FC = () => {
           subject: '',
           message: ''
         })
-        setNotification({ type: "success", message: "Message sent successfully!" });
+        setNotification({ type: "success", message: t.ui.message_sent });
+        if (!t.personalInfo.email) return;
         sendEmail({
           name: formData.name,
           contact: formData.email,
           subject: formData.subject,
           message: formData.message
-        }).then(response => {
-          if(response.status) setNotification({ type: "success", message: "Email sent successfully!" });
-          else setNotification({ type: "error", message: "Failed to send email." });
+        }, { email: t.personalInfo.email, name: t.personalInfo.name }).then(response => {
+          if(response.status) setNotification({ type: "success", message: t.ui.email_sent });
+          else setNotification({ type: "error", message: t.ui.email_failed });
         })
       } else {
-        setNotification({ type: "error", message: "Failed to send message." });
+        setNotification({ type: "error", message: t.ui.message_failed });
       }
     })
     console.log('Form submitted:', formData);
@@ -193,7 +194,7 @@ export const Contact: React.FC = () => {
                   <Send className="text-white" size={24} />
                 </div>
                 <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-                  Send Message
+                  {t.ui.send_message}
                 </h3>
               </div>
 

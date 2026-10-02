@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
               <Code2 className="text-white" size={24} />
             </div>
             <div className="font-display font-bold text-2xl gradient-text">
-              Abir Hosen
+              {t.personalInfo.name}
             </div>
           </div>
 
@@ -105,13 +105,13 @@ export const Footer: React.FC = () => {
           {/* Copyright */}
           <div className="text-center text-neutral-500 dark:text-neutral-400 text-sm border-t border-neutral-200 dark:border-neutral-700 pt-8 w-full">
             <p className="flex items-center justify-center space-x-2">
-              <span>© 2025 {t.personalInfo.name}. Made with</span>
+              <span>© {new Date().getFullYear()} {t.personalInfo.name}. {t.ui.made_with}</span>
               <Heart className="text-danger-500" size={16} />
-              <span>and lots of</span>
+              <span>{t.ui.and_lots_of}</span>
               <Code2 className="text-primary-500 dark:text-secondary-500" size={16} />
             </p>
             <p className="mt-2 text-xs">
-              Powered by &nbsp;
+              {t.ui.powered_by} &nbsp;
               <a href="http://cryptdox.com" target="_blank" className="font-display font-bold  gradient-text">
                 [CryptDox]
               </a>

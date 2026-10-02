@@ -33,7 +33,7 @@ export const About: React.FC = () => {
               </div>
 
               <div className="space-y-4 text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                <p style={{ textAlign: 'justify' }}><FormattedStringParser text={t.about.about_me.objective} /></p>
+                <p style={{ textAlign: 'justify' }}><FormattedStringParser text={t.about.objectiveText} /></p>
                 {/* <p  style={{textAlign: 'justify'}}>{t.personalInfo.objective_p2}</p> */}
 
                 {/* View All Projects Button */}
@@ -49,11 +49,11 @@ export const About: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
                   <div>
-                    <span className="text-primary-500 dark:text-secondary-500 font-semibold">Email:</span>
+                    <span className="text-primary-500 dark:text-secondary-500 font-semibold">{t.ui.email}:</span>
                     <div className="font-mono text-sm">{t.personalInfo.email}</div>
                   </div>
                   <div>
-                    <span className="text-primary-500 dark:text-secondary-500 font-semibold">Phone:</span>
+                    <span className="text-primary-500 dark:text-secondary-500 font-semibold">{t.ui.phone}:</span>
                     <div className="font-mono text-sm">{t.personalInfo.phone}</div>
                   </div>
                 </div>
@@ -133,7 +133,7 @@ export const About: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                {t.about.core.map((skill, index) => (
+                {t.about.core.map((skill) => (
                   <div key={skill[0]} className="text-center p-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg">
                     <div className="text-2xl font-bold gradient-text">{skill[1]}%</div>
                     <div className="text-sm text-neutral-600 dark:text-neutral-400">{skill[0]}</div>

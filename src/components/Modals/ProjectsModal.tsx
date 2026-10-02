@@ -13,7 +13,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
 
   if (!isOpen) return null;
 
-  const allProjects = t.projects.items.slice().sort((a:any, b:any) => b.id - a.id);;
+  const allProjects = t.projects.items;
   
   const filteredProjects = allProjects.filter(project => {
     if (activeFilter === 'featured') return project.featured;
@@ -54,7 +54,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
         <div className="px-8 py-6 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
           <div className="flex items-center space-x-3 mb-4">
             <Filter className="text-primary-500 dark:text-secondary-500" size={20} />
-            <span className="text-primary-500 dark:text-secondary-500 font-semibold">Filter Projects:</span>
+            <span className="text-primary-500 dark:text-secondary-500 font-semibold">{t.ui.filter}:</span>
           </div>
           <div className="flex flex-wrap gap-3">
             {filters.map((filter) => (
@@ -83,7 +83,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
         {/* Projects Grid */}
         <div className="p-8 overflow-y-auto max-h-[calc(90vh-200px)]">
           <div className="grid lg:grid-cols-2 gap-6">
-            {filteredProjects.map((project, index) => (
+            {filteredProjects.map((project) => (
               <div key={project.id} className="group">
                 <div className="card p-6 hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative overflow-hidden">
                   {/* Featured Badge */}
@@ -91,7 +91,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
                     <div className="absolute top-4 right-4">
                       <div className="flex items-center space-x-1 bg-gradient-to-r from-accent-500 to-success-500 text-white px-3 py-1 rounded-full text-xs font-medium">
                         <Star size={12} />
-                        <span>FEATURED</span>
+                        <span>{t.ui.featured}</span>
                       </div>
                     </div>
                   )}
@@ -128,7 +128,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
                   <div className="mb-4">
                     <div className="flex items-center space-x-2 mb-2">
                       <Code size={14} className="text-primary-500 dark:text-secondary-500" />
-                      <span className="font-semibold text-neutral-700 dark:text-neutral-300 text-sm">Tech Stack</span>
+                      <span className="font-semibold text-neutral-700 dark:text-neutral-300 text-sm">{t.ui.tech_stack}</span>
                     </div>
                     <div className="flex flex-wrap gap-1">
                       {project.techStack.map((tech) => (
@@ -146,7 +146,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
                   {/* Responsibilities */}
                   <div className="border-t border-neutral-200 dark:border-neutral-700 pt-4">
                     <div className="text-neutral-700 dark:text-neutral-300 font-semibold text-sm mb-2">
-                      Key Responsibilities:
+                      {t.ui.key_responsibilities}:
                     </div>
                     <div className="space-y-1">
                       {project.responsibilities.slice(0, 3).map((resp, idx) => (
@@ -157,7 +157,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
                       ))}
                       {project.responsibilities.length > 3 && (
                         <div className="text-neutral-400 dark:text-neutral-500 text-xs font-mono">
-                          +{project.responsibilities.length - 3} more responsibilities...
+                          +{project.responsibilities.length - 3} {t.ui.more_responsibilities}
                         </div>
                       )}
                     </div>
@@ -173,7 +173,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
           {filteredProjects.length === 0 && (
             <div className="text-center py-12">
               <div className="text-neutral-400 dark:text-neutral-500">
-                No projects found for the selected filter.
+                {t.ui.no_projects}
               </div>
             </div>
           )}
