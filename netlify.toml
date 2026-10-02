@@ -1,0 +1,4 @@
+[build.environment]
+  # Public IAM user id, inlined into the client bundle like every VITE_ var;
+  # not a secret, so keep Netlify's secrets scanner from failing on it.
+  SECRETS_SCAN_OMIT_KEYS = "VITE_PORTFOLIO_USER_ID"
