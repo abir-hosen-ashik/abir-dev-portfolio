@@ -23,12 +23,11 @@ export const Summery: React.FC = () => {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 fade-in-up">
           {checkList.map((item, idx) => {
-            // Example: random rating 1-5, you can replace with actual rating from your data
             const rating: number = parseInt(item[1] as any)
             return (
               <div
                 key={idx}
-                className="flex flex-col items-start space-y-2 bg-white/40 dark:bg-neutral-900/40 glass dark:glass-dark p-4 rounded-2xl shadow-card hover:shadow-glow transition"
+                className="relative flex flex-col items-start space-y-2 bg-white/40 dark:bg-neutral-900/40 glass dark:glass-dark p-4 rounded-2xl shadow-card hover:shadow-glow transition"
               >
 
                 {/* Star rating */}

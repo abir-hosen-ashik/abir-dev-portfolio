@@ -25,7 +25,7 @@ function App() {
             <Research />
             <TechStack />
             <Contact />
-            {/* <Summery/> */}
+            <Summery />
           </main>
           <Footer />
         </div>
