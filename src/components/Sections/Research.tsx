@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
-import { ArrowRight, BookOpen, Calendar, Check, ChevronDown, Code2, ExternalLink, FileText, Filter, Quote, Star, X } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { ArrowRight, BookOpen, Calendar, Check, Code2, ExternalLink, FileText, Filter, Quote, Star, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Publication } from '../../types';
 import FormattedStringParser from '../UI/FormatedStringParser';
@@ -41,6 +42,64 @@ const LinkButton: React.FC<{ href: string; icon: React.ReactNode; label: string 
     <span>{label}</span>
   </a>
 );
+
+/**
+ * A paper's abstract over the page. Portalled to <body> because the cards move
+ * on hover (a transform), which would otherwise pin a fixed overlay to the card;
+ * z-[60] keeps it above the "View All" modal it can be opened from.
+ */
+const AbstractModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pub, onClose }) => {
+  const { t } = useLanguage();
+  const r = t.research;
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const overflow = document.body.style.overflow;
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = overflow;
+    };
+  }, [onClose]);
+
+  return createPortal(
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={pub.title}>
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full max-w-3xl max-h-[90vh] flex flex-col bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl overflow-hidden">
+        <div className="flex items-start justify-between gap-4 px-6 py-5 bg-gradient-to-r from-primary-500 to-secondary-500">
+          <h2 className="text-lg sm:text-xl font-bold text-white leading-snug">{pub.title}</h2>
+          <button onClick={onClose} className="p-2 -m-1 text-white hover:bg-white/20 rounded-lg transition-colors shrink-0" aria-label="Close">
+            <X size={22} />
+          </button>
+        </div>
+        <div className="p-6 overflow-y-auto">
+          {pub.authors.length > 0 && <Authors authors={pub.authors} me={t.personalInfo.nameEn} />}
+          {pub.venue && (
+            <p className="flex items-center space-x-2 text-sm italic text-neutral-500 dark:text-neutral-400 mb-5">
+              <BookOpen size={14} className="flex-shrink-0 not-italic" /><span>{pub.venue}{pub.year ? ` · ${pub.year}` : ''}</span>
+            </p>
+          )}
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-primary-500 dark:text-secondary-500 mb-2">{r.show_abstract}</h3>
+          <p style={{ textAlign: 'justify' }} className="text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300">
+            <FormattedStringParser text={pub.abstract ?? ''} />
+          </p>
+          {pub.keywords.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-6">
+              {pub.keywords.map(k => (
+                <span key={k} className="px-2 py-0.5 text-xs rounded-md bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20
+                                        text-primary-600 dark:text-secondary-400 border border-primary-200 dark:border-secondary-700">
+                  {k}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+};
 
 /** Papers shown on the page itself; the rest are behind "View All". */
 const PREVIEW_COUNT = 4;
@@ -102,17 +161,13 @@ const PublicationCard: React.FC<{ pub: Publication; index: number }> = ({ pub, i
         {pub.abstract && (
           <div className="mb-4">
             <button
-              onClick={() => setShowAbstract(v => !v)}
+              onClick={() => setShowAbstract(true)}
               className="inline-flex items-center space-x-1 text-sm font-medium text-primary-500 dark:text-secondary-500 hover:underline"
             >
-              <span>{showAbstract ? r.hide_abstract : r.show_abstract}</span>
-              <ChevronDown size={16} className={`transition-transform ${showAbstract ? 'rotate-180' : ''}`} />
+              <span>{r.show_abstract}</span>
+              <ArrowRight size={16} />
             </button>
-            {showAbstract && (
-              <p style={{ textAlign: 'justify' }} className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 border-l-2 border-primary-300 dark:border-secondary-700 pl-4">
-                <FormattedStringParser text={pub.abstract} />
-              </p>
-            )}
+            {showAbstract && <AbstractModal pub={pub} onClose={() => setShowAbstract(false)} />}
           </div>
         )}
 
