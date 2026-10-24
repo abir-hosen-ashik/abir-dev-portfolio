@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon, Globe, Code2 } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export const Header: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
 
   const navItems = [
@@ -16,6 +19,7 @@ export const Header: React.FC = () => {
     { key: 'experience', href: '#experience' },
     // The section renders nothing until a publication exists.
     ...(t.research.items.length ? [{ key: 'research', href: '#research' }] : []),
+    ...(t.articles.items.length ? [{ key: 'articles', href: '#articles' }] : []),
     { key: 'techStack', href: '#tech-stack' },
     { key: 'contact', href: '#contact' }
   ];
@@ -29,11 +33,10 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // On an article page the sections are not there: go home, which scrolls to the #section.
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (pathname !== '/') navigate(`/${href}`);
+    else document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
     setIsMenuOpen(false);
   };
 

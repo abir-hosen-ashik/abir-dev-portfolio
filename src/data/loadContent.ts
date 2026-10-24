@@ -1,5 +1,5 @@
 import { supabase, PORTFOLIO_USER_ID } from "../utils/config";
-import type { AboutAudience, AboutSection, Content, Language } from "../types";
+import type { AboutAudience, AboutSection, ArticleBlock, ArticleDetail, ArticlePost, Content, Language } from "../types";
 
 // Reads one portfolio out of the pf_ tables and shapes it per language.
 // Text may contain {years}, filled in here from the career start year.
@@ -33,6 +33,7 @@ const LABEL_GROUPS = [
   "projects", "projects.filters", "experience", "techStack",
   "contact", "contact.form", "contact.social", "summery",
   "research", "research.filters", "research.types", "research.status",
+  "articles", "articles.platforms",
 ];
 
 function labelTree(labels: Row[], lang: Language) {
@@ -70,8 +71,44 @@ const CASE_STUDY_LABELS: Record<Language, Record<string, string>> = {
   bn: { case_study: "কেস স্টাডি", challenges: "চ্যালেঞ্জ ও সমাধান", challenge: "চ্যালেঞ্জ", solution: "কীভাবে সমাধান করেছি", result: "ফলাফল" },
 };
 
-/** Case-study sections and challenges (batools 058), each pointing at a project or a publication. */
-type Details = { sections: Row[]; challenges: Row[] };
+/** Case-study sections and challenges (batools 058), each pointing at a project or a publication; posts (061). */
+type Details = { sections: Row[]; challenges: Row[]; posts: Row[] };
+
+/** Articles wording used until the owner sets their own labels (articles.*, nav.articles). */
+const ARTICLE_LABELS: Record<Language, Record<string, string>> = {
+  en: {
+    title: "Articles", subTitle: "Writing on engineering, AI and the things I build.", viewAll: "View All Articles",
+    allTitle: "All Articles", read: "Read article", open: "Open post", min_read: "min read", back: "Back to portfolio",
+    not_found: "This article could not be found.", watch: "Watch video", all: "All",
+  },
+  bn: {
+    title: "আর্টিকেল", subTitle: "ইঞ্জিনিয়ারিং, এআই এবং আমার তৈরি জিনিস নিয়ে লেখা।", viewAll: "সব আর্টিকেল দেখুন",
+    allTitle: "সব আর্টিকেল", read: "আর্টিকেল পড়ুন", open: "পোস্টটি খুলুন", min_read: "মিনিট পড়া", back: "পোর্টফোলিওতে ফিরুন",
+    not_found: "এই আর্টিকেলটি পাওয়া যায়নি।", watch: "ভিডিও দেখুন", all: "সব",
+  },
+};
+const PLATFORM_LABELS: Record<string, string> = {
+  native: "Article", medium: "Medium", linkedin: "LinkedIn", x: "X", facebook: "Facebook",
+  instagram: "Instagram", youtube: "YouTube", website: "Website", other: "Other",
+};
+
+/** A pf_posts row in the reader's language. */
+function postOf(p: Row, lang: Language): ArticlePost {
+  const tr = (f: string) => (lang === "bn" && p[`${f}_bn`]) || p[`${f}_en`] || "";
+  return {
+    id: p.id,
+    kind: p.kind,
+    platform: p.kind === "article" ? "native" : p.platform,
+    href: p.kind === "article" ? `/articles/${p.slug}` : p.external_url,
+    title: tr("title"),
+    summary: tr("summary"),
+    cover: p.cover_url ?? undefined,
+    tags: p.tags ?? [],
+    date: p.published_at ?? undefined,
+    readingMinutes: p.reading_minutes ?? undefined,
+    featured: !!p.is_featured,
+  };
+}
 
 function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTable, Row[]>, details: Details): Content {
   // Bangla falls back to English wherever a translation is left empty.
@@ -111,7 +148,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
 
   const content: Content = {
     years,
-    nav: l.nav,
+    nav: { articles: ARTICLE_LABELS[lang].title, ...l.nav },
     ui: { ...UI_DEFAULTS[lang], ...l.ui },
     personalInfo: {
       name: tr(profile, "name"),
@@ -123,6 +160,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       medium: profile.medium ?? undefined,
       youtube: profile.youtube ?? undefined,
       facebook: profile.facebook ?? undefined,
+      instagram: profile.instagram ?? undefined,
       x: profile.x ?? undefined,
       gitlab: profile.gitlab ?? undefined,
       kaggle: profile.kaggle ?? undefined,
@@ -183,6 +221,15 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       ...l.techStack,
       categories: lists.pf_tech_categories.map(c => ({ id: c.id, title: tr(c, "title"), icon: c.icon, skills: c.skills ?? [] })),
     },
+    articles: {
+      ...ARTICLE_LABELS[lang],
+      ...l.articles,
+      platforms: { ...PLATFORM_LABELS, ...l.articles.platforms },
+      // Featured first; otherwise the order set in batools.
+      items: [...details.posts]
+        .sort((a, b) => Number(b.is_featured) - Number(a.is_featured))
+        .map(p => postOf(p, lang)),
+    },
     research: {
       ...l.research,
       // Featured papers lead; otherwise the order set in the editor.
@@ -218,15 +265,22 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
 }
 
 export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<Language, Content>> {
-  // Case-study details are optional extras: if their tables are missing (batools
-  // migration 058 not run yet) or a read fails, items simply show without them.
-  const detailsReq = (table: string) => supabase.from(table).select("*")
-    .eq("user_id", userId).eq("is_visible", true).order("sort_order")
-    .then(({ data, error }) => {
+  // Case studies (058) and articles (061) are optional extras: if their tables
+  // are missing or a read fails, the rest of the portfolio shows without them.
+  const detailsReq = (table: string, publishedOnly = false) => {
+    let query = supabase.from(table).select("*").eq("user_id", userId).eq("is_visible", true);
+    if (publishedOnly) query = query.eq("status", "published");
+    return query.order("sort_order").then(({ data, error }) => {
       if (error) console.warn(`${table} unavailable`, error.message);
       return (data ?? []) as Row[];
     });
-  const detailsPromise = Promise.all([detailsReq("pf_case_study_sections"), detailsReq("pf_challenges")]);
+  };
+  const detailsPromise = Promise.all([
+    detailsReq("pf_case_study_sections"),
+    detailsReq("pf_challenges"),
+    // Articles (061): published posts only; drafts never leave batools.
+    detailsReq("pf_posts", true),
+  ]);
   const [profileRes, labelsRes, ...listRes] = await Promise.all([
     supabase.from("pf_profile").select("*").eq("user_id", userId).maybeSingle(),
     supabase.from("pf_labels").select("key, value_en, value_bn").eq("user_id", userId),
@@ -241,10 +295,39 @@ export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<La
 
   const lists = Object.fromEntries(LIST_TABLES.map((t, i) => [t, listRes[i].data ?? []])) as Record<ListTable, Row[]>;
   const labels = labelsRes.data ?? [];
-  const [sections, challenges] = await detailsPromise;
-  const details = { sections, challenges };
+  const [sections, challenges, posts] = await detailsPromise;
+  const details = { sections, challenges, posts };
   return {
     en: build("en", profileRes.data, labels, lists, details),
     bn: build("bn", profileRes.data, labels, lists, details),
   };
+}
+
+/**
+ * One native article and its visible blocks, in the reader's language, or
+ * null when there is no published article at that address.
+ */
+export async function loadArticle(slug: string, lang: Language, userId = PORTFOLIO_USER_ID): Promise<ArticleDetail | null> {
+  const { data: post, error } = await supabase.from("pf_posts").select("*")
+    .eq("user_id", userId).eq("kind", "article").eq("slug", slug)
+    .eq("status", "published").eq("is_visible", true).maybeSingle();
+  if (error) throw error;
+  if (!post) return null;
+  const { data: rows, error: blocksError } = await supabase.from("pf_post_blocks").select("*")
+    .eq("post_id", post.id).eq("is_visible", true).order("sort_order");
+  if (blocksError) throw blocksError;
+  const tr = (r: Row, f: string) => (lang === "bn" && r[`${f}_bn`]) || r[`${f}_en`] || "";
+  const blocks: ArticleBlock[] = (rows ?? []).map((b: Row) => ({
+    id: b.id,
+    kind: b.kind,
+    text: tr(b, "text"),
+    mediaUrl: b.media_url ?? undefined,
+    alt: b.alt_en ?? undefined,
+    caption: tr(b, "caption"),
+    linkUrl: b.link_url ?? undefined,
+    thumbnailUrl: b.thumbnail_url ?? undefined,
+    code: b.code ?? undefined,
+    codeLanguage: b.code_language ?? undefined,
+  }));
+  return { post: postOf(post, lang), blocks };
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Heart, Code2, ArrowUp, Github, Linkedin } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { Link } from 'react-router-dom';
 
 export const Footer: React.FC = () => {
   const { t } = useLanguage();
@@ -32,18 +33,18 @@ export const Footer: React.FC = () => {
 
           {/* Links */}
           <div className="flex flex-wrap justify-center gap-8 text-sm">
-            <a href="#home" className="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-secondary-500 transition-colors">
+            <Link to="/#home" className="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-secondary-500 transition-colors">
               {t.nav.home}
-            </a>
-            <a href="#about" className="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-secondary-500 transition-colors">
+            </Link>
+            <Link to="/#about" className="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-secondary-500 transition-colors">
               {t.nav.about}
-            </a>
-            <a href="#projects" className="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-secondary-500 transition-colors">
+            </Link>
+            <Link to="/#projects" className="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-secondary-500 transition-colors">
               {t.nav.projects}
-            </a>
-            <a href="#contact" className="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-secondary-500 transition-colors">
+            </Link>
+            <Link to="/#contact" className="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-secondary-500 transition-colors">
               {t.nav.contact}
-            </a>
+            </Link>
           </div>
 
           {/* Social Links */}

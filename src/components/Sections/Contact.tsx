@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Github, Linkedin, Send, Copy, Check, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, Send, Copy, Check, MessageCircle, BookOpen, Youtube, Facebook, Instagram, Twitter } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { insertMessage } from '../../utils/supabase';
 import Notification, { NotificationType } from '../UI/Notification';
@@ -81,6 +81,14 @@ export const Contact: React.FC = () => {
       username: t.personalInfo.linkedin,
       color: 'from-info-500 to-info-600'
     },
+    // The rest show only when their handle is set in batools (Portfolio → Profile).
+    ...[
+      { name: 'Medium', handle: t.personalInfo.medium, url: (h: string) => `https://medium.com/@${h.replace(/^@/, '')}`, icon: <BookOpen size={20} />, color: 'from-neutral-700 to-neutral-900' },
+      { name: 'YouTube', handle: t.personalInfo.youtube, url: (h: string) => `https://youtube.com/@${h.replace(/^@/, '')}`, icon: <Youtube size={20} />, color: 'from-danger-500 to-danger-600' },
+      { name: 'Facebook', handle: t.personalInfo.facebook, url: (h: string) => `https://facebook.com/${h}`, icon: <Facebook size={20} />, color: 'from-info-500 to-primary-600' },
+      { name: 'Instagram', handle: t.personalInfo.instagram, url: (h: string) => `https://instagram.com/${h.replace(/^@/, '')}`, icon: <Instagram size={20} />, color: 'from-accent-500 to-secondary-500' },
+      { name: 'X', handle: t.personalInfo.x, url: (h: string) => `https://x.com/${h.replace(/^@/, '')}`, icon: <Twitter size={20} />, color: 'from-neutral-800 to-neutral-900' },
+    ].filter(s => s.handle).map(s => ({ name: s.name, url: s.url(s.handle!), icon: s.icon, username: s.handle!, color: s.color })),
     // {
     //   name: 'GitLab',
     //   url: `https://gitlab.com/${t.personalInfo.gitlab}`,

@@ -2,3 +2,10 @@
   # Public IAM user id, inlined into the client bundle like every VITE_ var;
   # not a secret, so keep Netlify's secrets scanner from failing on it.
   SECRETS_SCAN_OMIT_KEYS = "VITE_PORTFOLIO_USER_ID"
+
+# Articles have their own address (/articles/<slug>); the app handles every
+# path, so a direct visit or refresh must get index.html, not a 404.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

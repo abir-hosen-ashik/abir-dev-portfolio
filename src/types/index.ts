@@ -17,6 +17,40 @@ export interface CaseStudy {
   challenges: ProjectChallenge[];
 }
 
+/** A post on the Articles section: written elsewhere (opens there) or here (its own page). */
+export interface ArticlePost {
+  id: string;
+  kind: 'external' | 'article';
+  /** native, medium, linkedin, x, facebook, instagram, youtube, website, other */
+  platform: string;
+  /** external: the original post; article: /articles/<slug> */
+  href: string;
+  title: string;
+  summary: string;
+  cover?: string;
+  tags: string[];
+  date?: string;
+  readingMinutes?: number;
+  featured: boolean;
+}
+
+/** One block of an article's body, already in the reader's language. */
+export interface ArticleBlock {
+  id: string;
+  kind: 'text' | 'heading' | 'image' | 'video' | 'quote' | 'code' | 'link' | 'divider';
+  text: string;
+  mediaUrl?: string;
+  alt?: string;
+  caption: string;
+  linkUrl?: string;
+  thumbnailUrl?: string;
+  code?: string;
+  codeLanguage?: string;
+}
+
+/** A native article with its body, for its own page. */
+export interface ArticleDetail { post: ArticlePost; blocks: ArticleBlock[] }
+
 export interface Project {
   id: string;
   title: string;
@@ -50,6 +84,7 @@ export interface PersonalInfo {
   medium?: string;
   youtube?: string;
   facebook?: string;
+  instagram?: string;
   x?: string;
   gitlab?: string;
   kaggle?: string;
@@ -129,6 +164,7 @@ export interface Content {
   experience: Group & { items: Experience[] };
   techStack: Group & { categories: TechCategory[] };
   research: Group & { filters: Group; types: Group; status: Group; items: Publication[] };
+  articles: Group & { platforms: Group; items: ArticlePost[] };
   contact: Group & { form: Group; social: Group };
   summery: Group & { check_list: { list: [string, number][] } };
 }
