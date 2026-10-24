@@ -59,10 +59,16 @@ function fillYears<T>(value: T, years: string): T {
   return value;
 }
 
-/** Detail-view wording used until the owner sets their own labels (ui.back, ui.view_details). */
+/** Detail-view and Tech Stack wording used until the owner sets their own labels (ui.*). */
 const UI_DEFAULTS: Record<Language, Record<string, string>> = {
-  en: { back: "Back", view_details: "View details" },
-  bn: { back: "ফিরে যান", view_details: "বিস্তারিত দেখুন" },
+  en: {
+    back: "Back", view_details: "View details",
+    projects_count: "{n} projects", projects_count_one: "1 project", most_used: "Most used in my projects", used_in: "Used in",
+  },
+  bn: {
+    back: "ফিরে যান", view_details: "বিস্তারিত দেখুন",
+    projects_count: "{n}টি প্রকল্প", projects_count_one: "১টি প্রকল্প", most_used: "আমার প্রকল্পে সবচেয়ে বেশি ব্যবহৃত", used_in: "যেখানে ব্যবহৃত",
+  },
 };
 
 /** Case-study wording used until the owner sets their own labels (projects.case_study, …). */
