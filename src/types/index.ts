@@ -32,6 +32,8 @@ export interface ArticlePost {
   date?: string;
   readingMinutes?: number;
   featured: boolean;
+  /** Listed on the home page (batools show_on_home); View all lists everything. */
+  onHome: boolean;
 }
 
 /** One block of an article's body, already in the reader's language. */
@@ -61,6 +63,8 @@ export interface Project {
   link?: string;
   featured?: boolean;
   caseStudy?: CaseStudy;
+  /** Listed on the home page (batools show_on_home); View all lists everything. */
+  onHome: boolean;
 }
 
 export interface Experience {
@@ -71,6 +75,8 @@ export interface Experience {
   duration: string;
   responsibilities: string[];
   current: boolean;
+  /** Listed on the home page (batools show_on_home); View all lists everything. */
+  onHome: boolean;
 }
 
 export interface PersonalInfo {
@@ -140,6 +146,8 @@ export interface Publication {
   citation?: string;
   featured: boolean;
   caseStudy?: CaseStudy;
+  /** Listed on the home page (batools show_on_home); View all lists everything. */
+  onHome: boolean;
 }
 
 /** Labels (pf_labels) of one group, e.g. `nav` or `contact.form`. */

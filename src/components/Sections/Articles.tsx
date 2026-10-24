@@ -125,14 +125,14 @@ const ArticlesModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
   );
 };
 
-/** Posts shown on the page itself; the rest are behind "View All". */
-const PREVIEW_COUNT = 3;
 
 export const Articles: React.FC = () => {
   const { t } = useLanguage();
   const a = t.articles;
   const [showAll, setShowAll] = useState(false);
   if (a.items.length === 0) return null;
+  // The home page lists the posts marked "show on home"; View all lists every post.
+  const home = a.items.filter(p => p.onHome);
 
   return (
     <section id="articles" className="section-padding">
@@ -144,10 +144,10 @@ export const Articles: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {a.items.slice(0, PREVIEW_COUNT).map(post => <ArticleCard key={post.id} post={post} />)}
+          {home.map(post => <ArticleCard key={post.id} post={post} />)}
         </div>
 
-        {a.items.length > PREVIEW_COUNT && (
+        {a.items.length > home.length && (
           <div className="text-center mt-12 fade-in-up">
             <button onClick={() => setShowAll(true)} className="inline-flex btn-secondary group">
               <span>{a.viewAll}</span>

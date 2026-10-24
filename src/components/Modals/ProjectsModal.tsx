@@ -1,9 +1,10 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { ArrowLeft, Calendar, Code, ExternalLink, Filter, Lightbulb, X, Star } from 'lucide-react';
+import { ArrowLeft, Calendar, Code, ExternalLink, Filter, Lightbulb, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Project } from '../../types';
 import { CaseStudyContent } from './CaseStudyContent';
 import RichText from '../UI/RichText';
+import { ProjectKindTag } from '../UI/ProjectKindTag';
 
 interface ProjectsModalProps {
   isOpen: boolean;
@@ -35,11 +36,7 @@ const ProjectDetails: React.FC<{ project: Project }> = ({ project }) => {
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex flex-wrap items-center gap-3 text-sm text-neutral-500 dark:text-neutral-400">
         <span className="inline-flex items-center gap-1.5"><Calendar size={14} /><span className="font-mono">{project.duration}</span></span>
-        {project.featured && (
-          <span className="inline-flex items-center gap-1 bg-gradient-to-r from-accent-500 to-success-500 text-white px-2.5 py-0.5 rounded-full text-xs font-medium">
-            <Star size={12} />{t.ui.featured}
-          </span>
-        )}
+        <ProjectKindTag featured={project.featured} />
         {project.link && (
           <a href={project.link} target="_blank" rel="noopener noreferrer"
              className="inline-flex items-center gap-1.5 text-primary-500 dark:text-secondary-500 hover:underline font-medium">
@@ -121,8 +118,8 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose, i
 
   const filters = [
     { key: 'all', label: t.projects.filters?.all || 'All Projects', count: allProjects.length },
-    { key: 'featured', label: t.projects.filters?.featured || 'Featured', count: allProjects.filter(p => p.featured).length },
-    { key: 'main', label: t.projects.filters?.main || 'Main Projects', count: allProjects.filter(p => !p.featured).length }
+    { key: 'featured', label: t.projects.kind_feature, count: allProjects.filter(p => p.featured).length },
+    { key: 'main', label: t.projects.kind_enterprise, count: allProjects.filter(p => !p.featured).length }
   ];
 
   const open = (id: string) => {
@@ -202,15 +199,10 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose, i
                       className="card p-6 h-full cursor-pointer hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative overflow-hidden
                                  focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
                     >
-                      {/* Featured Badge */}
-                      {project.featured && (
-                        <div className="absolute top-4 right-4">
-                          <div className="flex items-center space-x-1 bg-gradient-to-r from-accent-500 to-success-500 text-white px-3 py-1 rounded-full text-xs font-medium">
-                            <Star size={12} />
-                            <span>{t.ui.featured}</span>
-                          </div>
-                        </div>
-                      )}
+                      {/* Feature project / enterprise grade */}
+                      <div className="absolute top-4 right-4">
+                        <ProjectKindTag featured={project.featured} />
+                      </div>
 
                       {/* Project Header */}
                       <div className="flex items-start justify-between mb-4 pr-24">

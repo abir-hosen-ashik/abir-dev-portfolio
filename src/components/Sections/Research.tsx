@@ -157,8 +157,6 @@ const PaperModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pub, 
   );
 };
 
-/** Papers shown on the page itself; the rest are behind "View All". */
-const PREVIEW_COUNT = 4;
 
 const PublicationCard: React.FC<{ pub: Publication; index: number }> = ({ pub, index }) => {
   const { t } = useLanguage();
@@ -329,8 +327,9 @@ export const Research: React.FC = () => {
 
   if (r.items.length === 0) return null;
   const filtered = byType(r.items, filter);
-  // Items arrive featured-first, so the preview is the strongest work.
-  const preview = filtered.slice(0, PREVIEW_COUNT);
+  // The home page lists the papers marked "show on home" (featured first);
+  // View all lists every paper.
+  const preview = filtered.filter(p => p.onHome);
 
   return (
     <>
@@ -350,7 +349,7 @@ export const Research: React.FC = () => {
             {preview.map((pub, i) => <PublicationCard key={pub.id} pub={pub} index={i} />)}
           </div>
 
-          {filtered.length > PREVIEW_COUNT && (
+          {filtered.length > preview.length && (
             <div className="text-center mt-12 fade-in-up">
               <button onClick={() => setShowAll(true)} className="inline-flex btn-secondary group">
                 <span>{r.viewAll || r.allTitle || r.title}</span>

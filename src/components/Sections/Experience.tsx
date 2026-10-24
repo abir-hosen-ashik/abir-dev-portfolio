@@ -9,6 +9,8 @@ export const Experience: React.FC = () => {
   /** A card clicked on the page: the modal opens on its details. */
   const [openId, setOpenId] = useState<string | null>(null);
   const openExperience = (id: string | null) => { setOpenId(id); setShowAllExperience(true); };
+  // The home page lists the jobs marked "show on home"; View all lists every job.
+  const homeItems = t.experience.items.filter(e => e.onHome);
 
   return (
     <>
@@ -26,10 +28,10 @@ export const Experience: React.FC = () => {
 
           <div className="max-w-4xl mx-auto">
             <div className="space-y-8">
-              {t.experience.items.map((exp, index) => (
+              {homeItems.map((exp, index) => (
                 <div key={exp.id} className={`relative fade-in-${index % 2 === 0 ? 'left' : 'right'}`}>
                   {/* Timeline Line */}
-                  {index < t.experience.items.length - 1 && (
+                  {index < homeItems.length - 1 && (
                     <div className="absolute left-8 top-24 w-0.5 h-32 bg-gradient-to-b from-primary-500 to-secondary-500 opacity-30"></div>
                   )}
                   

@@ -67,8 +67,8 @@ const UI_DEFAULTS: Record<Language, Record<string, string>> = {
 
 /** Case-study wording used until the owner sets their own labels (projects.case_study, …). */
 const CASE_STUDY_LABELS: Record<Language, Record<string, string>> = {
-  en: { case_study: "Case study", challenges: "Challenges & solutions", challenge: "Challenge", solution: "How I solved it", result: "Result" },
-  bn: { case_study: "কেস স্টাডি", challenges: "চ্যালেঞ্জ ও সমাধান", challenge: "চ্যালেঞ্জ", solution: "কীভাবে সমাধান করেছি", result: "ফলাফল" },
+  en: { kind_feature: "Feature project", kind_enterprise: "Enterprise grade", case_study: "Case study", challenges: "Challenges & solutions", challenge: "Challenge", solution: "How I solved it", result: "Result" },
+  bn: { kind_feature: "ফিচার প্রকল্প", kind_enterprise: "এন্টারপ্রাইজ গ্রেড", case_study: "কেস স্টাডি", challenges: "চ্যালেঞ্জ ও সমাধান", challenge: "চ্যালেঞ্জ", solution: "কীভাবে সমাধান করেছি", result: "ফলাফল" },
 };
 
 /** Case-study sections and challenges (batools 058), each pointing at a project or a publication; posts (061). */
@@ -107,6 +107,7 @@ function postOf(p: Row, lang: Language): ArticlePost {
     date: p.published_at ?? undefined,
     readingMinutes: p.reading_minutes ?? undefined,
     featured: !!p.is_featured,
+    onHome: p.show_on_home ?? true,
   };
 }
 
@@ -203,6 +204,8 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
         link: p.link ?? undefined,
         featured: p.is_featured,
         caseStudy: caseStudyOf(p, "project_id"),
+        // Before batools 062 the home page showed the featured projects.
+        onHome: p.show_on_home ?? !!p.is_featured,
       })),
     },
     experience: {
@@ -215,6 +218,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
         duration: tr(e, "duration"),
         responsibilities: trList(e, "responsibilities"),
         current: e.is_current,
+        onHome: e.show_on_home ?? true,
       })),
     },
     techStack: {
@@ -253,6 +257,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
           citation: p.citation ?? undefined,
           featured: p.is_featured,
           caseStudy: caseStudyOf(p, "publication_id"),
+          onHome: p.show_on_home ?? true,
         })),
     },
     contact: l.contact,

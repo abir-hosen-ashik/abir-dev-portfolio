@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ExternalLink, Github, Calendar, Code, Star, ArrowRight, Lightbulb } from 'lucide-react';
+import { ExternalLink, Calendar, Code, ArrowRight, Lightbulb } from 'lucide-react';
 import { ProjectsModal } from '../Modals/ProjectsModal';
 import RichText from '../UI/RichText';
+import { ProjectKindTag } from '../UI/ProjectKindTag';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const Projects: React.FC = () => {
@@ -11,7 +12,7 @@ export const Projects: React.FC = () => {
   const [openId, setOpenId] = useState<string | null>(null);
   const openProject = (id: string | null) => { setOpenId(id); setShowAllProjects(true); };
 
-  const featuredProjects = t.projects.items.filter(project => project.featured);
+  const homeProjects = t.projects.items.filter(project => project.onHome);
 
   return (
     <>
@@ -28,7 +29,7 @@ export const Projects: React.FC = () => {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
-            {featuredProjects.map((project, index) => (
+            {homeProjects.map((project, index) => (
               <div key={project.id} className={`group fade-in-${index % 2 === 0 ? 'left' : 'right'}`}>
                 <div
                   role="button"
@@ -38,12 +39,9 @@ export const Projects: React.FC = () => {
                   className="card p-8 h-full cursor-pointer hover:shadow-glow transition-all duration-500 hover:-translate-y-2 relative overflow-hidden
                              focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
                 >
-                  {/* Featured Badge */}
+                  {/* Feature project / enterprise grade */}
                   <div className="absolute top-4 right-4">
-                    <div className="flex items-center space-x-1 bg-gradient-to-r from-accent-500 to-success-500 text-white px-3 py-1 rounded-full text-xs font-medium">
-                      <Star size={12} />
-                      <span>{t.ui.featured}</span>
-                    </div>
+                    <ProjectKindTag featured={project.featured} />
                   </div>
 
                   {/* Project Header */}
