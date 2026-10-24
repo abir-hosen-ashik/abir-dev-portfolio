@@ -1,16 +1,13 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Calendar, Clock, Facebook, Filter, Globe, Instagram, Linkedin, Newspaper, Star, Twitter, X, Youtube } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BookOpen, Calendar, Clock, Facebook, Filter, Globe, Instagram, Linkedin, Newspaper, Star, Twitter, X, Youtube } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { loadArticle } from '../../data/loadContent';
-import { ArticleBlock, ArticlePost } from '../../types';
-import { ArticleBody } from '../Articles/ArticleBody';
+import { ArticlePost } from '../../types';
 
-// Articles, like Projects: the home page lists the posts marked for it, "View
-// all" opens every post with platform filters and counts, and clicking any
-// card shows that post's details in the same popup (Back returns to the list).
-// An article written here shows its whole body there, with a link to its own
-// page; a post from elsewhere links out to the original.
+// Articles: the home page lists the posts marked for it, and "View all" opens
+// every post with platform filters and counts. A card goes straight to the
+// post: an article written here opens its page, one from elsewhere opens the
+// original in a new tab.
 
 const PLATFORM_ICONS: Record<string, React.ReactNode> = {
   native: <BookOpen size={13} />, medium: <BookOpen size={13} />, linkedin: <Linkedin size={13} />, x: <Twitter size={13} />,
@@ -36,28 +33,12 @@ const Meta: React.FC<{ post: ArticlePost; className?: string }> = ({ post, class
   );
 };
 
-const Tags: React.FC<{ tags: string[] }> = ({ tags }) => (
-  <div className="flex flex-wrap gap-1.5">
-    {tags.map(tag => (
-      <span key={tag} className="px-2 py-0.5 text-xs rounded-md bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 text-primary-600 dark:text-secondary-400 border border-primary-200 dark:border-secondary-700">
-        {tag}
-      </span>
-    ))}
-  </div>
-);
-
-/** Card for one post; clicking it opens the post's details. */
-const ArticleCard: React.FC<{ post: ArticlePost; onOpen: (id: string) => void; compact?: boolean }> = ({ post, onOpen, compact }) => {
+/** Card for one post: a link straight to it (an article's page, or the original post in a new tab). */
+const ArticleCard: React.FC<{ post: ArticlePost; compact?: boolean }> = ({ post, compact }) => {
   const { t } = useLanguage();
-  return (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={() => onOpen(post.id)}
-      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(post.id); } }}
-      className="group card h-full flex flex-col overflow-hidden cursor-pointer hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative
-                 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
-    >
+  const a = t.articles;
+  const body = (
+    <div className="card h-full flex flex-col overflow-hidden hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative">
       {post.cover ? (
         <div className={`${compact ? 'h-36' : 'h-44'} bg-neutral-100 dark:bg-neutral-800 overflow-hidden`}>
           <img src={post.cover} alt="" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -82,94 +63,36 @@ const ArticleCard: React.FC<{ post: ArticlePost; onOpen: (id: string) => void; c
         {post.summary && <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-3 mb-4">{post.summary}</p>}
         <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-neutral-200 dark:border-neutral-700 text-xs text-neutral-500 dark:text-neutral-400">
           <Meta post={post} />
-          <span className="inline-flex items-center gap-1 font-medium text-primary-500 dark:text-secondary-500">{t.ui.view_details}<ArrowRight size={13} /></span>
+          <span className="inline-flex items-center gap-1 font-medium text-primary-500 dark:text-secondary-500">
+            {post.kind === 'article' ? <>{a.read}<ArrowRight size={13} /></> : <>{a.open}<ArrowUpRight size={13} /></>}
+          </span>
         </div>
       </div>
     </div>
   );
+  const linkClass = 'group block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 rounded-2xl';
+  return post.kind === 'article'
+    ? <Link to={post.href} className={linkClass}>{body}</Link>
+    : <a href={post.href} target="_blank" rel="noopener noreferrer" className={linkClass}>{body}</a>;
 };
 
-/** Everything about one post. Articles load and show their whole body. */
-const ArticleDetails: React.FC<{ post: ArticlePost }> = ({ post }) => {
-  const { t, language } = useLanguage();
-  const a = t.articles;
-  const [blocks, setBlocks] = useState<ArticleBlock[] | null | undefined>(post.kind === 'article' ? undefined : null);
-
-  useEffect(() => {
-    if (post.kind !== 'article' || !post.slug) return;
-    let live = true;
-    loadArticle(post.slug, language)
-      .then(r => { if (live) setBlocks(r?.blocks ?? []); })
-      .catch(() => { if (live) setBlocks([]); });
-    return () => { live = false; };
-  }, [post, language]);
-
-  const platformName = a.platforms[post.platform] ?? post.platform;
-  const action = post.kind === 'article' ? (
-    <Link to={post.href} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-primary-500 to-secondary-500 hover:shadow-glow">
-      {a.full_page}<ArrowUpRight size={15} />
-    </Link>
-  ) : (
-    <a href={post.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-primary-500 to-secondary-500 hover:shadow-glow">
-      {a.open_on.replace('{platform}', platformName)}<ArrowUpRight size={15} />
-    </a>
-  );
-
-  return (
-    <div className="max-w-3xl mx-auto space-y-6">
-      <div className="flex flex-wrap items-center gap-3 text-sm text-neutral-500 dark:text-neutral-400">
-        <PlatformBadge platform={post.platform} />
-        <Meta post={post} />
-      </div>
-      {post.cover && <img src={post.cover} alt="" className="w-full max-h-80 object-cover rounded-xl border border-neutral-200 dark:border-neutral-700" />}
-      {post.summary && <p className="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">{post.summary}</p>}
-      {post.tags.length > 0 && <Tags tags={post.tags} />}
-      <div>{action}</div>
-      {post.kind === 'article' && (
-        <div className="pt-6 border-t border-neutral-200 dark:border-neutral-700">
-          {blocks === undefined ? <p className="text-neutral-500">{a.loading}</p> : blocks && <ArticleBody blocks={blocks} />}
-        </div>
-      )}
-    </div>
-  );
-};
-
-/** Every post with platform filters and counts; a card shows its details in place. */
-const ArticlesModal: React.FC<{ isOpen: boolean; onClose: () => void; initialId?: string | null }> = ({ isOpen, onClose, initialId }) => {
+/** Every post with platform filters and counts — the "View all" counterpart of the section. */
+const ArticlesModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   const { t } = useLanguage();
   const a = t.articles;
   const [platform, setPlatform] = useState('all');
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const body = useRef<HTMLDivElement>(null);
-  const listScroll = useRef(0);
-
-  // Each opening starts on the clicked post (if any) or the list.
-  useEffect(() => {
-    if (isOpen) { setSelectedId(initialId ?? null); listScroll.current = 0; }
-  }, [isOpen, initialId]);
-
-  // Details start at the top; the list comes back where it was.
-  useLayoutEffect(() => {
-    if (body.current) body.current.scrollTop = selectedId ? 0 : listScroll.current;
-  }, [selectedId]);
 
   useEffect(() => {
     if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
-      if (selectedId) setSelectedId(null); else onClose();
-    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [isOpen, selectedId, onClose]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
   const items = a.items;
-  const selected = items.find(p => p.id === selectedId) ?? null;
   const platforms = [...new Set(items.map(p => p.platform))];
   const shown = platform === 'all' ? items : items.filter(p => p.platform === platform);
-  const open = (id: string) => { listScroll.current = body.current?.scrollTop ?? 0; setSelectedId(id); };
-
   const chip = (key: string, label: string, count: number) => (
     <button
       key={key}
@@ -190,36 +113,20 @@ const ArticlesModal: React.FC<{ isOpen: boolean; onClose: () => void; initialId?
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-7xl max-h-[90vh] flex flex-col bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl overflow-hidden">
         <div className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-primary-500 to-secondary-500 shrink-0">
-          {selected && (
-            <button
-              onClick={() => setSelectedId(null)}
-              className="inline-flex items-center gap-1.5 pl-2 pr-3 py-1.5 text-sm font-medium text-white bg-white/15 hover:bg-white/25 rounded-lg transition-colors shrink-0"
-            >
-              <ArrowLeft size={16} />{t.ui.back}
-            </button>
-          )}
-          <h2 className="flex-1 min-w-0 text-lg sm:text-xl font-bold text-white truncate">{selected ? selected.title : a.allTitle}</h2>
+          <h2 className="flex-1 min-w-0 text-lg sm:text-xl font-bold text-white truncate">{a.allTitle}</h2>
           <button onClick={onClose} className="p-2 text-white hover:bg-white/20 rounded-lg transition-colors shrink-0" aria-label="Close"><X size={22} /></button>
         </div>
-
-        {!selected && (
-          <div className="px-6 py-3 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700 shrink-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 mr-1 text-sm text-primary-500 dark:text-secondary-500 font-semibold"><Filter size={15} />{t.ui.filter}:</span>
-              {chip('all', a.all, items.length)}
-              {platforms.map(p => chip(p, a.platforms[p] ?? p, items.filter(i => i.platform === p).length))}
-            </div>
+        <div className="px-6 py-3 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700 shrink-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 mr-1 text-sm text-primary-500 dark:text-secondary-500 font-semibold"><Filter size={15} />{t.ui.filter}:</span>
+            {chip('all', a.all, items.length)}
+            {platforms.map(p => chip(p, a.platforms[p] ?? p, items.filter(i => i.platform === p).length))}
           </div>
-        )}
-
-        <div ref={body} className="p-6 overflow-y-auto">
-          {selected ? (
-            <ArticleDetails post={selected} />
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {shown.map(post => <ArticleCard key={post.id} post={post} onOpen={open} compact />)}
-            </div>
-          )}
+        </div>
+        <div className="p-6 overflow-y-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {shown.map(post => <ArticleCard key={post.id} post={post} compact />)}
+          </div>
         </div>
       </div>
     </div>
@@ -230,12 +137,9 @@ export const Articles: React.FC = () => {
   const { t } = useLanguage();
   const a = t.articles;
   const [showAll, setShowAll] = useState(false);
-  /** A card clicked on the page: the popup opens on its details. */
-  const [openId, setOpenId] = useState<string | null>(null);
   if (a.items.length === 0) return null;
   // The home page lists the posts marked "show on home"; View all lists every post.
   const home = a.items.filter(p => p.onHome);
-  const openPost = (id: string | null) => { setOpenId(id); setShowAll(true); };
 
   return (
     <section id="articles" className="section-padding">
@@ -247,17 +151,17 @@ export const Articles: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {home.map(post => <ArticleCard key={post.id} post={post} onOpen={openPost} />)}
+          {home.map(post => <ArticleCard key={post.id} post={post} />)}
         </div>
 
         <div className="text-center mt-12 fade-in-up">
-          <button onClick={() => openPost(null)} className="inline-flex btn-secondary group">
+          <button onClick={() => setShowAll(true)} className="inline-flex btn-secondary group">
             <span>{a.viewAll}</span>
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform px-1 w-10" />
           </button>
         </div>
       </div>
-      <ArticlesModal isOpen={showAll} initialId={openId} onClose={() => setShowAll(false)} />
+      <ArticlesModal isOpen={showAll} onClose={() => setShowAll(false)} />
     </section>
   );
 };

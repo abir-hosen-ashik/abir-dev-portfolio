@@ -25,8 +25,6 @@ export interface ArticlePost {
   platform: string;
   /** external: the original post; article: /articles/<slug> */
   href: string;
-  /** article only: its address */
-  slug?: string;
   title: string;
   summary: string;
   cover?: string;
