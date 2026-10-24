@@ -80,13 +80,17 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
   const trList = (row: Row, field: string): string[] =>
     lang === "bn" && row[`${field}_bn`]?.length ? row[`${field}_bn`] : row[`${field}_en`] ?? [];
 
-  // Shown only while the parent's master switch is on; hidden items were filtered out when read.
+  // Shown only while the parent's master switch (and the site-wide one) is on;
+  // hidden items were filtered out when read.
+  // Site-wide switches on the profile (batools 059); a missing column counts as on.
+  const showSections = profile.show_case_studies !== false;
+  const showChallenges = profile.show_challenges !== false;
   const caseStudyOf = (parent: Row, column: "project_id" | "publication_id") => {
     if (!parent.show_case_study) return undefined;
-    const sections = details.sections
+    const sections = (showSections ? details.sections : [])
       .filter(s => s[column] === parent.id)
       .map(s => ({ heading: tr(s, "heading"), body: tr(s, "body") }));
-    const challenges = details.challenges
+    const challenges = (showChallenges ? details.challenges : [])
       .filter(c => c[column] === parent.id)
       .map(c => ({ challenge: tr(c, "challenge"), solution: tr(c, "solution"), result: tr(c, "result") }));
     return sections.length || challenges.length ? { sections, challenges } : undefined;
