@@ -66,24 +66,30 @@ const UI_DEFAULTS: Record<Language, Record<string, string>> = {
 
 /** Case-study wording used until the owner sets their own labels (projects.case_study, …). */
 const CASE_STUDY_LABELS: Record<Language, Record<string, string>> = {
-  en: { case_study: "Challenges & solutions", overview: "Overview", challenge: "Challenge", solution: "How I solved it", result: "Result" },
-  bn: { case_study: "চ্যালেঞ্জ ও সমাধান", overview: "বিস্তারিত", challenge: "চ্যালেঞ্জ", solution: "কীভাবে সমাধান করেছি", result: "ফলাফল" },
+  en: { case_study: "Case study", challenges: "Challenges & solutions", challenge: "Challenge", solution: "How I solved it", result: "Result" },
+  bn: { case_study: "কেস স্টাডি", challenges: "চ্যালেঞ্জ ও সমাধান", challenge: "চ্যালেঞ্জ", solution: "কীভাবে সমাধান করেছি", result: "ফলাফল" },
 };
 
-function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTable, Row[]>, challenges: Row[]): Content {
+/** Case-study sections and challenges (batools 058), each pointing at a project or a publication. */
+type Details = { sections: Row[]; challenges: Row[] };
+
+function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTable, Row[]>, details: Details): Content {
   // Bangla falls back to English wherever a translation is left empty.
   const tr = (row: Row, field: string): string =>
     (lang === "bn" && row[`${field}_bn`]) || row[`${field}_en`] || "";
   const trList = (row: Row, field: string): string[] =>
     lang === "bn" && row[`${field}_bn`]?.length ? row[`${field}_bn`] : row[`${field}_en`] ?? [];
 
-  const caseStudyOf = (p: Row) => {
-    if (!p.show_case_study) return undefined;
-    const overview = tr(p, "overview");
-    const items = challenges
-      .filter(c => c.project_id === p.id)
+  // Shown only while the parent's master switch is on; hidden items were filtered out when read.
+  const caseStudyOf = (parent: Row, column: "project_id" | "publication_id") => {
+    if (!parent.show_case_study) return undefined;
+    const sections = details.sections
+      .filter(s => s[column] === parent.id)
+      .map(s => ({ heading: tr(s, "heading"), body: tr(s, "body") }));
+    const challenges = details.challenges
+      .filter(c => c[column] === parent.id)
       .map(c => ({ challenge: tr(c, "challenge"), solution: tr(c, "solution"), result: tr(c, "result") }));
-    return overview || items.length ? { overview, challenges: items } : undefined;
+    return sections.length || challenges.length ? { sections, challenges } : undefined;
   };
 
   const years = profile.career_start_year ? new Date().getFullYear() - profile.career_start_year : 0;
@@ -155,7 +161,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
         techStack: p.tech_stack ?? [],
         link: p.link ?? undefined,
         featured: p.is_featured,
-        caseStudy: caseStudyOf(p),
+        caseStudy: caseStudyOf(p, "project_id"),
       })),
     },
     experience: {
@@ -196,6 +202,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
           codeUrl: p.code_url ?? undefined,
           citation: p.citation ?? undefined,
           featured: p.is_featured,
+          caseStudy: caseStudyOf(p, "publication_id"),
         })),
     },
     contact: l.contact,
@@ -208,10 +215,15 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
 }
 
 export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<Language, Content>> {
-  // Case-study challenges are optional extras: if the table is missing (batools
-  // migration 057 not run yet) or the read fails, projects simply show without them.
-  const challengesReq = supabase.from("pf_project_challenges").select("*")
-    .eq("user_id", userId).eq("is_visible", true).order("sort_order");
+  // Case-study details are optional extras: if their tables are missing (batools
+  // migration 058 not run yet) or a read fails, items simply show without them.
+  const detailsReq = (table: string) => supabase.from(table).select("*")
+    .eq("user_id", userId).eq("is_visible", true).order("sort_order")
+    .then(({ data, error }) => {
+      if (error) console.warn(`${table} unavailable`, error.message);
+      return (data ?? []) as Row[];
+    });
+  const detailsPromise = Promise.all([detailsReq("pf_case_study_sections"), detailsReq("pf_challenges")]);
   const [profileRes, labelsRes, ...listRes] = await Promise.all([
     supabase.from("pf_profile").select("*").eq("user_id", userId).maybeSingle(),
     supabase.from("pf_labels").select("key, value_en, value_bn").eq("user_id", userId),
@@ -226,11 +238,10 @@ export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<La
 
   const lists = Object.fromEntries(LIST_TABLES.map((t, i) => [t, listRes[i].data ?? []])) as Record<ListTable, Row[]>;
   const labels = labelsRes.data ?? [];
-  const { data: challengeRows, error: challengesError } = await challengesReq;
-  if (challengesError) console.warn("Project challenges unavailable", challengesError.message);
-  const challenges = challengeRows ?? [];
+  const [sections, challenges] = await detailsPromise;
+  const details = { sections, challenges };
   return {
-    en: build("en", profileRes.data, labels, lists, challenges),
-    bn: build("bn", profileRes.data, labels, lists, challenges),
+    en: build("en", profileRes.data, labels, lists, details),
+    bn: build("bn", profileRes.data, labels, lists, details),
   };
 }

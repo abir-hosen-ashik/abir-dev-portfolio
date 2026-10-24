@@ -5,6 +5,18 @@ export interface ProjectChallenge {
   result: string;
 }
 
+/** One headed section of a case study ("Problem", "Architecture", …); body is rich text. */
+export interface CaseStudySection {
+  heading: string;
+  body: string;
+}
+
+/** A project's or publication's details, present only when switched on and something is visible. */
+export interface CaseStudy {
+  sections: CaseStudySection[];
+  challenges: ProjectChallenge[];
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -14,8 +26,7 @@ export interface Project {
   techStack: string[];
   link?: string;
   featured?: boolean;
-  /** Present only when the owner switched the case study on and wrote some of it. */
-  caseStudy?: { overview: string; challenges: ProjectChallenge[] };
+  caseStudy?: CaseStudy;
 }
 
 export interface Experience {
@@ -93,6 +104,7 @@ export interface Publication {
   codeUrl?: string;
   citation?: string;
   featured: boolean;
+  caseStudy?: CaseStudy;
 }
 
 /** Labels (pf_labels) of one group, e.g. `nav` or `contact.form`. */

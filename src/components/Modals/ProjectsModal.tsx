@@ -72,9 +72,7 @@ const ProjectDetails: React.FC<{ project: Project }> = ({ project }) => {
 
       {project.caseStudy && (
         <section className="pt-6 border-t border-neutral-200 dark:border-neutral-700">
-          <h4 className="flex items-center gap-2 text-base font-bold text-neutral-800 dark:text-neutral-200 mb-4">
-            <Lightbulb size={18} className="text-primary-500 dark:text-secondary-500" />{t.projects.case_study}
-          </h4>
+          <h4 className="text-lg font-bold text-neutral-800 dark:text-neutral-200 mb-4">{t.projects.case_study}</h4>
           <CaseStudyContent study={project.caseStudy} />
         </section>
       )}

@@ -1,20 +1,26 @@
 import React from 'react';
-import { CheckCircle2, Target, TrendingUp } from 'lucide-react';
+import { CheckCircle2, Lightbulb, Target, TrendingUp } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Project } from '../../types';
+import { CaseStudy } from '../../types';
 import RichText from '../UI/RichText';
 
-/** A project's case study: the overview, then each challenge with how it was solved and the result. */
-export const CaseStudyContent: React.FC<{ study: NonNullable<Project['caseStudy']> }> = ({ study }) => {
+/** A project's or publication's details: its case-study sections, then each challenge with how it was solved and the result. */
+export const CaseStudyContent: React.FC<{ study: CaseStudy }> = ({ study }) => {
   const { t } = useLanguage();
   const p = t.projects;
   return (
     <div className="space-y-6">
-      {study.overview && (
-        <section>
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-primary-500 dark:text-secondary-500 mb-2">{p.overview}</h3>
-          <RichText text={study.overview} className="text-justify text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300" />
+      {study.sections.map((s, i) => (
+        <section key={`s${i}`}>
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-primary-500 dark:text-secondary-500 mb-2">{s.heading}</h3>
+          <RichText text={s.body} className="text-justify text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300" />
         </section>
+      ))}
+
+      {study.challenges.length > 0 && (
+        <h3 className={`flex items-center gap-2 text-base font-bold text-neutral-800 dark:text-neutral-200 ${study.sections.length ? 'pt-2' : ''}`}>
+          <Lightbulb size={18} className="text-primary-500 dark:text-secondary-500" />{p.challenges}
+        </h3>
       )}
 
       {study.challenges.map((c, i) => (

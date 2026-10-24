@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowRight, BookOpen, Calendar, Check, Code2, ExternalLink, FileText, Filter, Quote, Star, X } from 'lucide-react';
+import { ArrowRight, BookOpen, Lightbulb, Calendar, Check, Code2, ExternalLink, FileText, Filter, Quote, Star, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Publication } from '../../types';
 import RichText from '../UI/RichText';
+import { CaseStudyContent } from '../Modals/CaseStudyContent';
 
 const tokens = (name: string) => name.toLowerCase().replace(/[.,]/g, ' ').split(/\s+/).filter(Boolean);
 
@@ -80,8 +81,12 @@ const AbstractModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pu
               <BookOpen size={14} className="flex-shrink-0 not-italic" /><span>{pub.venue}{pub.year ? ` · ${pub.year}` : ''}</span>
             </p>
           )}
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-primary-500 dark:text-secondary-500 mb-2">{r.show_abstract}</h3>
-          <RichText text={pub.abstract} className="text-justify text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300" />
+          {pub.abstract && (
+            <>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-primary-500 dark:text-secondary-500 mb-2">{r.show_abstract}</h3>
+              <RichText text={pub.abstract} className="text-justify text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300" />
+            </>
+          )}
           {pub.keywords.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-6">
               {pub.keywords.map(k => (
@@ -91,6 +96,12 @@ const AbstractModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pu
                 </span>
               ))}
             </div>
+          )}
+          {pub.caseStudy && (
+            <section className="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+              <h3 className="text-lg font-bold text-neutral-800 dark:text-neutral-200 mb-4">{t.projects.case_study}</h3>
+              <CaseStudyContent study={pub.caseStudy} />
+            </section>
           )}
         </div>
       </div>
@@ -155,16 +166,24 @@ const PublicationCard: React.FC<{ pub: Publication; index: number }> = ({ pub, i
           </p>
         )}
 
-        {/* Abstract */}
-        {pub.abstract && (
-          <div className="mb-4">
+        {/* Abstract (and the case study, when shown) */}
+        {(pub.abstract || pub.caseStudy) && (
+          <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-1">
             <button
               onClick={() => setShowAbstract(true)}
               className="inline-flex items-center space-x-1 text-sm font-medium text-primary-500 dark:text-secondary-500 hover:underline"
             >
-              <span>{r.show_abstract}</span>
+              <span>{pub.abstract ? r.show_abstract : t.projects.case_study}</span>
               <ArrowRight size={16} />
             </button>
+            {pub.abstract && pub.caseStudy && (
+              <button
+                onClick={() => setShowAbstract(true)}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary-500 dark:text-secondary-500 hover:underline"
+              >
+                <Lightbulb size={14} />{t.projects.case_study}
+              </button>
+            )}
             {showAbstract && <AbstractModal pub={pub} onClose={() => setShowAbstract(false)} />}
           </div>
         )}
