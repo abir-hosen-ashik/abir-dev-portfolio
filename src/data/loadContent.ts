@@ -58,6 +58,12 @@ function fillYears<T>(value: T, years: string): T {
   return value;
 }
 
+/** Detail-view wording used until the owner sets their own labels (ui.back, ui.view_details). */
+const UI_DEFAULTS: Record<Language, Record<string, string>> = {
+  en: { back: "Back", view_details: "View details" },
+  bn: { back: "ফিরে যান", view_details: "বিস্তারিত দেখুন" },
+};
+
 /** Case-study wording used until the owner sets their own labels (projects.case_study, …). */
 const CASE_STUDY_LABELS: Record<Language, Record<string, string>> = {
   en: { case_study: "Challenges & solutions", overview: "Overview", challenge: "Challenge", solution: "How I solved it", result: "Result" },
@@ -97,7 +103,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
   const content: Content = {
     years,
     nav: l.nav,
-    ui: l.ui,
+    ui: { ...UI_DEFAULTS[lang], ...l.ui },
     personalInfo: {
       name: tr(profile, "name"),
       nameEn: profile.name_en ?? "",

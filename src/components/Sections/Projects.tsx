@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { ExternalLink, Github, Calendar, Code, Star, ArrowRight } from 'lucide-react';
+import { ExternalLink, Github, Calendar, Code, Star, ArrowRight, Lightbulb } from 'lucide-react';
 import { ProjectsModal } from '../Modals/ProjectsModal';
-import { CaseStudyButton } from '../Modals/CaseStudyModal';
 import RichText from '../UI/RichText';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const Projects: React.FC = () => {
   const { t } = useLanguage();
   const [showAllProjects, setShowAllProjects] = useState(false);
+  /** A card clicked on the page: the modal opens on its details. */
+  const [openId, setOpenId] = useState<string | null>(null);
+  const openProject = (id: string | null) => { setOpenId(id); setShowAllProjects(true); };
 
   const featuredProjects = t.projects.items.filter(project => project.featured);
 
@@ -28,7 +30,14 @@ export const Projects: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-8">
             {featuredProjects.map((project, index) => (
               <div key={project.id} className={`group fade-in-${index % 2 === 0 ? 'left' : 'right'}`}>
-                <div className="card p-8 hover:shadow-glow transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openProject(project.id)}
+                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProject(project.id); } }}
+                  className="card p-8 h-full cursor-pointer hover:shadow-glow transition-all duration-500 hover:-translate-y-2 relative overflow-hidden
+                             focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
+                >
                   {/* Featured Badge */}
                   <div className="absolute top-4 right-4">
                     <div className="flex items-center space-x-1 bg-gradient-to-r from-accent-500 to-success-500 text-white px-3 py-1 rounded-full text-xs font-medium">
@@ -86,9 +95,15 @@ export const Projects: React.FC = () => {
                   {/* Project Links */}
                   <div className="flex items-center justify-between">
                     <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                      <CaseStudyButton project={project} />
+                      {project.caseStudy && (
+                        <span className="inline-flex items-center space-x-2 text-primary-500 dark:text-secondary-500">
+                          <Lightbulb size={16} />
+                          <span className="text-sm font-medium">{t.projects.case_study}</span>
+                        </span>
+                      )}
                       {project.link && (
                         <a
+                          onClick={e => e.stopPropagation()}
                           href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -114,7 +129,7 @@ export const Projects: React.FC = () => {
           {/* View All Projects Button */}
           <div className="text-center mt-12 fade-in-up">
             <button
-              onClick={() => setShowAllProjects(true)}
+              onClick={() => openProject(null)}
               className="inline-flex btn-secondary group"
             >
               <span>{t.projects.viewAll}</span>
@@ -127,6 +142,7 @@ export const Projects: React.FC = () => {
       {/* Projects Modal */}
       <ProjectsModal
         isOpen={showAllProjects}
+        initialId={openId}
         onClose={() => setShowAllProjects(false)}
       />
     </>

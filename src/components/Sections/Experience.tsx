@@ -6,6 +6,9 @@ import { useLanguage } from '../../contexts/LanguageContext';
 export const Experience: React.FC = () => {
   const { t } = useLanguage();
   const [showAllExperience, setShowAllExperience] = useState(false);
+  /** A card clicked on the page: the modal opens on its details. */
+  const [openId, setOpenId] = useState<string | null>(null);
+  const openExperience = (id: string | null) => { setOpenId(id); setShowAllExperience(true); };
 
   return (
     <>
@@ -30,7 +33,14 @@ export const Experience: React.FC = () => {
                     <div className="absolute left-8 top-24 w-0.5 h-32 bg-gradient-to-b from-primary-500 to-secondary-500 opacity-30"></div>
                   )}
                   
-                  <div className="card p-8 hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative overflow-hidden">
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => openExperience(exp.id)}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openExperience(exp.id); } }}
+                    className="card p-8 cursor-pointer hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative overflow-hidden
+                               focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
+                  >
                     {/* Current Badge */}
                     {exp.current && (
                       <div className="absolute top-7 right-7">
@@ -91,7 +101,7 @@ export const Experience: React.FC = () => {
             {/* View All Experience Button */}
             <div className="text-center mt-12 fade-in-up">
               <button 
-                onClick={() => setShowAllExperience(true)}
+                onClick={() => openExperience(null)}
                 className="inline-flex btn-secondary group"
               >
                 <span>{t.experience.viewAll}</span>
@@ -105,6 +115,7 @@ export const Experience: React.FC = () => {
       {/* Experience Modal */}
       <ExperienceModal 
         isOpen={showAllExperience}
+        initialId={openId}
         onClose={() => setShowAllExperience(false)}
       />
     </>
