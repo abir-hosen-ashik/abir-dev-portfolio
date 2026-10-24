@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ExternalLink, Github, Calendar, Code, Star, ArrowRight } from 'lucide-react';
 import { ProjectsModal } from '../Modals/ProjectsModal';
+import { CaseStudyButton } from '../Modals/CaseStudyModal';
+import RichText from '../UI/RichText';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const Projects: React.FC = () => {
@@ -47,9 +49,7 @@ export const Projects: React.FC = () => {
                   </div>
 
                   {/* Project Description */}
-                  <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
-                    {project.description}
-                  </p>
+                  <RichText text={project.description} className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6" />
 
                   {/* Tech Stack */}
                   <div className="mb-6">
@@ -85,7 +85,8 @@ export const Projects: React.FC = () => {
 
                   {/* Project Links */}
                   <div className="flex items-center justify-between">
-                    <div className="flex space-x-3">
+                    <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                      <CaseStudyButton project={project} />
                       {project.link && (
                         <a
                           href={project.link}

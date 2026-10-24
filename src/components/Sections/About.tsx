@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GraduationCap, User, Heart, BookOpen, Award, MapPin, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { AboutMeModal } from '../Modals/AboutMeModal';
-import FormattedStringParser from '../UI/FormatedStringParser';
+import RichText from '../UI/RichText';
 
 export const About: React.FC = () => {
   const { t } = useLanguage();
@@ -33,7 +33,7 @@ export const About: React.FC = () => {
               </div>
 
               <div className="space-y-4 text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                <p style={{ textAlign: 'justify' }}><FormattedStringParser text={t.about.objectiveText} /></p>
+                <RichText text={t.about.objectiveText} className="text-justify" />
                 {/* <p  style={{textAlign: 'justify'}}>{t.personalInfo.objective_p2}</p> */}
 
                 {/* View All Projects Button */}

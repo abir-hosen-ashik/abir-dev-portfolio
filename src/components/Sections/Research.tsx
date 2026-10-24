@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { ArrowRight, BookOpen, Calendar, Check, Code2, ExternalLink, FileText, Filter, Quote, Star, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Publication } from '../../types';
-import FormattedStringParser from '../UI/FormatedStringParser';
+import RichText from '../UI/RichText';
 
 const tokens = (name: string) => name.toLowerCase().replace(/[.,]/g, ' ').split(/\s+/).filter(Boolean);
 
@@ -81,9 +81,7 @@ const AbstractModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pu
             </p>
           )}
           <h3 className="text-sm font-semibold uppercase tracking-wider text-primary-500 dark:text-secondary-500 mb-2">{r.show_abstract}</h3>
-          <p style={{ textAlign: 'justify' }} className="text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300">
-            <FormattedStringParser text={pub.abstract ?? ''} />
-          </p>
+          <RichText text={pub.abstract} className="text-justify text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300" />
           {pub.keywords.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-6">
               {pub.keywords.map(k => (

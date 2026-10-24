@@ -1,3 +1,10 @@
+/** One challenge of a project's case study: what was hard, how it was solved, what came of it. */
+export interface ProjectChallenge {
+  challenge: string;
+  solution: string;
+  result: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -7,6 +14,8 @@ export interface Project {
   techStack: string[];
   link?: string;
   featured?: boolean;
+  /** Present only when the owner switched the case study on and wrote some of it. */
+  caseStudy?: { overview: string; challenges: ProjectChallenge[] };
 }
 
 export interface Experience {

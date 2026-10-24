@@ -58,12 +58,27 @@ function fillYears<T>(value: T, years: string): T {
   return value;
 }
 
-function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTable, Row[]>): Content {
+/** Case-study wording used until the owner sets their own labels (projects.case_study, …). */
+const CASE_STUDY_LABELS: Record<Language, Record<string, string>> = {
+  en: { case_study: "Challenges & solutions", overview: "Overview", challenge: "Challenge", solution: "How I solved it", result: "Result" },
+  bn: { case_study: "চ্যালেঞ্জ ও সমাধান", overview: "বিস্তারিত", challenge: "চ্যালেঞ্জ", solution: "কীভাবে সমাধান করেছি", result: "ফলাফল" },
+};
+
+function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTable, Row[]>, challenges: Row[]): Content {
   // Bangla falls back to English wherever a translation is left empty.
   const tr = (row: Row, field: string): string =>
     (lang === "bn" && row[`${field}_bn`]) || row[`${field}_en`] || "";
   const trList = (row: Row, field: string): string[] =>
     lang === "bn" && row[`${field}_bn`]?.length ? row[`${field}_bn`] : row[`${field}_en`] ?? [];
+
+  const caseStudyOf = (p: Row) => {
+    if (!p.show_case_study) return undefined;
+    const overview = tr(p, "overview");
+    const items = challenges
+      .filter(c => c.project_id === p.id)
+      .map(c => ({ challenge: tr(c, "challenge"), solution: tr(c, "solution"), result: tr(c, "result") }));
+    return overview || items.length ? { overview, challenges: items } : undefined;
+  };
 
   const years = profile.career_start_year ? new Date().getFullYear() - profile.career_start_year : 0;
   const l = labelTree(labels, lang);
@@ -123,6 +138,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       core: lists.pf_core_skills.map(c => [tr(c, "label"), localizeDigits(c.percent, lang)] as [string, string]),
     },
     projects: {
+      ...CASE_STUDY_LABELS[lang],
       ...l.projects,
       items: lists.pf_projects.map(p => ({
         id: p.id,
@@ -133,6 +149,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
         techStack: p.tech_stack ?? [],
         link: p.link ?? undefined,
         featured: p.is_featured,
+        caseStudy: caseStudyOf(p),
       })),
     },
     experience: {
@@ -185,6 +202,10 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
 }
 
 export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<Language, Content>> {
+  // Case-study challenges are optional extras: if the table is missing (batools
+  // migration 057 not run yet) or the read fails, projects simply show without them.
+  const challengesReq = supabase.from("pf_project_challenges").select("*")
+    .eq("user_id", userId).eq("is_visible", true).order("sort_order");
   const [profileRes, labelsRes, ...listRes] = await Promise.all([
     supabase.from("pf_profile").select("*").eq("user_id", userId).maybeSingle(),
     supabase.from("pf_labels").select("key, value_en, value_bn").eq("user_id", userId),
@@ -199,8 +220,11 @@ export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<La
 
   const lists = Object.fromEntries(LIST_TABLES.map((t, i) => [t, listRes[i].data ?? []])) as Record<ListTable, Row[]>;
   const labels = labelsRes.data ?? [];
+  const { data: challengeRows, error: challengesError } = await challengesReq;
+  if (challengesError) console.warn("Project challenges unavailable", challengesError.message);
+  const challenges = challengeRows ?? [];
   return {
-    en: build("en", profileRes.data, labels, lists),
-    bn: build("bn", profileRes.data, labels, lists),
+    en: build("en", profileRes.data, labels, lists, challenges),
+    bn: build("bn", profileRes.data, labels, lists, challenges),
   };
 }

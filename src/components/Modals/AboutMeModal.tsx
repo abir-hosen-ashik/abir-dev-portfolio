@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Filter, X, Star } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import FormattedStringParser from '../UI/FormatedStringParser';
+import RichText from '../UI/RichText';
 import { AboutAudience } from '../../types';
 
 interface AboutMeModalProps {
@@ -90,9 +91,7 @@ export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) =
                     {/* Project Description */}
                     {section.blocks.map((value, idx) =>
                       typeof value == "string" ?
-                        <p key={idx} style={{ textAlign: 'justify' }} className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4">
-                          <FormattedStringParser text={value} />
-                        </p>
+                        <RichText key={idx} text={value} className="text-justify text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4" />
                         :
                         value.map((v, i) => (
                           <ul key={`${idx}-${i}`} style={{ textAlign: 'justify' }} className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4">

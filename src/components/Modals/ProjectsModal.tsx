@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Calendar, Code, ExternalLink, Filter, X, Star } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { CaseStudyButton } from './CaseStudyModal';
+import RichText from '../UI/RichText';
 
 interface ProjectsModalProps {
   isOpen: boolean;
@@ -120,9 +122,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
                   </div>
 
                   {/* Project Description */}
-                  <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4">
-                    {project.description}
-                  </p>
+                  <RichText text={project.description} className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4" />
 
                   {/* Tech Stack */}
                   <div className="mb-4">
@@ -162,6 +162,12 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose })
                       )}
                     </div>
                   </div>
+
+                  {project.caseStudy && (
+                    <div className="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+                      <CaseStudyButton project={project} />
+                    </div>
+                  )}
 
                   {/* Hover Effect Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
