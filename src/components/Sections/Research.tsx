@@ -36,6 +36,7 @@ const LinkButton: React.FC<{ href: string; icon: React.ReactNode; label: string 
     href={href}
     target="_blank"
     rel="noopener noreferrer"
+    onClick={e => e.stopPropagation()}
     className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-neutral-100 dark:bg-neutral-700
                text-neutral-700 dark:text-neutral-300 hover:bg-primary-500 hover:text-white dark:hover:bg-secondary-500 transition-colors"
   >
@@ -44,12 +45,50 @@ const LinkButton: React.FC<{ href: string; icon: React.ReactNode; label: string 
   </a>
 );
 
+const doiUrlOf = (pub: Publication) =>
+  pub.doi ? `https://doi.org/${pub.doi.replace(/^https?:\/\/(dx\.)?doi\.org\//, '')}` : undefined;
+
+/** DOI / paper / PDF / code links and the Cite button, on the card and in the details. */
+const PaperLinks: React.FC<{ pub: Publication; className?: string }> = ({ pub, className = '' }) => {
+  const { t } = useLanguage();
+  const r = t.research;
+  const [copied, setCopied] = useState(false);
+  const doiUrl = doiUrlOf(pub);
+  const cite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!pub.citation) return;
+    navigator.clipboard.writeText(pub.citation);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <div className={`flex flex-wrap gap-2 ${className}`}>
+      {doiUrl && <LinkButton href={doiUrl} icon={<ExternalLink size={14} />} label="DOI" />}
+      {pub.url && <LinkButton href={pub.url} icon={<ExternalLink size={14} />} label={r.paper} />}
+      {pub.pdfUrl && <LinkButton href={pub.pdfUrl} icon={<FileText size={14} />} label={r.pdf} />}
+      {pub.codeUrl && <LinkButton href={pub.codeUrl} icon={<Code2 size={14} />} label={r.code} />}
+      {pub.citation && (
+        <button
+          onClick={cite}
+          className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-neutral-100 dark:bg-neutral-700
+                     text-neutral-700 dark:text-neutral-300 hover:bg-primary-500 hover:text-white dark:hover:bg-secondary-500 transition-colors"
+        >
+          {copied ? <Check size={14} /> : <Quote size={14} />}
+          <span>{copied ? r.cite_copied : r.cite}</span>
+        </button>
+      )}
+    </div>
+  );
+};
+
 /**
- * A paper's abstract over the page. Portalled to <body> because the cards move
- * on hover (a transform), which would otherwise pin a fixed overlay to the card;
- * z-[60] keeps it above the "View All" modal it can be opened from.
+ * A paper's complete details over the page: authors, venue, abstract,
+ * keywords, links, and its case study and challenges when shown. Portalled to
+ * <body> because the cards move on hover (a transform), which would otherwise
+ * pin a fixed overlay to the card; z-[60] keeps it above the "View All" modal.
+ * React events still bubble through a portal to the card, so they stop here.
  */
-const AbstractModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pub, onClose }) => {
+const PaperModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pub, onClose }) => {
   const { t } = useLanguage();
   const r = t.research;
 
@@ -65,7 +104,14 @@ const AbstractModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pu
   }, [onClose]);
 
   return createPortal(
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={pub.title}>
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4 cursor-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-label={pub.title}
+      onClick={e => e.stopPropagation()}
+      onKeyDown={e => e.stopPropagation()}
+    >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-3xl max-h-[90vh] flex flex-col bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl overflow-hidden">
         <div className="flex items-start justify-between gap-4 px-6 py-5 bg-gradient-to-r from-primary-500 to-secondary-500">
@@ -97,6 +143,7 @@ const AbstractModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pu
               ))}
             </div>
           )}
+          <PaperLinks pub={pub} className="mt-6" />
           {pub.caseStudy && (
             <section className="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700">
               <h3 className="text-lg font-bold text-neutral-800 dark:text-neutral-200 mb-4">{t.projects.case_study}</h3>
@@ -115,23 +162,21 @@ const PREVIEW_COUNT = 4;
 
 const PublicationCard: React.FC<{ pub: Publication; index: number }> = ({ pub, index }) => {
   const { t } = useLanguage();
-  const [showAbstract, setShowAbstract] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [open, setOpen] = useState(false);
   const r = t.research;
-  const doiUrl = pub.doi ? `https://doi.org/${pub.doi.replace(/^https?:\/\/(dx\.)?doi\.org\//, '')}` : undefined;
-  const titleHref = pub.url || doiUrl;
-
-  const cite = () => {
-    if (!pub.citation) return;
-    navigator.clipboard.writeText(pub.citation);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const titleHref = pub.url || doiUrlOf(pub);
 
   return (
     <div className={`group fade-in-${index % 2 === 0 ? 'left' : 'right'}`}>
-      <div className={`card p-6 lg:p-8 hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative overflow-hidden h-full flex flex-col
-                      ${pub.featured ? 'ring-1 ring-primary-300 dark:ring-secondary-700' : ''}`}>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => setOpen(true)}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(true); } }}
+        className={`card p-6 lg:p-8 cursor-pointer hover:shadow-glow transition-all duration-500 hover:-translate-y-1 relative overflow-hidden h-full flex flex-col
+                    focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400
+                    ${pub.featured ? 'ring-1 ring-primary-300 dark:ring-secondary-700' : ''}`}
+      >
         {/* Type / year / status */}
         <div className="flex flex-wrap items-center gap-2 mb-4 pr-24">
           <span className="px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-primary-500 to-secondary-500 text-white">
@@ -156,7 +201,7 @@ const PublicationCard: React.FC<{ pub: Publication; index: number }> = ({ pub, i
 
         {/* Title */}
         <h3 className="text-xl font-bold text-neutral-800 dark:text-neutral-200 mb-3 leading-snug group-hover:text-primary-500 dark:group-hover:text-secondary-500 transition-colors">
-          {titleHref ? <a href={titleHref} target="_blank" rel="noopener noreferrer">{pub.title}</a> : pub.title}
+          {titleHref ? <a href={titleHref} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>{pub.title}</a> : pub.title}
         </h3>
 
         {pub.authors.length > 0 && <Authors authors={pub.authors} me={t.personalInfo.nameEn} />}
@@ -166,27 +211,15 @@ const PublicationCard: React.FC<{ pub: Publication; index: number }> = ({ pub, i
           </p>
         )}
 
-        {/* Abstract (and the case study, when shown) */}
-        {(pub.abstract || pub.caseStudy) && (
-          <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-1">
-            <button
-              onClick={() => setShowAbstract(true)}
-              className="inline-flex items-center space-x-1 text-sm font-medium text-primary-500 dark:text-secondary-500 hover:underline"
-            >
-              <span>{pub.abstract ? r.show_abstract : t.projects.case_study}</span>
-              <ArrowRight size={16} />
-            </button>
-            {pub.abstract && pub.caseStudy && (
-              <button
-                onClick={() => setShowAbstract(true)}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary-500 dark:text-secondary-500 hover:underline"
-              >
-                <Lightbulb size={14} />{t.projects.case_study}
-              </button>
-            )}
-            {showAbstract && <AbstractModal pub={pub} onClose={() => setShowAbstract(false)} />}
-          </div>
-        )}
+        {/* The whole card opens the details; these say what is inside. */}
+        <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-medium text-primary-500 dark:text-secondary-500">
+          <span className="inline-flex items-center space-x-1 group-hover:underline">
+            <span>{pub.abstract ? r.show_abstract : t.ui.view_details}</span>
+            <ArrowRight size={16} />
+          </span>
+          {pub.caseStudy && <span className="inline-flex items-center gap-1.5"><Lightbulb size={14} />{t.projects.case_study}</span>}
+        </div>
+        {open && <PaperModal pub={pub} onClose={() => setOpen(false)} />}
 
         {/* Keywords */}
         {pub.keywords.length > 0 && (
@@ -201,22 +234,7 @@ const PublicationCard: React.FC<{ pub: Publication; index: number }> = ({ pub, i
         )}
 
         {/* Links */}
-        <div className="mt-auto flex flex-wrap gap-2 pt-4 border-t border-neutral-200 dark:border-neutral-700">
-          {doiUrl && <LinkButton href={doiUrl} icon={<ExternalLink size={14} />} label="DOI" />}
-          {pub.url && <LinkButton href={pub.url} icon={<ExternalLink size={14} />} label={r.paper} />}
-          {pub.pdfUrl && <LinkButton href={pub.pdfUrl} icon={<FileText size={14} />} label={r.pdf} />}
-          {pub.codeUrl && <LinkButton href={pub.codeUrl} icon={<Code2 size={14} />} label={r.code} />}
-          {pub.citation && (
-            <button
-              onClick={cite}
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-neutral-100 dark:bg-neutral-700
-                         text-neutral-700 dark:text-neutral-300 hover:bg-primary-500 hover:text-white dark:hover:bg-secondary-500 transition-colors"
-            >
-              {copied ? <Check size={14} /> : <Quote size={14} />}
-              <span>{copied ? r.cite_copied : r.cite}</span>
-            </button>
-          )}
-        </div>
+        <PaperLinks pub={pub} className="mt-auto pt-4 border-t border-neutral-200 dark:border-neutral-700" />
 
         <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
       </div>
