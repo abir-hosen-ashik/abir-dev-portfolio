@@ -80,11 +80,13 @@ const ARTICLE_LABELS: Record<Language, Record<string, string>> = {
     title: "Articles", subTitle: "Writing on engineering, AI and the things I build.", viewAll: "View All Articles",
     allTitle: "All Articles", read: "Read article", open: "Open post", min_read: "min read", back: "Back to portfolio",
     not_found: "This article could not be found.", watch: "Watch video", all: "All",
+    open_on: "Open on {platform}", full_page: "Open full page", loading: "Loading...",
   },
   bn: {
     title: "আর্টিকেল", subTitle: "ইঞ্জিনিয়ারিং, এআই এবং আমার তৈরি জিনিস নিয়ে লেখা।", viewAll: "সব আর্টিকেল দেখুন",
     allTitle: "সব আর্টিকেল", read: "আর্টিকেল পড়ুন", open: "পোস্টটি খুলুন", min_read: "মিনিট পড়া", back: "পোর্টফোলিওতে ফিরুন",
     not_found: "এই আর্টিকেলটি পাওয়া যায়নি।", watch: "ভিডিও দেখুন", all: "সব",
+    open_on: "{platform}-এ খুলুন", full_page: "পুরো পাতায় খুলুন", loading: "লোড হচ্ছে...",
   },
 };
 const PLATFORM_LABELS: Record<string, string> = {
@@ -100,6 +102,7 @@ function postOf(p: Row, lang: Language): ArticlePost {
     kind: p.kind,
     platform: p.kind === "article" ? "native" : p.platform,
     href: p.kind === "article" ? `/articles/${p.slug}` : p.external_url,
+    slug: p.slug ?? undefined,
     title: tr("title"),
     summary: tr("summary"),
     cover: p.cover_url ?? undefined,
