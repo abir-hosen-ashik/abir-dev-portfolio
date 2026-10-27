@@ -4,7 +4,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import type { PortfolioVersion } from '../../types';
 
 /** How long the picker waits before opening the researcher version on its own. */
-const AUTO_MS = 5000;
+const AUTO_MS = 3000;
 
 const wording = {
   en: { title: 'Which portfolio would you like to see?', sub: 'The same person, told for a different reader.', auto: 'Opening {name} in {s}s', developer: 'Products, systems and engineering work', researcher: 'Publications, open models and datasets' },
@@ -16,7 +16,7 @@ export const LayoutIcon: React.FC<{ layout: PortfolioVersion['layout']; size?: n
 
 /**
  * On a first visit without ?version=, asks which version to show. Picking one
- * opens it; with no pick in 5 seconds the researcher version opens.
+ * opens it; with no pick in 3 seconds the researcher version opens.
  */
 export const VersionPicker: React.FC = () => {
   const { t, language, setVersion, versionAsked } = useLanguage();
