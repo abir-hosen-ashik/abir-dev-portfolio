@@ -33,7 +33,7 @@ const LABEL_GROUPS = [
   "projects", "projects.filters", "experience", "techStack",
   "contact", "contact.form", "contact.social", "summery",
   "research", "research.filters", "research.types", "research.status",
-  "articles", "articles.platforms",
+  "articles", "articles.platforms", "researcher",
 ];
 
 function labelTree(labels: Row[], lang: Language) {
@@ -78,7 +78,7 @@ const CASE_STUDY_LABELS: Record<Language, Record<string, string>> = {
 };
 
 /** Case-study sections and challenges (batools 058), each pointing at a project or a publication; posts (061). */
-type Details = { sections: Row[]; challenges: Row[]; posts: Row[] };
+type Details = { sections: Row[]; challenges: Row[]; posts: Row[]; artifacts: Row[] };
 
 /** Articles wording used until the owner sets their own labels (articles.*, nav.articles). */
 const ARTICLE_LABELS: Record<Language, Record<string, string>> = {
@@ -93,6 +93,32 @@ const ARTICLE_LABELS: Record<Language, Record<string, string>> = {
     not_found: "এই আর্টিকেলটি পাওয়া যায়নি।", watch: "ভিডিও দেখুন", all: "সব",
   },
 };
+/** Researcher-site wording used until the owner sets their own labels (researcher.*). */
+const RESEARCHER_LABELS: Record<Language, Record<string, string>> = {
+  en: {
+    about: "About", publications: "Publications", models: "Models & Data", experience: "Experience", projects: "Projects", writing: "Writing", contact: "Contact",
+    interests_title: "Research interests", peer_reviewed: "Peer-reviewed", under_review: "Under review", accepted: "Accepted",
+    abstract: "Abstract", bibtex: "BibTeX", copied: "Copied", pdf: "PDF", doi: "DOI", paper: "Paper", code: "Code", model: "Model", dataset: "Dataset", demo: "Live demo",
+    from_paper: "From", released: "Released", research_experience: "Research experience", industry_experience: "Industry experience",
+    teaching: "Teaching", education: "Education", selected_projects: "Selected engineering projects", cv: "CV", email: "Email",
+    stat_publications: "publications", stat_under_review: "under review", stat_models: "open models", stat_datasets: "datasets",
+    models_intro: "Trained models, datasets and code released with my research, each with a link to try or reuse it.",
+    contact_intro: "Open to research collaborations, graduate research positions and applied AI work.",
+    kind_model: "Model", kind_dataset: "Dataset", kind_demo: "Demo", kind_code: "Code", all: "All", updated: "Last updated",
+  },
+  bn: {
+    about: "পরিচিতি", publications: "প্রকাশনা", models: "মডেল ও ডেটা", experience: "অভিজ্ঞতা", projects: "প্রকল্প", writing: "লেখা", contact: "যোগাযোগ",
+    interests_title: "গবেষণার আগ্রহ", peer_reviewed: "পিয়ার-রিভিউড", under_review: "পর্যালোচনাধীন", accepted: "গৃহীত",
+    abstract: "সারসংক্ষেপ", bibtex: "BibTeX", copied: "কপি হয়েছে", pdf: "PDF", doi: "DOI", paper: "পেপার", code: "কোড", model: "মডেল", dataset: "ডেটাসেট", demo: "লাইভ ডেমো",
+    from_paper: "যে পেপার থেকে", released: "প্রকাশ", research_experience: "গবেষণার অভিজ্ঞতা", industry_experience: "ইন্ডাস্ট্রির অভিজ্ঞতা",
+    teaching: "শিক্ষকতা", education: "শিক্ষা", selected_projects: "নির্বাচিত ইঞ্জিনিয়ারিং প্রকল্প", cv: "সিভি", email: "ইমেইল",
+    stat_publications: "প্রকাশনা", stat_under_review: "পর্যালোচনাধীন", stat_models: "উন্মুক্ত মডেল", stat_datasets: "ডেটাসেট",
+    models_intro: "আমার গবেষণার সাথে প্রকাশিত মডেল, ডেটাসেট ও কোড — প্রতিটি চালিয়ে দেখা বা ব্যবহার করার লিংকসহ।",
+    contact_intro: "গবেষণা সহযোগিতা, স্নাতকোত্তর গবেষণার সুযোগ এবং প্রয়োগমূলক এআই কাজের জন্য যোগাযোগ করুন।",
+    kind_model: "মডেল", kind_dataset: "ডেটাসেট", kind_demo: "ডেমো", kind_code: "কোড", all: "সব", updated: "সর্বশেষ হালনাগাদ",
+  },
+};
+
 const PLATFORM_LABELS: Record<string, string> = {
   native: "Article", medium: "Medium", linkedin: "LinkedIn", x: "X", facebook: "Facebook",
   instagram: "Instagram", youtube: "YouTube", website: "Website", other: "Other",
@@ -172,6 +198,12 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       gitlab: profile.gitlab ?? undefined,
       kaggle: profile.kaggle ?? undefined,
       resumeUrl: profile.resume_url ?? undefined,
+      // Research profile (batools 063); absent before it.
+      huggingface: profile.huggingface ?? undefined,
+      googleScholar: profile.google_scholar ?? undefined,
+      orcid: profile.orcid ?? undefined,
+      researchgate: profile.researchgate ?? undefined,
+      researchCvUrl: profile.research_cv_url ?? undefined,
     },
     home: {
       greeting: tr(profile, "greeting"),
@@ -224,6 +256,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
         duration: tr(e, "duration"),
         responsibilities: trList(e, "responsibilities"),
         current: e.is_current,
+        kind: e.kind ?? "industry",
         onHome: e.show_on_home ?? true,
       })),
     },
@@ -266,6 +299,31 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
           onHome: p.show_on_home ?? true,
         })),
     },
+    researcher: {
+      ...RESEARCHER_LABELS[lang],
+      ...l.researcher,
+      title: tr(profile, "research_title") || tr(profile, "title"),
+      affiliation: tr(profile, "affiliation"),
+      statement: tr(profile, "research_statement") || tr(profile, "objective"),
+      interests: trList(profile, "research_interests"),
+      // Featured first; otherwise the order set in batools.
+      artifacts: [...details.artifacts]
+        .sort((a, b) => Number(b.is_featured) - Number(a.is_featured))
+        .map(a => ({
+          id: a.id,
+          kind: a.kind,
+          platform: a.platform,
+          title: tr(a, "title"),
+          description: tr(a, "description"),
+          url: a.url,
+          demoUrl: a.demo_url ?? undefined,
+          publicationId: a.publication_id ?? undefined,
+          metrics: a.metrics ?? [],
+          tags: a.tags ?? [],
+          releasedOn: a.released_on ?? undefined,
+          featured: !!a.is_featured,
+        })),
+    },
     contact: l.contact,
     summery: {
       ...l.summery,
@@ -291,6 +349,8 @@ export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<La
     detailsReq("pf_challenges"),
     // Articles (061): published posts only; drafts never leave batools.
     detailsReq("pf_posts", true),
+    // Released models and datasets (063).
+    detailsReq("pf_research_artifacts"),
   ]);
   const [profileRes, labelsRes, ...listRes] = await Promise.all([
     supabase.from("pf_profile").select("*").eq("user_id", userId).maybeSingle(),
@@ -306,8 +366,8 @@ export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<La
 
   const lists = Object.fromEntries(LIST_TABLES.map((t, i) => [t, listRes[i].data ?? []])) as Record<ListTable, Row[]>;
   const labels = labelsRes.data ?? [];
-  const [sections, challenges, posts] = await detailsPromise;
-  const details = { sections, challenges, posts };
+  const [sections, challenges, posts, artifacts] = await detailsPromise;
+  const details = { sections, challenges, posts, artifacts };
   return {
     en: build("en", profileRes.data, labels, lists, details),
     bn: build("bn", profileRes.data, labels, lists, details),

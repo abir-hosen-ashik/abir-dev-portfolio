@@ -1,19 +1,17 @@
 import { ThemeProvider } from './contexts/ThemeContext';
-import { LanguageProvider } from './contexts/LanguageContext';
-import { Header } from './components/Layout/Header';
-import { Hero } from './components/Sections/Hero';
-import { About } from './components/Sections/About';
-import { Projects } from './components/Sections/Projects';
-import { Experience } from './components/Sections/Experience';
-import { Research } from './components/Sections/Research';
-import { TechStack } from './components/Sections/TechStack';
-import { Contact } from './components/Sections/Contact';
-import { Footer } from './components/Layout/Footer';
-import { Summery } from './components/Sections/Summery';
-import { Articles } from './components/Sections/Articles';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { ResearchHeader } from './components/Researcher/ResearchHeader';
+import { Intro } from './components/Researcher/Intro';
+import { Publications } from './components/Researcher/Publications';
+import { Artifacts } from './components/Researcher/Artifacts';
+import { Background, ResearchContact, SelectedProjects, Writing } from './components/Researcher/Background';
 import { ArticlePage } from './pages/ArticlePage';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+
+// The researcher-style portfolio (research branch): the same pf_ content as the
+// main site, laid out like an academic homepage. Publications and released
+// models lead; engineering work follows.
 
 /** The one-page portfolio. Arriving with a #section (e.g. back from an article) scrolls to it. */
 function Home() {
@@ -24,17 +22,24 @@ function Home() {
     return () => window.clearTimeout(t);
   }, [hash]);
   return (
-    <main>
-      <Hero />
-      <About />
-      <Projects />
-      <Experience />
-      <Research />
-      <Articles />
-      <TechStack />
-      <Contact />
-      <Summery />
+    <main className="max-w-5xl mx-auto px-4">
+      <Intro />
+      <Publications />
+      <Artifacts />
+      <Background />
+      <SelectedProjects />
+      <Writing />
+      <ResearchContact />
     </main>
+  );
+}
+
+function ResearchFooter() {
+  const { t } = useLanguage();
+  return (
+    <footer className="max-w-5xl mx-auto px-4 py-10 text-sm text-zinc-500 border-t border-zinc-200 dark:border-zinc-800">
+      © {new Date().getFullYear()} {t.personalInfo.name}
+    </footer>
   );
 }
 
@@ -42,14 +47,14 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <div className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-300">
-          <Header />
+        <div className="min-h-screen bg-[#fbfaf7] dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 transition-colors duration-300">
+          <ResearchHeader />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/articles/:slug" element={<ArticlePage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-          <Footer />
+          <ResearchFooter />
         </div>
       </LanguageProvider>
     </ThemeProvider>

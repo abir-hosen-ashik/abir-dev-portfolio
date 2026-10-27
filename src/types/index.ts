@@ -75,9 +75,13 @@ export interface Experience {
   duration: string;
   responsibilities: string[];
   current: boolean;
+  /** industry | research | teaching (batools 063; industry before it). */
+  kind: ExperienceKind;
   /** Listed on the home page (batools show_on_home); View all lists everything. */
   onHome: boolean;
 }
+
+export type ExperienceKind = 'industry' | 'research' | 'teaching';
 
 export interface PersonalInfo {
   name: string;
@@ -95,6 +99,39 @@ export interface PersonalInfo {
   gitlab?: string;
   kaggle?: string;
   resumeUrl?: string;
+  huggingface?: string;
+  /** The user= id of the Google Scholar profile. */
+  googleScholar?: string;
+  orcid?: string;
+  researchgate?: string;
+  researchCvUrl?: string;
+}
+
+/** A released model, dataset, demo or code (pf_research_artifacts, batools 063). */
+export interface ResearchArtifact {
+  id: string;
+  kind: 'model' | 'dataset' | 'demo' | 'code';
+  /** huggingface, kaggle, github, zenodo, website, other */
+  platform: string;
+  title: string;
+  description: string;
+  url: string;
+  demoUrl?: string;
+  /** The publication it comes from. */
+  publicationId?: string;
+  metrics: string[];
+  tags: string[];
+  releasedOn?: string;
+  featured: boolean;
+}
+
+/** The researcher-style site: who the researcher is and what they released. */
+export interface Researcher {
+  title: string;
+  affiliation: string;
+  statement: string;
+  interests: string[];
+  artifacts: ResearchArtifact[];
 }
 
 export interface Education {
@@ -173,6 +210,8 @@ export interface Content {
   techStack: Group & { categories: TechCategory[] };
   research: Group & { filters: Group; types: Group; status: Group; items: Publication[] };
   articles: Group & { platforms: Group; items: ArticlePost[] };
+  /** Wording (labels group `researcher`) plus the research profile. */
+  researcher: Group & Researcher;
   contact: Group & { form: Group; social: Group };
   summery: Group & { check_list: { list: [string, number][] } };
 }
