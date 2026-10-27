@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Code2, Database, ExternalLink, FileText, PlayCircle, Quote, ScrollText } from 'lucide-react';
+import { Check, Code2, Database, ExternalLink, FileText, Lock, PlayCircle, Quote, ScrollText } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import type { Publication } from '../../types';
 import RichText from '../UI/RichText';
@@ -49,7 +49,7 @@ const Entry: React.FC<{ pub: Publication; n: number }> = ({ pub, n }) => {
           {code && <Pill href={code} icon={<Code2 size={12} />}>{r.code}</Pill>}
           {model && <Pill href={model.url} icon={<span aria-hidden>🤗</span>}>{r.model}</Pill>}
           {demo && <Pill href={demo} icon={<PlayCircle size={12} />}>{r.demo}</Pill>}
-          {dataset && <Pill href={dataset.url} icon={<Database size={12} />}>{r.dataset}</Pill>}
+          {dataset && <Pill href={dataset.url} icon={dataset.isPrivate ? <Lock size={12} /> : <Database size={12} />}>{r.dataset}{dataset.isPrivate ? ` · ${r.private}` : ''}</Pill>}
           <Pill onClick={() => toggle('bibtex')} icon={<Quote size={12} />}>{r.bibtex}</Pill>
         </div>
         {open === 'abstract' && pub.abstract && (

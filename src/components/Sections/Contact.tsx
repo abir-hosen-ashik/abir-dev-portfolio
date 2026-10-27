@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Github, Linkedin, Send, Copy, Check, MessageCircle, BookOpen, Youtube, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, Send, Copy, Check, MessageCircle, BookOpen, Youtube, Facebook, Instagram, Twitter, BarChart3 } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { insertMessage } from '../../utils/supabase';
 import Notification, { NotificationType } from '../UI/Notification';
@@ -67,6 +67,11 @@ export const Contact: React.FC = () => {
   };
 
   const socialLinks = [
+    // Hugging Face and Kaggle lead, when their handles are set.
+    ...[
+      { name: 'Hugging Face', handle: t.personalInfo.huggingface, url: (h: string) => `https://huggingface.co/${h}`, icon: <span className="text-lg leading-none">🤗</span>, color: 'from-accent-500 to-accent-600' },
+      { name: 'Kaggle', handle: t.personalInfo.kaggle, url: (h: string) => `https://www.kaggle.com/${h}`, icon: <BarChart3 size={20} />, color: 'from-info-500 to-primary-500' },
+    ].filter(s => s.handle).map(s => ({ name: s.name, url: s.url(s.handle!), icon: s.icon, username: s.handle!, color: s.color })),
     {
       name: 'GitHub',
       url: `https://github.com/${t.personalInfo.github}`,

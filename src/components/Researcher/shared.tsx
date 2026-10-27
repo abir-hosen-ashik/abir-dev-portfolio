@@ -1,4 +1,5 @@
 import React from 'react';
+import { Lock } from 'lucide-react';
 import type { PersonalInfo, Publication } from '../../types';
 
 // Building blocks of the researcher-style site: a quiet, paper-like layout.
@@ -67,14 +68,35 @@ export function bibtexOf(pub: Publication): string {
   return `@${kind}{${key},\n${body}\n}`;
 }
 
-/** Profile links that are set, as [label, URL]. */
+/** Asks the contact form to prefill an access request for a private item and scrolls to it. */
+export const REQUEST_ACCESS = 'portfolio:request-access';
+export const requestAccess = (title: string) => window.dispatchEvent(new CustomEvent(REQUEST_ACCESS, { detail: title }));
+
+/** "Private" with a hover / focus tooltip; a click starts an access request. */
+export const PrivateTag: React.FC<{ title: string; tip: string; label: string; action: string }> = ({ title, tip, label, action }) => (
+  <span className="relative group inline-flex">
+    <button
+      type="button"
+      onClick={() => requestAccess(title)}
+      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wide bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/70"
+      aria-label={`${label}: ${tip}`}
+    >
+      <Lock size={11} />{label}
+    </button>
+    <span role="tooltip" className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 rounded-md bg-zinc-900 dark:bg-zinc-100 px-3 py-2 text-xs font-normal normal-case tracking-normal text-white dark:text-zinc-900 shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-20">
+      {tip} <span className="underline">{action}</span>
+    </span>
+  </span>
+);
+
+/** Profile links that are set, as [label, URL]; Hugging Face and Kaggle first. */
 export function academicLinks(p: PersonalInfo): { key: string; label: string; href: string }[] {
   const links: [string, string, string | undefined][] = [
+    ['huggingface', 'Hugging Face', p.huggingface && `https://huggingface.co/${p.huggingface}`],
+    ['kaggle', 'Kaggle', p.kaggle && `https://www.kaggle.com/${p.kaggle}`],
     ['scholar', 'Google Scholar', p.googleScholar && `https://scholar.google.com/citations?user=${p.googleScholar}`],
     ['orcid', 'ORCID', p.orcid && `https://orcid.org/${p.orcid}`],
     ['github', 'GitHub', p.github && `https://github.com/${p.github}`],
-    ['huggingface', 'Hugging Face', p.huggingface && `https://huggingface.co/${p.huggingface}`],
-    ['kaggle', 'Kaggle', p.kaggle && `https://www.kaggle.com/${p.kaggle}`],
     ['researchgate', 'ResearchGate', p.researchgate && `https://www.researchgate.net/profile/${p.researchgate}`],
     ['linkedin', 'LinkedIn', p.linkedin && `https://www.linkedin.com/in/${p.linkedin}`],
   ];

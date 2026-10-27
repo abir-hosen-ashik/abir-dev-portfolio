@@ -3,6 +3,7 @@ import { Menu, Moon, Sun, X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import { VersionToggle } from '../Versions/VersionToggle';
 
 /** A slim top bar: the name, the sections that have content, theme and language. */
 export const ResearchHeader: React.FC = () => {
@@ -46,6 +47,7 @@ export const ResearchHeader: React.FC = () => {
           ))}
         </nav>
         <div className="flex items-center gap-1">
+          <VersionToggle className="mr-1 text-zinc-700 dark:text-zinc-300" />
           <button onClick={toggleTheme} className={iconBtn} title={t.ui.theme} aria-label={t.ui.theme}>
             {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>

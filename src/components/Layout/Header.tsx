@@ -3,6 +3,7 @@ import { Menu, X, Sun, Moon, Globe, Code2 } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
+import { VersionToggle } from '../Versions/VersionToggle';
 
 export const Header: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -76,6 +77,7 @@ export const Header: React.FC = () => {
 
           {/* Controls */}
           <div className="flex items-center space-x-4">
+            <VersionToggle className="text-neutral-700 dark:text-neutral-300" />
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}

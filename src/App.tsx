@@ -16,7 +16,7 @@ import { Intro } from './components/Researcher/Intro';
 import { Publications } from './components/Researcher/Publications';
 import { Artifacts } from './components/Researcher/Artifacts';
 import { Background, ResearchContact, SelectedProjects, Writing } from './components/Researcher/Background';
-import { VersionSwitch } from './components/UI/VersionSwitch';
+import { VersionPicker } from './components/Versions/VersionPicker';
 import { ArticlePage } from './pages/ArticlePage';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
@@ -75,27 +75,37 @@ const routes = (home: React.ReactNode) => (
   </Routes>
 );
 
-function Site() {
+function ResearcherSite() {
   const { t } = useLanguage();
-  if (t.version?.layout === 'researcher') {
-    return (
-      <div className="min-h-screen bg-[#fbfaf7] dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 transition-colors duration-300">
-        <ResearchHeader />
-        {routes(<ResearcherHome />)}
-        <footer className="max-w-5xl mx-auto px-4 py-10 text-sm text-zinc-500 border-t border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4">
-          <span>© {new Date().getFullYear()} {t.personalInfo.name}</span>
-          <VersionSwitch />
-        </footer>
-      </div>
-    );
-  }
+  return (
+    <div className="min-h-screen bg-[#fbfaf7] dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 transition-colors duration-300">
+      <ResearchHeader />
+      {routes(<ResearcherHome />)}
+      <footer className="max-w-5xl mx-auto px-4 py-10 text-sm text-zinc-500 border-t border-zinc-200 dark:border-zinc-800">
+        © {new Date().getFullYear()} {t.personalInfo.name}
+      </footer>
+    </div>
+  );
+}
+
+function DeveloperSite() {
   return (
     <div className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-300">
       <Header />
       {routes(<DeveloperHome />)}
-      <VersionSwitch className="py-4 bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 border-t border-neutral-200 dark:border-neutral-700" />
       <Footer />
     </div>
+  );
+}
+
+/** The version's layout; the picker sits outside it so a switch doesn't reopen it. */
+function Site() {
+  const { t } = useLanguage();
+  return (
+    <>
+      {t.version?.layout === 'researcher' ? <ResearcherSite /> : <DeveloperSite />}
+      <VersionPicker />
+    </>
   );
 }
 

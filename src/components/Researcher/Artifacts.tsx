@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Code2, Database, ExternalLink, PlayCircle } from 'lucide-react';
+import { Code2, Database, ExternalLink, Mail, PlayCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import type { ResearchArtifact } from '../../types';
-import { Pill, Section } from './shared';
+import { Pill, PrivateTag, Section, requestAccess } from './shared';
 
 const PLATFORM: Record<string, string> = {
   huggingface: 'Hugging Face', kaggle: 'Kaggle', github: 'GitHub', zenodo: 'Zenodo', website: 'Website', other: 'Link',
@@ -22,6 +22,7 @@ const Card: React.FC<{ a: ResearchArtifact }> = ({ a }) => {
         <span className="uppercase tracking-wide font-semibold">{r[`kind_${a.kind}`] ?? a.kind}</span>
         <span>·</span>
         <span>{PLATFORM[a.platform] ?? a.platform}</span>
+        {a.isPrivate && <span className="ml-auto"><PrivateTag title={a.title} tip={r.private_tip} label={r.private} action={r.request_access} /></span>}
       </div>
       <h3 className="mt-2 font-medium text-zinc-900 dark:text-zinc-50 leading-snug">{a.title}</h3>
       {a.description && <p className="mt-1.5 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">{a.description}</p>}
@@ -41,6 +42,7 @@ const Card: React.FC<{ a: ResearchArtifact }> = ({ a }) => {
       <div className="mt-auto pt-4 flex flex-wrap gap-1.5">
         <Pill href={a.url} icon={<ExternalLink size={12} />}>{PLATFORM[a.platform] ?? r[`kind_${a.kind}`]}</Pill>
         {a.demoUrl && <Pill href={a.demoUrl} icon={<PlayCircle size={12} />}>{r.demo}</Pill>}
+        {a.isPrivate && <Pill onClick={() => requestAccess(a.title)} icon={<Mail size={12} />}>{r.request_access}</Pill>}
       </div>
     </article>
   );

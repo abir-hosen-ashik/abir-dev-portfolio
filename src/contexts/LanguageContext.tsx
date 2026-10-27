@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useState, useEffect } from 'react';
 import { Content, Language } from '../types';
 import { loadContent } from '../data/loadContent';
 
@@ -6,7 +6,14 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: Content;
+  /** Shows another version of the portfolio (reloads its content; the URL keeps ?version=). */
+  setVersion: (slug: string) => Promise<void>;
+  /** The visitor arrived asking for a version (?version=), so no picker is needed. */
+  versionAsked: boolean;
 }
+
+// Read once: the version the visitor arrived with.
+const ARRIVED_WITH = new URLSearchParams(window.location.search).get('version');
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
@@ -29,12 +36,21 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [language]);
 
   useEffect(() => {
-    loadContent()
+    loadContent(undefined, ARRIVED_WITH)
       .then(setContent)
       .catch(err => {
         console.error('Failed to load portfolio content', err);
         setError(err?.message || String(err));
       });
+  }, []);
+
+  const setVersion = useCallback(async (slug: string) => {
+    const next = await loadContent(undefined, slug);
+    setContent(next);
+    const url = new URL(window.location.href);
+    url.searchParams.set('version', slug);
+    window.history.replaceState(window.history.state, '', url);
+    window.scrollTo({ top: 0 });
   }, []);
 
   const t = content?.[language];
@@ -56,7 +72,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   if (!t) return <FullScreen>Loading...</FullScreen>;
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, setVersion, versionAsked: !!ARRIVED_WITH }}>
       {children}
     </LanguageContext.Provider>
   );

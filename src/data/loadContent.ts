@@ -125,6 +125,10 @@ const RESEARCHER_LABELS: Record<Language, Record<string, string>> = {
     models_intro: "Trained models, datasets and code released with my research, each with a link to try or reuse it.",
     contact_intro: "Open to research collaborations, graduate research positions and applied AI work.",
     kind_model: "Model", kind_dataset: "Dataset", kind_demo: "Demo", kind_code: "Code", all: "All", updated: "Last updated",
+    private: "Private", private_tip: "Private dataset — send me a message to request access.", request_access: "Request access",
+    access_subject: "Access request: {title}", access_message: "Hi, I would like to request access to \"{title}\" for research use.",
+    form_name: "Name", form_email: "Email", form_subject: "Subject", form_message: "Message", form_send: "Send message", form_sending: "Sending…",
+    form_sent: "Thanks — your message was sent.", form_failed: "Sorry, the message could not be sent. Please email me instead.",
   },
   bn: {
     about: "পরিচিতি", publications: "প্রকাশনা", models: "মডেল ও ডেটা", experience: "অভিজ্ঞতা", projects: "প্রকল্প", writing: "লেখা", contact: "যোগাযোগ",
@@ -136,6 +140,10 @@ const RESEARCHER_LABELS: Record<Language, Record<string, string>> = {
     models_intro: "আমার গবেষণার সাথে প্রকাশিত মডেল, ডেটাসেট ও কোড — প্রতিটি চালিয়ে দেখা বা ব্যবহার করার লিংকসহ।",
     contact_intro: "গবেষণা সহযোগিতা, স্নাতকোত্তর গবেষণার সুযোগ এবং প্রয়োগমূলক এআই কাজের জন্য যোগাযোগ করুন।",
     kind_model: "মডেল", kind_dataset: "ডেটাসেট", kind_demo: "ডেমো", kind_code: "কোড", all: "সব", updated: "সর্বশেষ হালনাগাদ",
+    private: "প্রাইভেট", private_tip: "প্রাইভেট ডেটাসেট — অ্যাক্সেসের জন্য আমাকে মেসেজ দিন।", request_access: "অ্যাক্সেস চান",
+    access_subject: "অ্যাক্সেসের অনুরোধ: {title}", access_message: "হ্যালো, গবেষণার জন্য \"{title}\" এর অ্যাক্সেস চাই।",
+    form_name: "নাম", form_email: "ইমেইল", form_subject: "বিষয়", form_message: "বার্তা", form_send: "বার্তা পাঠান", form_sending: "পাঠানো হচ্ছে…",
+    form_sent: "ধন্যবাদ — আপনার বার্তা পাঠানো হয়েছে।", form_failed: "দুঃখিত, বার্তা পাঠানো যায়নি। অনুগ্রহ করে ইমেইল করুন।",
   },
 };
 
@@ -187,7 +195,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
 
   // The version's own text wins over the profile's.
   const version = pick.current ?? {};
-  const versionOf = (v: Row) => ({ slug: v.slug, name: tr(v, "name"), layout: v.layout });
+  const versionOf = (v: Row) => ({ slug: v.slug, name: tr(v, "name"), title: tr(v, "title") || tr(profile, "title"), layout: v.layout });
 
   const years = profile.career_start_year ? new Date().getFullYear() - profile.career_start_year : 0;
   const l = labelTree(labels, lang);
@@ -345,6 +353,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
           tags: a.tags ?? [],
           releasedOn: a.released_on ?? undefined,
           featured: !!a.is_featured,
+          isPrivate: !!a.is_private,
         })),
     },
     version: pick.current ? versionOf(pick.current) : undefined,

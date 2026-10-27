@@ -110,6 +110,8 @@ export interface PersonalInfo {
 export interface PortfolioVersion {
   slug: string;
   name: string;
+  /** The version's title, else the profile's. */
+  title: string;
   layout: 'developer' | 'researcher';
 }
 
@@ -129,6 +131,8 @@ export interface ResearchArtifact {
   tags: string[];
   releasedOn?: string;
   featured: boolean;
+  /** Listed and linked, but access is on request (batools 064). */
+  isPrivate: boolean;
 }
 
 /** The researcher layout: who the researcher is and what they released. */
