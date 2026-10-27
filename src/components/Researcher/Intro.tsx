@@ -46,7 +46,7 @@ export const Intro: React.FC = () => {
           {cv && (
             <a href={cv} target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-sky-800 text-white hover:bg-sky-900 dark:bg-sky-600 dark:hover:bg-sky-500">
-              <FileText size={14} />{r.cv}
+              <FileText size={14} />{r.resume}
             </a>
           )}
         </div>

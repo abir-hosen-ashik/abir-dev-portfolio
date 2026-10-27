@@ -120,7 +120,7 @@ const RESEARCHER_LABELS: Record<Language, Record<string, string>> = {
     interests_title: "Research interests", peer_reviewed: "Peer-reviewed", under_review: "Under review", accepted: "Accepted",
     abstract: "Abstract", bibtex: "BibTeX", copied: "Copied", pdf: "PDF", doi: "DOI", paper: "Paper", code: "Code", model: "Model", dataset: "Dataset", demo: "Live demo",
     from_paper: "From", released: "Released", research_experience: "Research experience", industry_experience: "Industry experience",
-    teaching: "Teaching", education: "Education", selected_projects: "Selected engineering projects", cv: "CV", email: "Email",
+    teaching: "Teaching", education: "Education", selected_projects: "Selected engineering projects", resume: "Resume", email: "Email",
     stat_publications: "publications", stat_under_review: "under review", stat_models: "open models", stat_datasets: "datasets",
     models_intro: "Trained models, datasets and code released with my research, each with a link to try or reuse it.",
     contact_intro: "Open to research collaborations, graduate research positions and applied AI work.",
