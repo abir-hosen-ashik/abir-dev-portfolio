@@ -104,7 +104,13 @@ export interface PersonalInfo {
   googleScholar?: string;
   orcid?: string;
   researchgate?: string;
-  researchCvUrl?: string;
+}
+
+/** A version of the portfolio (pf_versions, batools 063) and how it is drawn. */
+export interface PortfolioVersion {
+  slug: string;
+  name: string;
+  layout: 'developer' | 'researcher';
 }
 
 /** A released model, dataset, demo or code (pf_research_artifacts, batools 063). */
@@ -125,7 +131,7 @@ export interface ResearchArtifact {
   featured: boolean;
 }
 
-/** The researcher-style site: who the researcher is and what they released. */
+/** The researcher layout: who the researcher is and what they released. */
 export interface Researcher {
   title: string;
   affiliation: string;
@@ -212,6 +218,10 @@ export interface Content {
   articles: Group & { platforms: Group; items: ArticlePost[] };
   /** Wording (labels group `researcher`) plus the research profile. */
   researcher: Group & Researcher;
+  /** The version shown (none before any exists: everything, developer layout). */
+  version?: PortfolioVersion;
+  /** Every active version, for switching. */
+  versions: PortfolioVersion[];
   contact: Group & { form: Group; social: Group };
   summery: Group & { check_list: { list: [string, number][] } };
 }

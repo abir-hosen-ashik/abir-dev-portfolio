@@ -80,6 +80,26 @@ const CASE_STUDY_LABELS: Record<Language, Record<string, string>> = {
 /** Case-study sections and challenges (batools 058), each pointing at a project or a publication; posts (061). */
 type Details = { sections: Row[]; challenges: Row[]; posts: Row[]; artifacts: Row[] };
 
+/** The version being shown and every version's id (batools 063). */
+type VersionPick = { current?: Row; active: Row[]; known: Set<string> };
+
+/**
+ * Which version to show: ?version=<slug>, else VITE_PORTFOLIO_VERSION, else
+ * the default, else the first active one. Inactive versions are never shown.
+ */
+function pickVersion(rows: Row[], wanted: string | null): VersionPick {
+  const active = rows.filter(v => v.is_active);
+  const bySlug = (slug: string | null | undefined) => (slug ? active.find(v => v.slug === slug) : undefined);
+  const current = bySlug(wanted) ?? bySlug(import.meta.env.VITE_PORTFOLIO_VERSION) ?? active.find(v => v.is_default) ?? active[0];
+  return { current, active, known: new Set(rows.map(v => v.id)) };
+}
+
+/** A row is in every version unless tagged; tags of deleted versions don't count. */
+const inVersion = (row: Row, pick: VersionPick) => {
+  const tags = ((row.versions ?? []) as string[]).filter(id => pick.known.has(id));
+  return !tags.length || (!!pick.current && tags.includes(pick.current.id));
+};
+
 /** Articles wording used until the owner sets their own labels (articles.*, nav.articles). */
 const ARTICLE_LABELS: Record<Language, Record<string, string>> = {
   en: {
@@ -143,7 +163,7 @@ function postOf(p: Row, lang: Language): ArticlePost {
   };
 }
 
-function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTable, Row[]>, details: Details): Content {
+function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTable, Row[]>, details: Details, pick: VersionPick): Content {
   // Bangla falls back to English wherever a translation is left empty.
   const tr = (row: Row, field: string): string =>
     (lang === "bn" && row[`${field}_bn`]) || row[`${field}_en`] || "";
@@ -164,6 +184,10 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       .map(c => ({ challenge: tr(c, "challenge"), solution: tr(c, "solution"), result: tr(c, "result") }));
     return sections.length || challenges.length ? { sections, challenges } : undefined;
   };
+
+  // The version's own text wins over the profile's.
+  const version = pick.current ?? {};
+  const versionOf = (v: Row) => ({ slug: v.slug, name: tr(v, "name"), layout: v.layout });
 
   const years = profile.career_start_year ? new Date().getFullYear() - profile.career_start_year : 0;
   const l = labelTree(labels, lang);
@@ -197,25 +221,24 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       x: profile.x ?? undefined,
       gitlab: profile.gitlab ?? undefined,
       kaggle: profile.kaggle ?? undefined,
-      resumeUrl: profile.resume_url ?? undefined,
+      resumeUrl: version.cv_url ?? profile.resume_url ?? undefined,
       // Research profile (batools 063); absent before it.
       huggingface: profile.huggingface ?? undefined,
       googleScholar: profile.google_scholar ?? undefined,
       orcid: profile.orcid ?? undefined,
       researchgate: profile.researchgate ?? undefined,
-      researchCvUrl: profile.research_cv_url ?? undefined,
     },
     home: {
       greeting: tr(profile, "greeting"),
       name: tr(profile, "name"),
-      title: tr(profile, "title"),
+      title: tr(version, "title") || tr(profile, "title"),
       subtitle: tr(profile, "subtitle"),
       slogan: tr(profile, "slogan"),
       roles: lists.pf_hero_roles.map(r => ({ text: tr(r, "text"), icon: r.icon })),
     },
     about: {
       ...l.about,
-      objectiveText: tr(profile, "objective"),
+      objectiveText: tr(version, "statement") || tr(profile, "objective"),
       sections,
       education: {
         title: l.about.education.title ?? "",
@@ -302,10 +325,10 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
     researcher: {
       ...RESEARCHER_LABELS[lang],
       ...l.researcher,
-      title: tr(profile, "research_title") || tr(profile, "title"),
-      affiliation: tr(profile, "affiliation"),
-      statement: tr(profile, "research_statement") || tr(profile, "objective"),
-      interests: trList(profile, "research_interests"),
+      title: tr(version, "title") || tr(profile, "title"),
+      affiliation: tr(version, "affiliation"),
+      statement: tr(version, "statement") || tr(profile, "objective"),
+      interests: trList(version, "interests"),
       // Featured first; otherwise the order set in batools.
       artifacts: [...details.artifacts]
         .sort((a, b) => Number(b.is_featured) - Number(a.is_featured))
@@ -324,6 +347,8 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
           featured: !!a.is_featured,
         })),
     },
+    version: pick.current ? versionOf(pick.current) : undefined,
+    versions: pick.active.map(versionOf),
     contact: l.contact,
     summery: {
       ...l.summery,
@@ -333,7 +358,10 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
   return fillYears(content, localizeDigits(years, lang));
 }
 
-export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<Language, Content>> {
+export async function loadContent(
+  userId = PORTFOLIO_USER_ID,
+  wantedVersion = new URLSearchParams(window.location.search).get("version"),
+): Promise<Record<Language, Content>> {
   // Case studies (058) and articles (061) are optional extras: if their tables
   // are missing or a read fails, the rest of the portfolio shows without them.
   const detailsReq = (table: string, publishedOnly = false) => {
@@ -351,6 +379,11 @@ export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<La
     detailsReq("pf_posts", true),
     // Released models and datasets (063).
     detailsReq("pf_research_artifacts"),
+    // Versions (063): active or not, so tags of inactive versions are known.
+    supabase.from("pf_versions").select("*").eq("user_id", userId).order("sort_order").then(({ data, error }) => {
+      if (error) console.warn("pf_versions unavailable", error.message);
+      return (data ?? []) as Row[];
+    }),
   ]);
   const [profileRes, labelsRes, ...listRes] = await Promise.all([
     supabase.from("pf_profile").select("*").eq("user_id", userId).maybeSingle(),
@@ -364,13 +397,22 @@ export async function loadContent(userId = PORTFOLIO_USER_ID): Promise<Record<La
   if (failed?.error) throw failed.error;
   if (!profileRes.data) throw new Error("Portfolio not found");
 
-  const lists = Object.fromEntries(LIST_TABLES.map((t, i) => [t, listRes[i].data ?? []])) as Record<ListTable, Row[]>;
+  const [sections, challenges, posts, artifacts, versionRows] = await detailsPromise;
+  const pick = pickVersion(versionRows, wantedVersion);
+  // Only the rows of the version shown; children follow their parent.
+  const lists = Object.fromEntries(
+    LIST_TABLES.map((t, i) => [t, ((listRes[i].data ?? []) as Row[]).filter(r => inVersion(r, pick))]),
+  ) as Record<ListTable, Row[]>;
   const labels = labelsRes.data ?? [];
-  const [sections, challenges, posts, artifacts] = await detailsPromise;
-  const details = { sections, challenges, posts, artifacts };
+  const details = {
+    sections,
+    challenges,
+    posts: posts.filter(r => inVersion(r, pick)),
+    artifacts: artifacts.filter(r => inVersion(r, pick)),
+  };
   return {
-    en: build("en", profileRes.data, labels, lists, details),
-    bn: build("bn", profileRes.data, labels, lists, details),
+    en: build("en", profileRes.data, labels, lists, details, pick),
+    bn: build("bn", profileRes.data, labels, lists, details, pick),
   };
 }
 

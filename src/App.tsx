@@ -1,26 +1,59 @@
 import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { Header } from './components/Layout/Header';
+import { Hero } from './components/Sections/Hero';
+import { About } from './components/Sections/About';
+import { Projects } from './components/Sections/Projects';
+import { Experience } from './components/Sections/Experience';
+import { Research } from './components/Sections/Research';
+import { TechStack } from './components/Sections/TechStack';
+import { Contact } from './components/Sections/Contact';
+import { Footer } from './components/Layout/Footer';
+import { Summery } from './components/Sections/Summery';
+import { Articles } from './components/Sections/Articles';
 import { ResearchHeader } from './components/Researcher/ResearchHeader';
 import { Intro } from './components/Researcher/Intro';
 import { Publications } from './components/Researcher/Publications';
 import { Artifacts } from './components/Researcher/Artifacts';
 import { Background, ResearchContact, SelectedProjects, Writing } from './components/Researcher/Background';
+import { VersionSwitch } from './components/UI/VersionSwitch';
 import { ArticlePage } from './pages/ArticlePage';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
-// The researcher-style portfolio (research branch): the same pf_ content as the
-// main site, laid out like an academic homepage. Publications and released
-// models lead; engineering work follows.
+// One site, several versions (batools pf_versions): the version picks the
+// rows and the layout. "developer" is the original one-page portfolio;
+// "researcher" is laid out like an academic homepage.
 
-/** The one-page portfolio. Arriving with a #section (e.g. back from an article) scrolls to it. */
-function Home() {
+/** Arriving with a #section (e.g. back from an article) scrolls to it. */
+function useScrollToHash() {
   const { hash } = useLocation();
   useEffect(() => {
     if (!hash) return;
     const t = window.setTimeout(() => document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' }), 50);
     return () => window.clearTimeout(t);
   }, [hash]);
+}
+
+function DeveloperHome() {
+  useScrollToHash();
+  return (
+    <main>
+      <Hero />
+      <About />
+      <Projects />
+      <Experience />
+      <Research />
+      <Articles />
+      <TechStack />
+      <Contact />
+      <Summery />
+    </main>
+  );
+}
+
+function ResearcherHome() {
+  useScrollToHash();
   return (
     <main className="max-w-5xl mx-auto px-4">
       <Intro />
@@ -34,12 +67,35 @@ function Home() {
   );
 }
 
-function ResearchFooter() {
+const routes = (home: React.ReactNode) => (
+  <Routes>
+    <Route path="/" element={home} />
+    <Route path="/articles/:slug" element={<ArticlePage />} />
+    <Route path="*" element={<Navigate to="/" replace />} />
+  </Routes>
+);
+
+function Site() {
   const { t } = useLanguage();
+  if (t.version?.layout === 'researcher') {
+    return (
+      <div className="min-h-screen bg-[#fbfaf7] dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 transition-colors duration-300">
+        <ResearchHeader />
+        {routes(<ResearcherHome />)}
+        <footer className="max-w-5xl mx-auto px-4 py-10 text-sm text-zinc-500 border-t border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4">
+          <span>© {new Date().getFullYear()} {t.personalInfo.name}</span>
+          <VersionSwitch />
+        </footer>
+      </div>
+    );
+  }
   return (
-    <footer className="max-w-5xl mx-auto px-4 py-10 text-sm text-zinc-500 border-t border-zinc-200 dark:border-zinc-800">
-      © {new Date().getFullYear()} {t.personalInfo.name}
-    </footer>
+    <div className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-300">
+      <Header />
+      {routes(<DeveloperHome />)}
+      <VersionSwitch className="py-4 bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 border-t border-neutral-200 dark:border-neutral-700" />
+      <Footer />
+    </div>
   );
 }
 
@@ -47,15 +103,7 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <div className="min-h-screen bg-[#fbfaf7] dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 transition-colors duration-300">
-          <ResearchHeader />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/articles/:slug" element={<ArticlePage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-          <ResearchFooter />
-        </div>
+        <Site />
       </LanguageProvider>
     </ThemeProvider>
   );

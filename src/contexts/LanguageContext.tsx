@@ -40,7 +40,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const t = content?.[language];
 
   useEffect(() => {
-    if (t) document.title = [t.personalInfo.name, t.researcher.title].filter(Boolean).join(' - ');
+    if (t) document.title = [t.personalInfo.name, t.home.title].filter(Boolean).join(' - ');
   }, [t]);
 
   if (error) {

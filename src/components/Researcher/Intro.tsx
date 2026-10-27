@@ -13,7 +13,7 @@ export const Intro: React.FC = () => {
   const r = t.researcher;
   const p = t.personalInfo;
   const pubs = t.research.items;
-  const cv = p.researchCvUrl || p.resumeUrl;
+  const cv = p.resumeUrl;
   const location = t.experience.items.find(e => e.current)?.location;
 
   const stats = [
