@@ -245,10 +245,11 @@ export const ResearchContact: React.FC = () => {
     e.preventDefault();
     setState('sending');
     const message = { name: form.name, contact: form.email, subject: form.subject, message: form.message };
-    const saved = await insertMessage(message).catch(() => null);
+    const saved = await insertMessage({ ...message, version: t.version?.slug }).catch(() => null);
     if (!saved || saved.error) { setState('failed'); return; }
-    // The inbox has it; the email is a courtesy copy.
-    if (p.email) await sendEmail(message, { email: p.email, name: p.name }).catch(() => undefined);
+    // The inbox has it; the email is a courtesy copy, tagged with the version too.
+    const subject = t.version ? `[${t.version.name}] ${message.subject}` : message.subject;
+    if (p.email) await sendEmail({ ...message, subject }, { email: p.email, name: p.name }).catch(() => undefined);
     setForm({ name: '', email: '', subject: '', message: '' });
     setState('sent');
   };

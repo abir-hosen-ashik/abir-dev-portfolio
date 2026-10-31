@@ -26,7 +26,8 @@ export const Contact: React.FC = () => {
       name: formData.name,
       contact: formData.email,
       subject: formData.subject,
-      message: formData.message
+      message: formData.message,
+      version: t.version?.slug,
     }).then(resp => {
       if (resp?.status == 201) {
         setFormData({
@@ -40,7 +41,8 @@ export const Contact: React.FC = () => {
         sendEmail({
           name: formData.name,
           contact: formData.email,
-          subject: formData.subject,
+          // The email says which version it came from too.
+          subject: t.version ? `[${t.version.name}] ${formData.subject}` : formData.subject,
           message: formData.message
         }, { email: t.personalInfo.email, name: t.personalInfo.name }).then(response => {
           if(response.status) setNotification({ type: "success", message: t.ui.email_sent });
