@@ -15,6 +15,7 @@ import { ResearchHeader } from './components/Researcher/ResearchHeader';
 import { Intro } from './components/Researcher/Intro';
 import { Publications } from './components/Researcher/Publications';
 import { Artifacts } from './components/Researcher/Artifacts';
+import { Skills } from './components/Researcher/Skills';
 import { Background, ResearchContact, SelectedProjects, Writing } from './components/Researcher/Background';
 import { VersionPicker } from './components/Versions/VersionPicker';
 import { ArticlePage } from './pages/ArticlePage';
@@ -58,6 +59,7 @@ function ResearcherHome() {
     <main className="max-w-5xl mx-auto px-4">
       <Intro />
       <Publications />
+      <Skills />
       <Artifacts />
       <Background />
       <SelectedProjects />

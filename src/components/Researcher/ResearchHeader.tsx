@@ -17,6 +17,7 @@ export const ResearchHeader: React.FC = () => {
   const items = [
     { href: '#about', label: r.about },
     ...(t.research.items.length ? [{ href: '#publications', label: r.publications }] : []),
+    ...(t.techStack.categories.some(c => c.skills.length) ? [{ href: '#skills', label: r.skills_nav }] : []),
     ...(r.artifacts.length ? [{ href: '#artifacts', label: r.models }] : []),
     { href: '#experience', label: r.experience },
     ...(t.projects.items.some(p => p.onHome) ? [{ href: '#projects', label: r.projects }] : []),
