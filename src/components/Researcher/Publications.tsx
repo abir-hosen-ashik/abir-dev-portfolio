@@ -49,7 +49,8 @@ const BibTeX: React.FC<{ pub: Publication }> = ({ pub }) => {
   };
   return (
     <div className="relative">
-      <pre className="text-xs leading-relaxed overflow-x-auto p-3 rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200">{bibtex}</pre>
+      {/* Wraps to the width it has: no sideways scrolling. */}
+      <pre className="text-xs leading-relaxed whitespace-pre-wrap break-words [overflow-wrap:anywhere] p-3 pr-20 rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200">{bibtex}</pre>
       <button onClick={copy} className="absolute top-2 right-2 text-xs inline-flex items-center gap-1 px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700">
         {copied ? <Check size={12} /> : <Quote size={12} />}{copied ? t.researcher.copied : 'Copy'}
       </button>

@@ -44,7 +44,7 @@ export const RModal: React.FC<{ title: string; subtitle?: React.ReactNode; onClo
             <X size={20} />
           </button>
         </div>
-        <div className="px-6 py-5 overflow-y-auto">{children}</div>
+        <div className="px-6 py-5 overflow-y-auto overflow-x-hidden min-w-0 break-words">{children}</div>
       </div>
     </div>,
     document.body,
