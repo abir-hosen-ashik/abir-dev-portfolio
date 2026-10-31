@@ -4,6 +4,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import type { ResearchArtifact } from '../../types';
 import { Pill, PrivateTag, Section, requestAccess } from './shared';
 import { RLabel, RModal, ViewAll } from './RModal';
+import { Pager, usePaged } from '../UI/Pager';
 
 const PLATFORM: Record<string, string> = {
   huggingface: 'Hugging Face', kaggle: 'Kaggle', github: 'GitHub', zenodo: 'Zenodo', website: 'Website', other: 'Link',
@@ -109,6 +110,8 @@ const Grid: React.FC<{ items: ResearchArtifact[]; filter?: boolean }> = ({ items
   const [open, setOpen] = useState<ResearchArtifact | null>(null);
   const kinds = (['model', 'dataset', 'demo', 'code'] as const).filter(k => items.some(a => a.kind === k));
   const shown = kind === 'all' ? items : items.filter(a => a.kind === kind);
+  // Only the View all grid (with filters) is paged.
+  const paged = usePaged(shown, filter ? 9 : Math.max(1, shown.length), kind);
   const chip = (k: string, label: string) => (
     <button key={k} onClick={() => setKind(k)}
       className={`px-3 py-1 rounded-full text-sm border ${kind === k
@@ -126,8 +129,9 @@ const Grid: React.FC<{ items: ResearchArtifact[]; filter?: boolean }> = ({ items
         </div>
       )}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {shown.map(a => <Card key={a.id} a={a} onDetails={() => setOpen(a)} />)}
+        {paged.slice.map(a => <Card key={a.id} a={a} onDetails={() => setOpen(a)} />)}
       </div>
+      <Pager tone="researcher" page={paged.page} pages={paged.pages} onChange={paged.setPage} />
       {open && <ArtifactModal a={open} onClose={() => setOpen(null)} />}
     </>
   );

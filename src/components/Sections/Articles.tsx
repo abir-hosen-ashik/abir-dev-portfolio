@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, BookOpen, Calendar, Clock, Facebook, Filter, Globe, Instagram, Linkedin, Newspaper, Star, Twitter, X, Youtube } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { Pager, usePaged } from '../UI/Pager';
 import { ArticlePost } from '../../types';
 
 // Articles: the home page lists the posts marked for it, and "View all" opens
@@ -81,6 +82,8 @@ const ArticlesModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
   const { t } = useLanguage();
   const a = t.articles;
   const [platform, setPlatform] = useState('all');
+  const all = a.items;
+  const paged = usePaged(platform === 'all' ? all : all.filter(p => p.platform === platform), 9, platform);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -92,7 +95,6 @@ const ArticlesModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
   if (!isOpen) return null;
   const items = a.items;
   const platforms = [...new Set(items.map(p => p.platform))];
-  const shown = platform === 'all' ? items : items.filter(p => p.platform === platform);
   const chip = (key: string, label: string, count: number) => (
     <button
       key={key}
@@ -125,8 +127,9 @@ const ArticlesModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
         </div>
         <div className="p-6 overflow-y-auto">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {shown.map(post => <ArticleCard key={post.id} post={post} compact />)}
+            {paged.slice.map(post => <ArticleCard key={post.id} post={post} compact />)}
           </div>
+          <Pager page={paged.page} pages={paged.pages} onChange={paged.setPage} />
         </div>
       </div>
     </div>

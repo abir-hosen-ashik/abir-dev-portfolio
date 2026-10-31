@@ -4,6 +4,7 @@ import { ArrowRight, BookOpen, Lightbulb, Calendar, Check, Code2, ExternalLink, 
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Publication } from '../../types';
 import RichText from '../UI/RichText';
+import { Pager, usePaged } from '../UI/Pager';
 import { CaseStudyContent } from '../Modals/CaseStudyContent';
 
 const tokens = (name: string) => name.toLowerCase().replace(/[.,]/g, ' ').split(/\s+/).filter(Boolean);
@@ -285,6 +286,7 @@ const byType = (items: Publication[], filter: string) =>
 const ResearchModal: React.FC<FilterProps & { isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose, items, filter, setFilter }) => {
   const { t } = useLanguage();
   const r = t.research;
+  const paged = usePaged(byType(items, filter), 8, filter);
   if (!isOpen) return null;
 
   return (
@@ -310,8 +312,9 @@ const ResearchModal: React.FC<FilterProps & { isOpen: boolean; onClose: () => vo
 
         <div className="p-8 overflow-y-auto max-h-[calc(90vh-200px)]">
           <div className="grid lg:grid-cols-2 gap-6">
-            {byType(items, filter).map((pub, i) => <PublicationCard key={pub.id} pub={pub} index={i} />)}
+            {paged.slice.map((pub, i) => <PublicationCard key={pub.id} pub={pub} index={i} />)}
           </div>
+          <Pager page={paged.page} pages={paged.pages} onChange={paged.setPage} />
         </div>
       </div>
     </div>

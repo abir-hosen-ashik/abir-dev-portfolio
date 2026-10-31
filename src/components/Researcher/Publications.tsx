@@ -4,7 +4,8 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import type { Publication } from '../../types';
 import RichText from '../UI/RichText';
 import { Authors, Pill, Section, bibtexOf, doiUrlOf } from './shared';
-import { CaseStudyBlock, RLabel, RModal, ViewAll } from './RModal';
+import { CaseStudyBlock, FilterBar, RLabel, RModal, ViewAll, matches } from './RModal';
+import { Pager, usePaged } from '../UI/Pager';
 
 /** Models, datasets and code released with a paper. */
 function useReleased(pub: Publication) {
@@ -169,6 +170,26 @@ const PaperList: React.FC<{ pubs: Publication[] }> = ({ pubs }) => {
   );
 };
 
+/** Every paper: search, filter by status, 8 per page. */
+const AllPapers: React.FC<{ pubs: Publication[] }> = ({ pubs }) => {
+  const { t } = useLanguage();
+  const r = t.researcher;
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('all');
+  const statuses = [...new Set(pubs.map(p => p.status))];
+  const label = (s: string) => s === 'under_review' ? r.under_review : s === 'accepted' ? r.accepted : r.peer_reviewed;
+  const shown = pubs.filter(p => (status === 'all' || p.status === status) && matches(search, p.title, p.authors, p.venue, p.keywords));
+  const paged = usePaged(shown, 8, `${search}|${status}`);
+  return (
+    <>
+      <FilterBar search={search} onSearch={setSearch} active={status} onChip={setStatus}
+        chips={[{ key: 'all', label: r.all, count: pubs.length }, ...statuses.map(s => ({ key: s, label: label(s), count: pubs.filter(p => p.status === s).length }))]} />
+      {shown.length ? <PaperList pubs={paged.slice} /> : <p className="py-8 text-center text-zinc-500">{r.no_match}</p>}
+      <Pager tone="researcher" page={paged.page} pages={paged.pages} onChange={paged.setPage} />
+    </>
+  );
+};
+
 /** The papers marked for the home page (all, when none is), and every paper under View all. */
 export const Publications: React.FC = () => {
   const { t } = useLanguage();
@@ -182,7 +203,7 @@ export const Publications: React.FC = () => {
     <Section id="publications" title={r.publications}>
       <PaperList pubs={shown} />
       {shown.length < pubs.length && <ViewAll count={pubs.length} onClick={() => setAll(true)} />}
-      {all && <RModal title={r.publications} wide onClose={() => setAll(false)}><PaperList pubs={pubs} /></RModal>}
+      {all && <RModal title={r.publications} wide onClose={() => setAll(false)}><AllPapers pubs={pubs} /></RModal>}
     </Section>
   );
 };

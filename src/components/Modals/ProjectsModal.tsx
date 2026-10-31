@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowLeft, Calendar, Code, ExternalLink, Filter, Lightbulb, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { Pager, usePaged } from '../UI/Pager';
 import { Project } from '../../types';
 import { CaseStudyContent } from './CaseStudyContent';
 import RichText from '../UI/RichText';
@@ -77,6 +78,8 @@ const ProjectDetails: React.FC<{ project: Project }> = ({ project }) => {
   );
 };
 
+const PAGE_SIZE = 8;
+
 export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose, initialId }) => {
   const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<'all' | 'featured' | 'main'>('all');
@@ -105,16 +108,17 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose, i
     return () => document.removeEventListener('keydown', onKey);
   }, [isOpen, selectedId, onClose]);
 
-  if (!isOpen) return null;
-
   const allProjects = t.projects.items;
-  const selected = allProjects.find(p => p.id === selectedId) ?? null;
-
   const filteredProjects = allProjects.filter(project => {
     if (activeFilter === 'featured') return project.featured;
     if (activeFilter === 'main') return !project.featured;
     return true;
   });
+  const paged = usePaged(filteredProjects, PAGE_SIZE, activeFilter);
+
+  if (!isOpen) return null;
+
+  const selected = allProjects.find(p => p.id === selectedId) ?? null;
 
   const filters = [
     { key: 'all', label: t.projects.filters?.all || 'All Projects', count: allProjects.length },
@@ -189,7 +193,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose, i
           ) : (
             <>
               <div className="grid lg:grid-cols-2 gap-6">
-                {filteredProjects.map((project) => (
+                {paged.slice.map((project) => (
                   <div key={project.id} className="group">
                     <div
                       role="button"
@@ -262,6 +266,8 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose, i
                   </div>
                 ))}
               </div>
+
+              <Pager page={paged.page} pages={paged.pages} onChange={p => { paged.setPage(p); if (body.current) body.current.scrollTop = 0; }} />
 
               {filteredProjects.length === 0 && (
                 <div className="text-center py-12">

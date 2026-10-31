@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowLeft, Building2, MapPin, Calendar, Briefcase, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { Pager, usePaged } from '../UI/Pager';
 import { Experience } from '../../types';
 
 interface ExperienceModalProps {
@@ -73,9 +74,12 @@ const ExperienceDetails: React.FC<{ exp: Experience }> = ({ exp }) => {
   );
 };
 
+const PAGE_SIZE = 8;
+
 export const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClose, initialId }) => {
   const { t } = useLanguage();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [kind, setKind] = useState<string>('all');
   const body = useRef<HTMLDivElement>(null);
   /** Where the list was scrolled, so Back returns to the same card. */
   const listScroll = useRef(0);
@@ -100,10 +104,16 @@ export const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClos
     return () => document.removeEventListener('keydown', onKey);
   }, [isOpen, selectedId, onClose]);
 
+  const allExperiences = t.experience.items;
+  // Research / teaching roles (batools 063) can be picked out; one kind needs no filter.
+  const kinds = [...new Set(allExperiences.map(e => e.kind))];
+  const shownExperiences = kind === 'all' ? allExperiences : allExperiences.filter(e => e.kind === kind);
+  const paged = usePaged(shownExperiences, PAGE_SIZE, kind);
+
   if (!isOpen) return null;
 
-  const allExperiences = t.experience.items;
   const selected = allExperiences.find(e => e.id === selectedId) ?? null;
+  const kindLabel = (k: string) => t.researcher[k === 'research' ? 'research_experience' : k === 'teaching' ? 'teaching' : 'industry_experience'];
 
   const open = (id: string) => {
     listScroll.current = body.current?.scrollTop ?? 0;
@@ -147,6 +157,19 @@ export const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClos
               <span className="text-neutral-400">•</span>
               <span className="text-neutral-800 dark:text-neutral-200 font-bold">{allExperiences.length} {t.ui.companies}</span>
             </div>
+            {kinds.length > 1 && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {['all', ...kinds].map(k => (
+                  <button key={k} onClick={() => setKind(k)}
+                    className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${kind === k
+                      ? 'bg-gradient-to-r from-info-500 to-primary-500 text-white'
+                      : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700'}`}>
+                    {k === 'all' ? t.researcher.all : kindLabel(k)}
+                    <span className="ml-1.5 opacity-70">{k === 'all' ? allExperiences.length : allExperiences.filter(e => e.kind === k).length}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -155,7 +178,7 @@ export const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClos
             <ExperienceDetails exp={selected} />
           ) : (
             <div className="space-y-5">
-              {allExperiences.map((exp) => (
+              {paged.slice.map((exp) => (
                 <div
                   key={exp.id}
                   role="button"
@@ -212,6 +235,7 @@ export const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClos
                   <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
               ))}
+              <Pager page={paged.page} pages={paged.pages} onChange={p => { paged.setPage(p); if (body.current) body.current.scrollTop = 0; }} />
             </div>
           )}
         </div>

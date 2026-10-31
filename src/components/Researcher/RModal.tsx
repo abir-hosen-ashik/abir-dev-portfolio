@@ -141,3 +141,39 @@ export const AboutModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     </RModal>
   );
 };
+
+/** Search box and filter chips over a View all list. */
+export const FilterBar: React.FC<{
+  search: string;
+  onSearch: (s: string) => void;
+  chips?: { key: string; label: string; count: number }[];
+  active?: string;
+  onChip?: (key: string) => void;
+}> = ({ search, onSearch, chips, active, onChip }) => {
+  const { t } = useLanguage();
+  return (
+    <div className="mb-5 flex flex-wrap items-center gap-2">
+      <input
+        type="search"
+        value={search}
+        onChange={e => onSearch(e.target.value)}
+        placeholder={t.researcher.search}
+        className="w-full sm:w-64 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-sky-700/40"
+      />
+      {chips && chips.length > 2 && chips.map(c => (
+        <button key={c.key} onClick={() => onChip?.(c.key)}
+          className={`px-3 py-1 rounded-full text-sm border ${active === c.key
+            ? 'bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100'
+            : 'border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-500'}`}>
+          {c.label} <span className="opacity-60">{c.count}</span>
+        </button>
+      ))}
+    </div>
+  );
+};
+
+/** Lower-case words of anything, for a simple "contains" search. */
+export const matches = (needle: string, ...hay: (string | string[] | undefined)[]) => {
+  const n = needle.trim().toLowerCase();
+  return !n || hay.flat().some(h => (h ?? '').toLowerCase().includes(n));
+};

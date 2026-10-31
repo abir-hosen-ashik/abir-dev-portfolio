@@ -6,7 +6,17 @@ import RichText from '../UI/RichText';
 import { Pill, REQUEST_ACCESS, Section, academicLinks } from './shared';
 import { insertMessage } from '../../utils/supabase';
 import { sendEmail } from '../../utils/apis';
-import { CaseStudyBlock, RLabel, RModal, ViewAll } from './RModal';
+import { CaseStudyBlock, FilterBar, RLabel, RModal, ViewAll, matches } from './RModal';
+import { Pager, usePaged } from '../UI/Pager';
+
+/** A View all list: search, optional chips, 8 per page. */
+function useAllList<T>(items: T[], text: (x: T) => (string | string[] | undefined)[], chipOf?: (x: T) => string) {
+  const [search, setSearch] = useState('');
+  const [chip, setChip] = useState('all');
+  const shown = items.filter(x => (chip === 'all' || chipOf?.(x) === chip) && matches(search, ...text(x)));
+  const paged = usePaged(shown, 8, `${search}|${chip}`);
+  return { search, setSearch, chip, setChip, shown, paged };
+}
 
 const RoleModal: React.FC<{ e: Experience; onClose: () => void }> = ({ e, onClose }) => {
   const { t } = useLanguage();
@@ -59,6 +69,19 @@ const Role: React.FC<{ e: Experience; detailed?: boolean }> = ({ e, detailed }) 
   );
 };
 
+const AllRoles: React.FC<{ roles: Experience[] }> = ({ roles }) => {
+  const { t } = useLanguage();
+  const l = useAllList(roles, e => [e.position, e.company, e.location, e.responsibilities]);
+  return (
+    <>
+      <FilterBar search={l.search} onSearch={l.setSearch} />
+      {l.shown.length ? <ol className="space-y-6">{l.paged.slice.map(e => <Role key={e.id} e={e} detailed />)}</ol>
+        : <p className="py-8 text-center text-zinc-500">{t.researcher.no_match}</p>}
+      <Pager tone="researcher" page={l.paged.page} pages={l.paged.pages} onChange={l.paged.setPage} />
+    </>
+  );
+};
+
 /** Research and teaching roles in full; industry roles marked for home briefly (all under View all); education. */
 export const Background: React.FC = () => {
   const { t } = useLanguage();
@@ -87,7 +110,7 @@ export const Background: React.FC = () => {
             {industryShown.length < industry.length && <ViewAll count={industry.length} onClick={() => setAllIndustry(true)} />}
             {allIndustry && (
               <RModal title={r.industry_experience} wide onClose={() => setAllIndustry(false)}>
-                <ol className="space-y-6">{industry.map(e => <Role key={e.id} e={e} detailed />)}</ol>
+                <AllRoles roles={industry} />
               </RModal>
             )}
           </div>
@@ -166,6 +189,18 @@ const ProjectList: React.FC<{ items: Project[] }> = ({ items }) => {
   );
 };
 
+const AllProjects: React.FC<{ items: Project[] }> = ({ items }) => {
+  const { t } = useLanguage();
+  const l = useAllList(items, p => [p.title, p.description, p.techStack, p.responsibilities]);
+  return (
+    <>
+      <FilterBar search={l.search} onSearch={l.setSearch} />
+      {l.shown.length ? <ProjectList items={l.paged.slice} /> : <p className="py-8 text-center text-zinc-500">{t.researcher.no_match}</p>}
+      <Pager tone="researcher" page={l.paged.page} pages={l.paged.pages} onChange={l.paged.setPage} />
+    </>
+  );
+};
+
 /** The engineering projects marked for the home page, and all of them under View all. */
 export const SelectedProjects: React.FC = () => {
   const { t } = useLanguage();
@@ -180,7 +215,7 @@ export const SelectedProjects: React.FC = () => {
     <Section id="projects" title={t.researcher.selected_projects}>
       <ProjectList items={items} />
       {items.length < every.length && <ViewAll count={every.length} onClick={() => setAll(true)} />}
-      {all && <RModal title={t.researcher.selected_projects} wide onClose={() => setAll(false)}><ProjectList items={every} /></RModal>}
+      {all && <RModal title={t.researcher.selected_projects} wide onClose={() => setAll(false)}><AllProjects items={every} /></RModal>}
     </Section>
   );
 };
@@ -205,6 +240,21 @@ const PostList: React.FC<{ items: ArticlePost[] }> = ({ items }) => {
   );
 };
 
+const AllPosts: React.FC<{ items: ArticlePost[] }> = ({ items }) => {
+  const { t } = useLanguage();
+  const l = useAllList(items, a => [a.title, a.summary, a.tags], a => a.platform);
+  const platforms = [...new Set(items.map(a => a.platform))];
+  return (
+    <>
+      <FilterBar search={l.search} onSearch={l.setSearch} active={l.chip} onChip={l.setChip}
+        chips={[{ key: 'all', label: t.researcher.all, count: items.length },
+          ...platforms.map(p => ({ key: p, label: t.articles.platforms[p] ?? p, count: items.filter(a => a.platform === p).length }))]} />
+      {l.shown.length ? <PostList items={l.paged.slice} /> : <p className="py-8 text-center text-zinc-500">{t.researcher.no_match}</p>}
+      <Pager tone="researcher" page={l.paged.page} pages={l.paged.pages} onChange={l.paged.setPage} />
+    </>
+  );
+};
+
 /** Posts and articles marked for the home page, and all of them under View all. */
 export const Writing: React.FC = () => {
   const { t } = useLanguage();
@@ -217,7 +267,7 @@ export const Writing: React.FC = () => {
     <Section id="writing" title={t.researcher.writing}>
       <PostList items={items} />
       {items.length < every.length && <ViewAll count={every.length} onClick={() => setAll(true)} />}
-      {all && <RModal title={t.researcher.writing} onClose={() => setAll(false)}><PostList items={every} /></RModal>}
+      {all && <RModal title={t.researcher.writing} onClose={() => setAll(false)}><AllPosts items={every} /></RModal>}
     </Section>
   );
 };
