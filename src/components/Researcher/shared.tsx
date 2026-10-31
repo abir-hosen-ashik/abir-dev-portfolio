@@ -68,6 +68,12 @@ export function bibtexOf(pub: Publication): string {
   return `@${kind}{${key},\n${body}\n}`;
 }
 
+/** A file in the portfolio's own storage: a private one's address is never shown. */
+export const isOwnFile = (url: string) => url.includes('/storage/v1/object/public/');
+
+/** Where a link may point: a private file of our own nowhere (its button asks for access instead). */
+export const hrefFor = (url: string, isPrivate: boolean) => (isPrivate && isOwnFile(url) ? undefined : url);
+
 /** Asks the contact form to prefill an access request for a private item and scrolls to it. */
 export const REQUEST_ACCESS = 'portfolio:request-access';
 export const requestAccess = (title: string) => window.dispatchEvent(new CustomEvent(REQUEST_ACCESS, { detail: title }));

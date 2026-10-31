@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Code2, Database, Info, Lock, Mail, PlayCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import type { ArtifactKind, ResearchArtifact } from '../../types';
-import { Pill, PrivateTag, Section, requestAccess } from './shared';
+import { Pill, PrivateTag, Section, hrefFor, requestAccess } from './shared';
 import { CaseStudyBlock, RLabel, RModal, ViewAll } from './RModal';
 import { Pager, usePaged } from '../UI/Pager';
 
@@ -30,7 +30,8 @@ const Links: React.FC<{ a: ResearchArtifact }> = ({ a }) => {
       {[...a.kinds, ...(a.kinds.includes('demo') ? [] : ['demo' as const])].filter(k => a.links[k]).map(k => {
         const priv = a.privateKinds.includes(k);
         return (
-          <Pill key={k} href={a.links[k]} icon={priv ? <Lock size={12} /> : <KindIcon kind={k} />}>
+          <Pill key={k} href={hrefFor(a.links[k]!, priv)} onClick={hrefFor(a.links[k]!, priv) ? undefined : () => requestAccess(a.title)}
+            icon={priv ? <Lock size={12} /> : <KindIcon kind={k} />}>
             {label(k, a.links[k]!)}{priv ? ` · ${r.private}` : ''}
           </Pill>
         );

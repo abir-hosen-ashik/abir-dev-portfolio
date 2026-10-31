@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Mail, Phone, MapPin, Github, Linkedin, Send, Copy, Check, MessageCircle, BookOpen, Youtube, Facebook, Instagram, Twitter, BarChart3 } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { insertMessage } from '../../utils/supabase';
 import Notification, { NotificationType } from '../UI/Notification';
 import { sendEmail } from '../../utils/apis';
+import { REQUEST_ACCESS } from '../Researcher/shared';
 
 export const Contact: React.FC = () => {
   const { t } = useLanguage();
@@ -18,6 +19,18 @@ export const Contact: React.FC = () => {
     message: ''
   });
   const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  // "Request access" on a private link fills in the form and brings it into view.
+  const { access_subject, access_message } = t.researcher;
+  useEffect(() => {
+    const onRequest = (e: Event) => {
+      const title = String((e as CustomEvent<string>).detail ?? '');
+      setFormData(f => ({ ...f, subject: access_subject.replace('{title}', title), message: access_message.replace('{title}', title) }));
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    };
+    window.addEventListener(REQUEST_ACCESS, onRequest);
+    return () => window.removeEventListener(REQUEST_ACCESS, onRequest);
+  }, [access_subject, access_message]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

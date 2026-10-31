@@ -356,9 +356,10 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
           keywords: p.keywords ?? [],
           doi: p.doi ?? undefined,
           url: p.url ?? undefined,
-          // Shown only while the owner offers it to everyone (056 pdf_public).
-          pdfUrl: p.pdf_public === false ? undefined : p.pdf_url ?? undefined,
+          pdfUrl: p.pdf_url ?? undefined,
           codeUrl: p.code_url ?? undefined,
+          // Before 073 only the PDF could be private (056 pdf_public).
+          privateLinks: p.private_links ?? (p.pdf_public === false ? ["pdf"] : []),
           citation: p.citation ?? undefined,
           featured: p.is_featured,
           caseStudy: caseStudyOf(p, "publication_id"),

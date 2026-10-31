@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Check, Code2, Database, ExternalLink, FileText, Info, Lock, PlayCircle, Quote, ScrollText } from 'lucide-react';
+import { Check, Code2, Database, ExternalLink, FileText, Info, Lock, Mail, PlayCircle, Quote, ScrollText } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import type { ArtifactKind, Publication } from '../../types';
+import type { ArtifactKind, PaperLinkKind, Publication } from '../../types';
 import RichText from '../UI/RichText';
-import { Authors, Pill, Section, bibtexOf, doiUrlOf } from './shared';
+import { Authors, Pill, Section, bibtexOf, doiUrlOf, hrefFor, requestAccess } from './shared';
 import { CaseStudyBlock, FilterBar, RLabel, RModal, ViewAll, matches } from './RModal';
 import { Pager, usePaged } from '../UI/Pager';
 
@@ -22,19 +22,33 @@ function useReleased(pub: Publication) {
   };
 }
 
-/** [PDF] [DOI] [Code] [Model] [Live demo] [Dataset] */
+/** A link that may be private: locked and marked; our own private file asks for access instead of opening. */
+const PrivatePill: React.FC<{ url: string; isPrivate: boolean; title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ url, isPrivate, title, icon, children }) => {
+  const { t } = useLanguage();
+  const href = hrefFor(url, isPrivate);
+  return (
+    <Pill href={href} onClick={href ? undefined : () => requestAccess(title)} icon={isPrivate ? <Lock size={12} /> : icon}>
+      {children}{isPrivate ? ` · ${t.researcher.private}` : ''}
+    </Pill>
+  );
+};
+
+/** [PDF] [DOI] [Paper] [Code] [Model] [Live demo] [Dataset] (+ Request access when one is private) */
 const PaperLinks: React.FC<{ pub: Publication }> = ({ pub }) => {
   const { t } = useLanguage();
   const r = t.researcher;
   const { model, demo, dataset, code } = useReleased(pub);
+  const locked = (k: PaperLinkKind) => pub.privateLinks.includes(k);
   return (
     <>
-      {pub.pdfUrl && <Pill href={pub.pdfUrl} icon={<FileText size={12} />}>{r.pdf}</Pill>}
+      {pub.pdfUrl && <PrivatePill url={pub.pdfUrl} isPrivate={locked('pdf')} title={pub.title} icon={<FileText size={12} />}>{r.pdf}</PrivatePill>}
       {pub.doi && <Pill href={doiUrlOf(pub.doi)} icon={<ExternalLink size={12} />}>{r.doi}</Pill>}
-      {code && <Pill href={code} icon={<Code2 size={12} />}>{r.code}</Pill>}
+      {pub.url && <PrivatePill url={pub.url} isPrivate={locked('paper')} title={pub.title} icon={<ExternalLink size={12} />}>{r.paper}</PrivatePill>}
+      {code && <PrivatePill url={code} isPrivate={locked('code')} title={pub.title} icon={<Code2 size={12} />}>{r.code}</PrivatePill>}
       {model && <Pill href={model} icon={<span aria-hidden>🤗</span>}>{r.model}</Pill>}
       {demo && <Pill href={demo} icon={<PlayCircle size={12} />}>{r.demo}</Pill>}
-      {dataset && <Pill href={dataset.url} icon={dataset.isPrivate ? <Lock size={12} /> : <Database size={12} />}>{r.dataset}{dataset.isPrivate ? ` · ${r.private}` : ''}</Pill>}
+      {dataset && <PrivatePill url={dataset.url} isPrivate={dataset.isPrivate} title={pub.title} icon={<Database size={12} />}>{r.dataset}</PrivatePill>}
+      {(pub.privateLinks.length > 0 || dataset?.isPrivate) && <Pill onClick={() => requestAccess(pub.title)} icon={<Mail size={12} />}>{r.request_access}</Pill>}
     </>
   );
 };

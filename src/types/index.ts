@@ -186,6 +186,8 @@ export interface TechCategory {
   skills: string[];
 }
 
+export type PaperLinkKind = 'pdf' | 'code' | 'paper';
+
 export type PublicationType = 'journal' | 'conference' | 'preprint' | 'thesis' | 'book_chapter' | 'other';
 
 export interface Publication {
@@ -206,6 +208,8 @@ export interface Publication {
   url?: string;
   pdfUrl?: string;
   codeUrl?: string;
+  /** Links shared on request (batools 073): shown locked, with Request access. */
+  privateLinks: PaperLinkKind[];
   citation?: string;
   featured: boolean;
   caseStudy?: CaseStudy;

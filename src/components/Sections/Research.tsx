@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowRight, BookOpen, Lightbulb, Calendar, Check, Code2, ExternalLink, FileText, Filter, Quote, Star, X } from 'lucide-react';
+import { ArrowRight, BookOpen, Lightbulb, Calendar, Check, Code2, ExternalLink, FileText, Filter, Lock, Quote, Star, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Publication } from '../../types';
 import RichText from '../UI/RichText';
+import { hrefFor, requestAccess } from '../Researcher/shared';
 import { Pager, usePaged } from '../UI/Pager';
 import { CaseStudyContent } from '../Modals/CaseStudyContent';
 
@@ -32,19 +33,22 @@ const Authors: React.FC<{ authors: string[]; me: string }> = ({ authors, me }) =
   </p>
 );
 
-const LinkButton: React.FC<{ href: string; icon: React.ReactNode; label: string }> = ({ href, icon, label }) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    onClick={e => e.stopPropagation()}
-    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-neutral-100 dark:bg-neutral-700
-               text-neutral-700 dark:text-neutral-300 hover:bg-primary-500 hover:text-white dark:hover:bg-secondary-500 transition-colors"
-  >
-    {icon}
-    <span>{label}</span>
-  </a>
-);
+/**
+ * A paper link. A private one shows a lock and "Private"; our own private
+ * file never shows its address and asks for access (the contact form) instead.
+ */
+const LinkButton: React.FC<{ href: string; icon: React.ReactNode; label: string; locked?: boolean; title?: string }> = ({ href, icon, label, locked, title }) => {
+  const { t } = useLanguage();
+  const cls = `inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-neutral-100 dark:bg-neutral-700
+               text-neutral-700 dark:text-neutral-300 hover:bg-primary-500 hover:text-white dark:hover:bg-secondary-500 transition-colors`;
+  const content = <>{locked ? <Lock size={14} /> : icon}<span>{label}{locked ? ` · ${t.researcher.private}` : ''}</span></>;
+  const target = locked ? hrefFor(href, true) : href;
+  return target ? (
+    <a href={target} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className={cls} title={locked ? t.researcher.private_tip : undefined}>{content}</a>
+  ) : (
+    <button type="button" onClick={e => { e.stopPropagation(); requestAccess(title ?? label); }} className={cls} title={t.researcher.private_tip}>{content}</button>
+  );
+};
 
 const doiUrlOf = (pub: Publication) =>
   pub.doi ? `https://doi.org/${pub.doi.replace(/^https?:\/\/(dx\.)?doi\.org\//, '')}` : undefined;
@@ -65,9 +69,9 @@ const PaperLinks: React.FC<{ pub: Publication; className?: string }> = ({ pub, c
   return (
     <div className={`flex flex-wrap gap-2 ${className}`}>
       {doiUrl && <LinkButton href={doiUrl} icon={<ExternalLink size={14} />} label="DOI" />}
-      {pub.url && <LinkButton href={pub.url} icon={<ExternalLink size={14} />} label={r.paper} />}
-      {pub.pdfUrl && <LinkButton href={pub.pdfUrl} icon={<FileText size={14} />} label={r.pdf} />}
-      {pub.codeUrl && <LinkButton href={pub.codeUrl} icon={<Code2 size={14} />} label={r.code} />}
+      {pub.url && <LinkButton href={pub.url} icon={<ExternalLink size={14} />} label={r.paper} locked={pub.privateLinks.includes('paper')} title={pub.title} />}
+      {pub.pdfUrl && <LinkButton href={pub.pdfUrl} icon={<FileText size={14} />} label={r.pdf} locked={pub.privateLinks.includes('pdf')} title={pub.title} />}
+      {pub.codeUrl && <LinkButton href={pub.codeUrl} icon={<Code2 size={14} />} label={r.code} locked={pub.privateLinks.includes('code')} title={pub.title} />}
       {pub.citation && (
         <button
           onClick={cite}
