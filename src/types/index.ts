@@ -113,6 +113,8 @@ export interface PersonalInfo {
 /** A version of the portfolio (pf_versions, batools 063) and how it is drawn. */
 export interface PortfolioVersion {
   slug: string;
+  /** What the address shows: ?v=<code>. The short code (074), else the slug. */
+  code: string;
   name: string;
   /** The version's title, else the profile's. */
   title: string;

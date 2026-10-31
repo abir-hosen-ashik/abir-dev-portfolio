@@ -84,12 +84,15 @@ type Details = { sections: Row[]; challenges: Row[]; posts: Row[]; artifacts: Ro
 type VersionPick = { current?: Row; active: Row[]; known: Set<string> };
 
 /**
- * Which version to show: ?version=<slug>, else VITE_PORTFOLIO_VERSION, else
- * the default, else the first active one. Inactive versions are never shown.
+ * Which version to show: ?v=<short code or slug> (or the older ?version=),
+ * else VITE_PORTFOLIO_VERSION, else the default, else the first active one.
+ * Inactive versions are never shown.
  */
 function pickVersion(rows: Row[], wanted: string | null): VersionPick {
   const active = rows.filter(v => v.is_active);
-  const bySlug = (slug: string | null | undefined) => (slug ? active.find(v => v.slug === slug) : undefined);
+  // The slug wins over another version's short code (074).
+  const bySlug = (slug: string | null | undefined) =>
+    slug ? active.find(v => v.slug === slug) ?? active.find(v => v.short_code === slug) : undefined;
   const current = bySlug(wanted) ?? bySlug(import.meta.env.VITE_PORTFOLIO_VERSION) ?? active.find(v => v.is_default) ?? active[0];
   return { current, active, known: new Set(rows.map(v => v.id)) };
 }
@@ -203,7 +206,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
 
   // The version's own text wins over the profile's.
   const version = pick.current ?? {};
-  const versionOf = (v: Row) => ({ slug: v.slug, name: tr(v, "name"), title: tr(v, "title") || tr(profile, "title"), layout: v.layout });
+  const versionOf = (v: Row) => ({ slug: v.slug, code: v.short_code || v.slug, name: tr(v, "name"), title: tr(v, "title") || tr(profile, "title"), layout: v.layout });
 
   // A link tagged with versions (batools 069) shows only in those.
   const linkVersions = (profile.link_versions ?? {}) as Record<string, string[]>;
@@ -412,9 +415,15 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
   return fillYears(content, localizeDigits(years, lang));
 }
 
+/** The version asked for in the address: ?v= (074), or the older ?version=. */
+export const versionParam = () => {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("v") ?? params.get("version");
+};
+
 export async function loadContent(
   userId = PORTFOLIO_USER_ID,
-  wantedVersion = new URLSearchParams(window.location.search).get("version"),
+  wantedVersion = versionParam(),
 ): Promise<Record<Language, Content>> {
   // Case studies (058) and articles (061) are optional extras: if their tables
   // are missing or a read fails, the rest of the portfolio shows without them.

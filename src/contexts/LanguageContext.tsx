@@ -1,19 +1,19 @@
 import React, { createContext, useCallback, useContext, useState, useEffect } from 'react';
 import { Content, Language } from '../types';
-import { loadContent } from '../data/loadContent';
+import { loadContent, versionParam } from '../data/loadContent';
 
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: Content;
-  /** Shows another version of the portfolio (reloads its content; the URL keeps ?version=). */
+  /** Shows another version of the portfolio (reloads its content; the URL keeps ?v=). */
   setVersion: (slug: string) => Promise<void>;
-  /** The visitor arrived asking for a version (?version=), so no picker is needed. */
+  /** The visitor arrived asking for a version (?v= or ?version=), so no picker is needed. */
   versionAsked: boolean;
 }
 
 // Read once: the version the visitor arrived with.
-const ARRIVED_WITH = new URLSearchParams(window.location.search).get('version');
+const ARRIVED_WITH = versionParam();
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
@@ -48,7 +48,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const next = await loadContent(undefined, slug);
     setContent(next);
     const url = new URL(window.location.href);
-    url.searchParams.set('version', slug);
+    // The short ?v= address; an old ?version= link is rewritten to it.
+    url.searchParams.delete('version');
+    url.searchParams.set('v', next.en.version?.code ?? slug);
     window.history.replaceState(window.history.state, '', url);
     window.scrollTo({ top: 0 });
   }, []);

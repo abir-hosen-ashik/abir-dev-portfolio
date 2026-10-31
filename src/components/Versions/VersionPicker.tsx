@@ -15,7 +15,7 @@ export const LayoutIcon: React.FC<{ layout: PortfolioVersion['layout']; size?: n
   layout === 'researcher' ? <GraduationCap size={size} /> : <Code2 size={size} />;
 
 /**
- * On a first visit without ?version=, asks which version to show. Picking one
+ * On a first visit without ?v= (or ?version=), asks which version to show. Picking one
  * opens it; with no pick in 3 seconds the researcher version opens.
  */
 export const VersionPicker: React.FC = () => {
