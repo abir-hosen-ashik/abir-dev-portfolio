@@ -132,7 +132,7 @@ const RESEARCHER_LABELS: Record<Language, Record<string, string>> = {
     view_all: "View all", details: "Details", close: "Close", more_about: "More about me", about_title: "About me",
     beyond: "Beyond research", nothing: "Nothing to show here yet.",
     keywords: "Keywords", did: "What I did", tech: "Tech", case_study: "Case study", challenges: "Challenges & solutions",
-    challenge: "Challenge", solution: "How I solved it", result: "Result", released_with: "Released with this paper", status: "Status", current: "Current", search: "Search…", no_match: "Nothing matches.", skills: "Technical skills", skills_nav: "Skills", more: "+{n} more", show_less: "Show less",
+    challenge: "Challenge", solution: "How I solved it", result: "Result", released_with: "Released with this paper", status: "Status", current: "Current", search: "Search…", no_match: "Nothing matches.", skills: "Technical skills", skills_nav: "Skills", highlights: "Key findings", contribution: "My contribution", methods: "Methods & tools", more: "+{n} more", show_less: "Show less",
   },
   bn: {
     about: "পরিচিতি", publications: "প্রকাশনা", models: "মডেল ও ডেটা", experience: "অভিজ্ঞতা", projects: "প্রকল্প", writing: "লেখা", contact: "যোগাযোগ",
@@ -151,7 +151,7 @@ const RESEARCHER_LABELS: Record<Language, Record<string, string>> = {
     view_all: "সব দেখুন", details: "বিস্তারিত", close: "বন্ধ", more_about: "আমার সম্পর্কে আরও", about_title: "আমার সম্পর্কে",
     beyond: "গবেষণার বাইরে", nothing: "এখনো দেখানোর মতো কিছু নেই।",
     keywords: "কীওয়ার্ড", did: "আমার কাজ", tech: "প্রযুক্তি", case_study: "কেস স্টাডি", challenges: "চ্যালেঞ্জ ও সমাধান",
-    challenge: "চ্যালেঞ্জ", solution: "কীভাবে সমাধান করেছি", result: "ফলাফল", released_with: "এই পেপারের সাথে প্রকাশিত", status: "অবস্থা", current: "বর্তমান", search: "খুঁজুন…", no_match: "কিছু মেলেনি।", skills: "প্রযুক্তিগত দক্ষতা", skills_nav: "দক্ষতা", more: "+আরও {n}টি", show_less: "কম দেখান",
+    challenge: "চ্যালেঞ্জ", solution: "কীভাবে সমাধান করেছি", result: "ফলাফল", released_with: "এই পেপারের সাথে প্রকাশিত", status: "অবস্থা", current: "বর্তমান", search: "খুঁজুন…", no_match: "কিছু মেলেনি।", skills: "প্রযুক্তিগত দক্ষতা", skills_nav: "দক্ষতা", highlights: "মূল ফলাফল", contribution: "আমার অবদান", methods: "পদ্ধতি ও টুল", more: "+আরও {n}টি", show_less: "কম দেখান",
   },
 };
 
@@ -349,6 +349,9 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
           status: p.status,
           year: p.year ?? undefined,
           abstract: tr(p, "abstract") || undefined,
+          highlights: trList(p, "highlights"),
+          contributions: trList(p, "contributions"),
+          methods: p.methods ?? [],
           keywords: p.keywords ?? [],
           doi: p.doi ?? undefined,
           url: p.url ?? undefined,

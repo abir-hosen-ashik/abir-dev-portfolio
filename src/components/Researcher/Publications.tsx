@@ -88,6 +88,30 @@ const PaperModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pub, 
           <RichText text={pub.abstract} className="text-[15px] leading-relaxed text-justify text-zinc-700 dark:text-zinc-300" />
         </>
       )}
+      {pub.highlights.length > 0 && (
+        <>
+          <RLabel>{r.highlights}</RLabel>
+          <ul className="space-y-1.5 text-[15px] leading-relaxed text-justify text-zinc-700 dark:text-zinc-300 list-disc pl-5 marker:text-sky-700">
+            {pub.highlights.map((x, i) => <li key={i}>{x}</li>)}
+          </ul>
+        </>
+      )}
+      {pub.contributions.length > 0 && (
+        <>
+          <RLabel>{r.contribution}</RLabel>
+          <ul className="space-y-1.5 text-[15px] leading-relaxed text-justify text-zinc-700 dark:text-zinc-300 list-disc pl-5 marker:text-zinc-400">
+            {pub.contributions.map((x, i) => <li key={i}>{x}</li>)}
+          </ul>
+        </>
+      )}
+      {pub.methods.length > 0 && (
+        <>
+          <RLabel>{r.methods}</RLabel>
+          <ul className="flex flex-wrap gap-1.5">
+            {pub.methods.map(m => <li key={m} className="px-2 py-0.5 rounded text-xs bg-sky-50 text-sky-900 dark:bg-sky-950/40 dark:text-sky-200">{m}</li>)}
+          </ul>
+        </>
+      )}
       {pub.keywords.length > 0 && (
         <>
           <RLabel>{r.keywords}</RLabel>

@@ -194,6 +194,10 @@ export interface Publication {
   status: 'published' | 'accepted' | 'under_review';
   year?: number;
   abstract?: string;
+  /** Key findings, contribution and methods (batools 070). */
+  highlights: string[];
+  contributions: string[];
+  methods: string[];
   keywords: string[];
   doi?: string;
   url?: string;

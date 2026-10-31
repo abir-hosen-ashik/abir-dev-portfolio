@@ -134,6 +134,27 @@ const PaperModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pub, 
               <RichText text={pub.abstract} className="text-justify text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300" />
             </>
           )}
+          {[
+            { title: t.researcher.highlights, items: pub.highlights },
+            { title: t.researcher.contribution, items: pub.contributions },
+          ].filter(b => b.items.length).map(b => (
+            <div key={b.title} className="mt-6">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-primary-500 dark:text-secondary-500 mb-2">{b.title}</h3>
+              <ul className="space-y-1.5 text-[15px] leading-relaxed text-justify text-neutral-700 dark:text-neutral-300 list-disc pl-5">
+                {b.items.map((x, i) => <li key={i}>{x}</li>)}
+              </ul>
+            </div>
+          ))}
+          {pub.methods.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-primary-500 dark:text-secondary-500 mb-2">{t.researcher.methods}</h3>
+              <div className="flex flex-wrap gap-1.5">
+                {pub.methods.map(m => (
+                  <span key={m} className="px-2.5 py-1 text-xs rounded-lg bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300">{m}</span>
+                ))}
+              </div>
+            </div>
+          )}
           {pub.keywords.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-6">
               {pub.keywords.map(k => (
