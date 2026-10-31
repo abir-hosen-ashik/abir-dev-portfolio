@@ -17,7 +17,7 @@ export const Intro: React.FC = () => {
   const cv = p.resumeUrl;
   const location = p.location || t.experience.items.find(e => e.current)?.location;
   const [aboutOpen, setAboutOpen] = useState(false);
-  const hasAbout = t.about.sections.general.length + t.about.sections.client.length + t.about.interests.length > 0;
+  const hasAbout = t.about.audiences.length + t.about.interests.length > 0;
 
   const stats = [
     [pubs.filter(x => x.status === 'published').length, r.stat_publications],

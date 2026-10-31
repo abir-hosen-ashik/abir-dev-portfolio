@@ -162,7 +162,12 @@ export interface AboutSection {
   blocks: AboutBlock[];
 }
 
-export type AboutAudience = 'general' | 'client';
+/** One tab of "More about me": an audience (batools 067) and its sections. */
+export interface AboutAudience {
+  id: string;
+  name: string;
+  sections: AboutSection[];
+}
 
 export interface HeroRole {
   text: string;
@@ -212,7 +217,8 @@ export interface Content {
   about: Group & {
     filters: Group;
     objectiveText: string;
-    sections: Record<AboutAudience, AboutSection[]>;
+    /** The version's audiences that have sections, in order. */
+    audiences: AboutAudience[];
     education: { title: string; items: Education[] };
     interests: string[];
     core: [string, string][];

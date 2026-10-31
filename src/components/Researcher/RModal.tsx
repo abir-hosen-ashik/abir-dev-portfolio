@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { ArrowRight, X } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import type { AboutAudience, CaseStudy } from '../../types';
+import type { CaseStudy } from '../../types';
 import RichText from '../UI/RichText';
 import { REQUEST_ACCESS } from './shared';
 
@@ -98,27 +98,27 @@ export const CaseStudyBlock: React.FC<{ caseStudy?: CaseStudy }> = ({ caseStudy 
 export const AboutModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useLanguage();
   const r = t.researcher;
-  const tabs = ([['general', r.general], ['client', r.client]] as [AboutAudience, string][])
-    .filter(([k]) => t.about.sections[k].length > 0);
-  const [picked, setPicked] = React.useState<AboutAudience>('general');
-  const active = tabs.some(([k]) => k === picked) ? picked : tabs[0]?.[0];
+  // The version's audiences that have sections.
+  const tabs = t.about.audiences;
+  const [picked, setPicked] = React.useState<string | null>(null);
+  const active = tabs.find(a => a.id === picked) ?? tabs[0];
   const hobbies = t.about.interests;
   return (
     <RModal title={r.about_title} onClose={onClose}>
       {tabs.length > 1 && (
         <div className="mb-5 flex gap-2">
-          {tabs.map(([k, label]) => (
-            <button key={k} onClick={() => setPicked(k)}
-              className={`px-3 py-1 rounded-full text-sm border ${active === k
+          {tabs.map(a => (
+            <button key={a.id} onClick={() => setPicked(a.id)}
+              className={`px-3 py-1 rounded-full text-sm border ${active?.id === a.id
                 ? 'bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100'
                 : 'border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-500'}`}>
-              {label}
+              {a.name}
             </button>
           ))}
         </div>
       )}
       {!active && !hobbies.length && <p className="py-10 text-center text-zinc-500">{r.nothing}</p>}
-      {active && t.about.sections[active].map(s => (
+      {active?.sections.map(s => (
         <div key={s.id} className="mb-6">
           <h3 className="font-serif text-lg font-semibold text-zinc-900 dark:text-zinc-50 mb-2">{s.heading}</h3>
           {s.blocks.map((b, i) => typeof b === 'string' ? (

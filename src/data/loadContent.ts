@@ -1,5 +1,5 @@
 import { supabase, PORTFOLIO_USER_ID } from "../utils/config";
-import type { AboutAudience, AboutSection, ArticleBlock, ArticleDetail, ArticlePost, Content, Language } from "../types";
+import type { AboutSection, ArticleBlock, ArticleDetail, ArticlePost, Content, Language } from "../types";
 
 // Reads one portfolio out of the pf_ tables and shapes it per language.
 // Text may contain {years}, filled in here from the career start year.
@@ -78,7 +78,7 @@ const CASE_STUDY_LABELS: Record<Language, Record<string, string>> = {
 };
 
 /** Case-study sections and challenges (batools 058), each pointing at a project or a publication; posts (061). */
-type Details = { sections: Row[]; challenges: Row[]; posts: Row[]; artifacts: Row[] };
+type Details = { sections: Row[]; challenges: Row[]; posts: Row[]; artifacts: Row[]; audiences: Row[] };
 
 /** The version being shown and every version's id (batools 063). */
 type VersionPick = { current?: Row; active: Row[]; known: Set<string> };
@@ -130,7 +130,7 @@ const RESEARCHER_LABELS: Record<Language, Record<string, string>> = {
     form_name: "Name", form_email: "Email", form_subject: "Subject", form_message: "Message", form_send: "Send message", form_sending: "Sending…",
     form_sent: "Thanks — your message was sent.", form_failed: "Sorry, the message could not be sent. Please email me instead.",
     view_all: "View all", details: "Details", close: "Close", more_about: "More about me", about_title: "About me",
-    general: "In general", client: "As a client", beyond: "Beyond research", nothing: "Nothing to show here yet.",
+    beyond: "Beyond research", nothing: "Nothing to show here yet.",
     keywords: "Keywords", did: "What I did", tech: "Tech", case_study: "Case study", challenges: "Challenges & solutions",
     challenge: "Challenge", solution: "How I solved it", result: "Result", released_with: "Released with this paper", status: "Status",
   },
@@ -149,7 +149,7 @@ const RESEARCHER_LABELS: Record<Language, Record<string, string>> = {
     form_name: "নাম", form_email: "ইমেইল", form_subject: "বিষয়", form_message: "বার্তা", form_send: "বার্তা পাঠান", form_sending: "পাঠানো হচ্ছে…",
     form_sent: "ধন্যবাদ — আপনার বার্তা পাঠানো হয়েছে।", form_failed: "দুঃখিত, বার্তা পাঠানো যায়নি। অনুগ্রহ করে ইমেইল করুন।",
     view_all: "সব দেখুন", details: "বিস্তারিত", close: "বন্ধ", more_about: "আমার সম্পর্কে আরও", about_title: "আমার সম্পর্কে",
-    general: "সাধারণভাবে", client: "ক্লায়েন্ট হিসেবে", beyond: "গবেষণার বাইরে", nothing: "এখনো দেখানোর মতো কিছু নেই।",
+    beyond: "গবেষণার বাইরে", nothing: "এখনো দেখানোর মতো কিছু নেই।",
     keywords: "কীওয়ার্ড", did: "আমার কাজ", tech: "প্রযুক্তি", case_study: "কেস স্টাডি", challenges: "চ্যালেঞ্জ ও সমাধান",
     challenge: "চ্যালেঞ্জ", solution: "কীভাবে সমাধান করেছি", result: "ফলাফল", released_with: "এই পেপারের সাথে প্রকাশিত", status: "অবস্থা",
   },
@@ -208,16 +208,27 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
   const years = profile.career_start_year ? new Date().getFullYear() - profile.career_start_year : 0;
   const l = labelTree(labels, lang);
 
-  const sections: Record<AboutAudience, AboutSection[]> = { general: [], client: [] };
-  for (const s of lists.pf_about_sections) {
-    sections[s.audience as AboutAudience]?.push({
-      id: s.id,
-      heading: tr(s, "heading"),
-      blocks: lists.pf_about_blocks
-        .filter(b => b.section_id === s.id)
-        .map(b => (b.kind === "list" ? trList(b, "items") : tr(b, "text"))),
-    });
-  }
+  const sectionOf = (s: Row): AboutSection => ({
+    id: s.id,
+    heading: tr(s, "heading"),
+    blocks: lists.pf_about_blocks
+      .filter(b => b.section_id === s.id)
+      .map(b => (b.kind === "list" ? trList(b, "items") : tr(b, "text"))),
+  });
+  // The version's audiences (067), else the two fixed ones from before it.
+  // A section without an audience joins the first tab; one whose audience is
+  // hidden or in another version is not shown.
+  const tabs: Row[] = details.audiences.length
+    ? details.audiences.map(a => ({ id: a.id, name: tr(a, "name") }))
+    : [{ id: "general", name: l.about.filters.general || "In general" }, { id: "client", name: l.about.filters.client || "As a client" }];
+  const tabOf = (s: Row) => {
+    if (s.audience_id) return s.audience_id;
+    const legacy = details.audiences.length ? undefined : s.audience;
+    return tabs.some(t => t.id === legacy) ? legacy : tabs[0]?.id;
+  };
+  const audiences = tabs
+    .map(tab => ({ id: tab.id as string, name: tab.name as string, sections: lists.pf_about_sections.filter(s => tabOf(s) === tab.id).map(sectionOf) }))
+    .filter(a => a.sections.length);
 
   const content: Content = {
     years,
@@ -257,7 +268,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       empty: lang === "en" ? "Nothing to show here yet." : "এখনো দেখানোর মতো কিছু নেই।",
       ...l.about,
       objectiveText: tr(version, "statement") || tr(profile, "objective"),
-      sections,
+      audiences,
       education: {
         title: l.about.education.title ?? "",
         items: lists.pf_education.map(e => ({
@@ -398,6 +409,8 @@ export async function loadContent(
     detailsReq("pf_posts", true),
     // Released models and datasets (063).
     detailsReq("pf_research_artifacts"),
+    // About audiences (067).
+    detailsReq("pf_about_audiences"),
     // Versions (063): active or not, so tags of inactive versions are known.
     supabase.from("pf_versions").select("*").eq("user_id", userId).order("sort_order").then(({ data, error }) => {
       if (error) console.warn("pf_versions unavailable", error.message);
@@ -416,7 +429,7 @@ export async function loadContent(
   if (failed?.error) throw failed.error;
   if (!profileRes.data) throw new Error("Portfolio not found");
 
-  const [sections, challenges, posts, artifacts, versionRows] = await detailsPromise;
+  const [sections, challenges, posts, artifacts, audienceRows, versionRows] = await detailsPromise;
   const pick = pickVersion(versionRows, wantedVersion);
   // Only the rows of the version shown; children follow their parent.
   const lists = Object.fromEntries(
@@ -428,6 +441,7 @@ export async function loadContent(
     challenges,
     posts: posts.filter(r => inVersion(r, pick)),
     artifacts: artifacts.filter(r => inVersion(r, pick)),
+    audiences: audienceRows.filter(r => inVersion(r, pick)),
   };
   return {
     en: build("en", profileRes.data, labels, lists, details, pick),

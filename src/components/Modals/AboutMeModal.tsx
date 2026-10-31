@@ -3,7 +3,6 @@ import { Filter, X, Star } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import FormattedStringParser from '../UI/FormatedStringParser';
 import RichText from '../UI/RichText';
-import { AboutAudience } from '../../types';
 
 interface AboutMeModalProps {
   isOpen: boolean;
@@ -12,17 +11,15 @@ interface AboutMeModalProps {
 
 export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) => {
   const { t } = useLanguage();
-  const [picked, setPicked] = useState<AboutAudience>('general');
+  const [picked, setPicked] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  // Only audiences that have something to show get a tab.
-  const filters = [
-    { key: 'general' as AboutAudience, label: t.about.filters.general || 'General' },
-    { key: 'client' as AboutAudience, label: t.about.filters.client || 'Client' },
-  ].filter(f => t.about.sections[f.key].length > 0);
+  // The version's audiences; only those with sections are listed.
+  const filters = t.about.audiences.map(a => ({ key: a.id, label: a.name }));
   const activeFilter = filters.some(f => f.key === picked) ? picked : filters[0]?.key;
   const setActiveFilter = setPicked;
+  const activeSections = t.about.audiences.find(a => a.id === activeFilter)?.sections ?? [];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -57,7 +54,7 @@ export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) =
             {filters.map((filter) => (
               <button
                 key={filter.key}
-                onClick={() => setActiveFilter(filter.key as AboutAudience)}
+                onClick={() => setActiveFilter(filter.key)}
                 className={`px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 flex items-center space-x-2
                           ${activeFilter === filter.key
                     ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white shadow-glow'
@@ -74,7 +71,7 @@ export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) =
           {!activeFilter && (
             <p className="py-16 text-center text-neutral-500 dark:text-neutral-400">{t.about.empty}</p>
           )}
-          {activeFilter && t.about.sections[activeFilter].map((section) => (
+          {activeSections.map((section) => (
             <React.Fragment key={section.id}>
               <div className="grid lg:grid-cols-1 gap-6 p-8">
                 <div className="group">
