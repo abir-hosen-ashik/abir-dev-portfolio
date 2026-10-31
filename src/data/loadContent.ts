@@ -189,7 +189,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
   // Each list shows only while its switch on the project / publication is on
   // (batools 060); hidden items were filtered out when read. Before 060,
   // show_challenges is missing and challenges follow show_case_study.
-  const caseStudyOf = (parent: Row, column: "project_id" | "publication_id") => {
+  const caseStudyOf = (parent: Row, column: "project_id" | "publication_id" | "artifact_id") => {
     const showSections = parent.show_case_study === true;
     const showChallenges = (parent.show_challenges ?? parent.show_case_study) === true;
     const sections = (showSections ? details.sections : [])
@@ -389,6 +389,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
           releasedOn: a.released_on ?? undefined,
           featured: !!a.is_featured,
           isPrivate: !!a.is_private,
+          caseStudy: caseStudyOf(a, "artifact_id"),
         })),
     },
     version: pick.current ? versionOf(pick.current) : undefined,

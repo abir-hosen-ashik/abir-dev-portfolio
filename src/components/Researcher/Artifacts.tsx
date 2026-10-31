@@ -3,7 +3,7 @@ import { Code2, Database, ExternalLink, Info, Mail, PlayCircle } from 'lucide-re
 import { useLanguage } from '../../contexts/LanguageContext';
 import type { ResearchArtifact } from '../../types';
 import { Pill, PrivateTag, Section, requestAccess } from './shared';
-import { RLabel, RModal, ViewAll } from './RModal';
+import { CaseStudyBlock, RLabel, RModal, ViewAll } from './RModal';
 import { Pager, usePaged } from '../UI/Pager';
 
 const PLATFORM: Record<string, string> = {
@@ -59,6 +59,7 @@ const ArtifactModal: React.FC<{ a: ResearchArtifact; onClose: () => void }> = ({
           <a href={`#pub-${paper.id}`} onClick={onClose} className="italic text-sky-800 dark:text-sky-300 hover:underline">{paper.title}</a>
         </>
       )}
+      <CaseStudyBlock caseStudy={a.caseStudy} />
       {a.releasedOn && <p className="mt-6 text-xs text-zinc-500">{r.released}: {a.releasedOn}</p>}
     </RModal>
   );

@@ -137,6 +137,8 @@ export interface ResearchArtifact {
   featured: boolean;
   /** Listed and linked, but access is on request (batools 064). */
   isPrivate: boolean;
+  /** Case study and challenges, when switched on (batools 072). */
+  caseStudy?: CaseStudy;
 }
 
 /** The researcher layout: who the researcher is and what they released. */
