@@ -12,14 +12,17 @@ interface AboutMeModalProps {
 
 export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) => {
   const { t } = useLanguage();
-  const [activeFilter, setActiveFilter] = useState<AboutAudience>('general');
+  const [picked, setPicked] = useState<AboutAudience>('general');
 
   if (!isOpen) return null;
 
+  // Only audiences that have something to show get a tab.
   const filters = [
-    { key: 'general', label: t.about.filters.general || 'General' },
-    { key: 'client', label: t.about.filters.client || 'Client' },
-  ];
+    { key: 'general' as AboutAudience, label: t.about.filters.general || 'General' },
+    { key: 'client' as AboutAudience, label: t.about.filters.client || 'Client' },
+  ].filter(f => t.about.sections[f.key].length > 0);
+  const activeFilter = filters.some(f => f.key === picked) ? picked : filters[0]?.key;
+  const setActiveFilter = setPicked;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -44,8 +47,8 @@ export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) =
           </button>
         </div>
 
-        {/* Filters */}
-        <div className="px-8 py-6 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+        {/* Filters: shown only when there is more than one audience to pick */}
+        {filters.length > 1 && <div className="px-8 py-6 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
           <div className="flex items-center space-x-3 mb-4">
             <Filter className="text-primary-500 dark:text-secondary-500" size={20} />
             <span className="text-primary-500 dark:text-secondary-500 font-semibold">{t.ui.filter}:</span>
@@ -65,10 +68,13 @@ export const AboutMeModal: React.FC<AboutMeModalProps> = ({ isOpen, onClose }) =
               </button>
             ))}
           </div>
-        </div>
+        </div>}
 
         <div className="p-8 overflow-y-auto max-h-[calc(90vh-200px)]">
-          {t.about.sections[activeFilter].map((section) => (
+          {!activeFilter && (
+            <p className="py-16 text-center text-neutral-500 dark:text-neutral-400">{t.about.empty}</p>
+          )}
+          {activeFilter && t.about.sections[activeFilter].map((section) => (
             <React.Fragment key={section.id}>
               <div className="grid lg:grid-cols-1 gap-6 p-8">
                 <div className="group">

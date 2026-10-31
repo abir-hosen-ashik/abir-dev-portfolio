@@ -1,17 +1,69 @@
 import React, { useState } from 'react';
-import { Code2, Database, ExternalLink, Mail, PlayCircle } from 'lucide-react';
+import { Code2, Database, ExternalLink, Info, Mail, PlayCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import type { ResearchArtifact } from '../../types';
 import { Pill, PrivateTag, Section, requestAccess } from './shared';
+import { RLabel, RModal, ViewAll } from './RModal';
 
 const PLATFORM: Record<string, string> = {
   huggingface: 'Hugging Face', kaggle: 'Kaggle', github: 'GitHub', zenodo: 'Zenodo', website: 'Website', other: 'Link',
 };
 
+/** How many show on the page when none is featured. */
+const PREVIEW = 6;
+
 const KindIcon: React.FC<{ kind: ResearchArtifact['kind'] }> = ({ kind }) =>
   kind === 'dataset' ? <Database size={16} /> : kind === 'code' ? <Code2 size={16} /> : kind === 'demo' ? <PlayCircle size={16} /> : <span aria-hidden>🤗</span>;
 
-const Card: React.FC<{ a: ResearchArtifact }> = ({ a }) => {
+const Links: React.FC<{ a: ResearchArtifact }> = ({ a }) => {
+  const { t } = useLanguage();
+  const r = t.researcher;
+  return (
+    <>
+      <Pill href={a.url} icon={<ExternalLink size={12} />}>{PLATFORM[a.platform] ?? r[`kind_${a.kind}`]}</Pill>
+      {a.demoUrl && <Pill href={a.demoUrl} icon={<PlayCircle size={12} />}>{r.demo}</Pill>}
+      {a.isPrivate && <Pill onClick={() => requestAccess(a.title)} icon={<Mail size={12} />}>{r.request_access}</Pill>}
+    </>
+  );
+};
+
+/** Everything about one model / dataset. */
+const ArtifactModal: React.FC<{ a: ResearchArtifact; onClose: () => void }> = ({ a, onClose }) => {
+  const { t } = useLanguage();
+  const r = t.researcher;
+  const paper = a.publicationId ? t.research.items.find(p => p.id === a.publicationId) : undefined;
+  return (
+    <RModal title={a.title} onClose={onClose}
+      subtitle={<span className="inline-flex items-center gap-2">{r[`kind_${a.kind}`] ?? a.kind} · {PLATFORM[a.platform] ?? a.platform}
+        {a.isPrivate && <PrivateTag title={a.title} tip={r.private_tip} label={r.private} action={r.request_access} />}</span>}>
+      <div className="flex flex-wrap gap-1.5"><Links a={a} /></div>
+      {a.description && <p className="mt-5 text-[15px] leading-relaxed text-justify text-zinc-700 dark:text-zinc-300">{a.description}</p>}
+      {a.metrics.length > 0 && (
+        <>
+          <RLabel>{r.result}</RLabel>
+          <ul className="flex flex-wrap gap-1.5">
+            {a.metrics.map(m => <li key={m} className="px-2 py-0.5 rounded text-xs font-medium bg-emerald-50 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">{m}</li>)}
+          </ul>
+        </>
+      )}
+      {a.tags.length > 0 && (
+        <>
+          <RLabel>{r.keywords}</RLabel>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">{a.tags.join(' · ')}</p>
+        </>
+      )}
+      {paper && (
+        <>
+          <RLabel>{r.from_paper}</RLabel>
+          <a href={`#pub-${paper.id}`} onClick={onClose} className="italic text-sky-800 dark:text-sky-300 hover:underline">{paper.title}</a>
+        </>
+      )}
+      {a.releasedOn && <p className="mt-6 text-xs text-zinc-500">{r.released}: {a.releasedOn}</p>}
+    </RModal>
+  );
+};
+
+const Card: React.FC<{ a: ResearchArtifact; onDetails: () => void }> = ({ a, onDetails }) => {
   const { t } = useLanguage();
   const r = t.researcher;
   const paper = a.publicationId ? t.research.items.find(p => p.id === a.publicationId) : undefined;
@@ -24,8 +76,10 @@ const Card: React.FC<{ a: ResearchArtifact }> = ({ a }) => {
         <span>{PLATFORM[a.platform] ?? a.platform}</span>
         {a.isPrivate && <span className="ml-auto"><PrivateTag title={a.title} tip={r.private_tip} label={r.private} action={r.request_access} /></span>}
       </div>
-      <h3 className="mt-2 font-medium text-zinc-900 dark:text-zinc-50 leading-snug">{a.title}</h3>
-      {a.description && <p className="mt-1.5 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">{a.description}</p>}
+      <h3 className="mt-2 font-medium text-zinc-900 dark:text-zinc-50 leading-snug">
+        <button onClick={onDetails} className="text-left hover:text-sky-800 dark:hover:text-sky-300">{a.title}</button>
+      </h3>
+      {a.description && <p className="mt-1.5 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed line-clamp-3">{a.description}</p>}
       {a.metrics.length > 0 && (
         <ul className="mt-3 flex flex-wrap gap-1.5">
           {a.metrics.map(m => (
@@ -34,47 +88,64 @@ const Card: React.FC<{ a: ResearchArtifact }> = ({ a }) => {
         </ul>
       )}
       {paper && (
-        <p className="mt-3 text-xs text-zinc-500">
+        <p className="mt-3 text-xs text-zinc-500 line-clamp-2">
           {r.from_paper}:{' '}
           <a href={`#pub-${paper.id}`} className="italic text-sky-800 dark:text-sky-300 hover:underline">{paper.title}</a>
         </p>
       )}
       <div className="mt-auto pt-4 flex flex-wrap gap-1.5">
-        <Pill href={a.url} icon={<ExternalLink size={12} />}>{PLATFORM[a.platform] ?? r[`kind_${a.kind}`]}</Pill>
-        {a.demoUrl && <Pill href={a.demoUrl} icon={<PlayCircle size={12} />}>{r.demo}</Pill>}
-        {a.isPrivate && <Pill onClick={() => requestAccess(a.title)} icon={<Mail size={12} />}>{r.request_access}</Pill>}
+        <Pill onClick={onDetails} icon={<Info size={12} />}>{r.details}</Pill>
+        <Links a={a} />
       </div>
     </article>
   );
 };
 
-/** Released models, datasets, demos and code, filterable by kind. */
-export const Artifacts: React.FC = () => {
+/** Cards, filterable by kind, each with its details dialog. */
+const Grid: React.FC<{ items: ResearchArtifact[]; filter?: boolean }> = ({ items, filter }) => {
   const { t } = useLanguage();
   const r = t.researcher;
   const [kind, setKind] = useState<string>('all');
-  if (!r.artifacts.length) return null;
-  const kinds = (['model', 'dataset', 'demo', 'code'] as const).filter(k => r.artifacts.some(a => a.kind === k));
-  const shown = kind === 'all' ? r.artifacts : r.artifacts.filter(a => a.kind === kind);
+  const [open, setOpen] = useState<ResearchArtifact | null>(null);
+  const kinds = (['model', 'dataset', 'demo', 'code'] as const).filter(k => items.some(a => a.kind === k));
+  const shown = kind === 'all' ? items : items.filter(a => a.kind === kind);
   const chip = (k: string, label: string) => (
     <button key={k} onClick={() => setKind(k)}
       className={`px-3 py-1 rounded-full text-sm border ${kind === k
         ? 'bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100'
         : 'border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-500'}`}>
-      {label}
+      {label} <span className="opacity-60">{k === 'all' ? items.length : items.filter(a => a.kind === k).length}</span>
     </button>
   );
   return (
-    <Section id="artifacts" title={r.models} intro={r.models_intro}>
-      {kinds.length > 1 && (
+    <>
+      {filter && kinds.length > 1 && (
         <div className="mb-5 flex flex-wrap gap-2">
           {chip('all', r.all)}
           {kinds.map(k => chip(k, r[`kind_${k}`] ?? k))}
         </div>
       )}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {shown.map(a => <Card key={a.id} a={a} />)}
+        {shown.map(a => <Card key={a.id} a={a} onDetails={() => setOpen(a)} />)}
       </div>
+      {open && <ArtifactModal a={open} onClose={() => setOpen(null)} />}
+    </>
+  );
+};
+
+/** The featured models and datasets (or the first few), and all of them under View all. */
+export const Artifacts: React.FC = () => {
+  const { t } = useLanguage();
+  const r = t.researcher;
+  const [all, setAll] = useState(false);
+  if (!r.artifacts.length) return null;
+  const featured = r.artifacts.filter(a => a.featured);
+  const shown = featured.length ? featured : r.artifacts.slice(0, PREVIEW);
+  return (
+    <Section id="artifacts" title={r.models} intro={r.models_intro}>
+      <Grid items={shown} />
+      {shown.length < r.artifacts.length && <ViewAll count={r.artifacts.length} onClick={() => setAll(true)} />}
+      {all && <RModal title={r.models} wide onClose={() => setAll(false)}><Grid items={r.artifacts} filter /></RModal>}
     </Section>
   );
 };

@@ -129,6 +129,10 @@ const RESEARCHER_LABELS: Record<Language, Record<string, string>> = {
     access_subject: "Access request: {title}", access_message: "Hi, I would like to request access to \"{title}\" for research use.",
     form_name: "Name", form_email: "Email", form_subject: "Subject", form_message: "Message", form_send: "Send message", form_sending: "Sending…",
     form_sent: "Thanks — your message was sent.", form_failed: "Sorry, the message could not be sent. Please email me instead.",
+    view_all: "View all", details: "Details", close: "Close", more_about: "More about me", about_title: "About me",
+    general: "In general", client: "As a client", beyond: "Beyond research", nothing: "Nothing to show here yet.",
+    keywords: "Keywords", did: "What I did", tech: "Tech", case_study: "Case study", challenges: "Challenges & solutions",
+    challenge: "Challenge", solution: "How I solved it", result: "Result", released_with: "Released with this paper", status: "Status",
   },
   bn: {
     about: "পরিচিতি", publications: "প্রকাশনা", models: "মডেল ও ডেটা", experience: "অভিজ্ঞতা", projects: "প্রকল্প", writing: "লেখা", contact: "যোগাযোগ",
@@ -144,6 +148,10 @@ const RESEARCHER_LABELS: Record<Language, Record<string, string>> = {
     access_subject: "অ্যাক্সেসের অনুরোধ: {title}", access_message: "হ্যালো, গবেষণার জন্য \"{title}\" এর অ্যাক্সেস চাই।",
     form_name: "নাম", form_email: "ইমেইল", form_subject: "বিষয়", form_message: "বার্তা", form_send: "বার্তা পাঠান", form_sending: "পাঠানো হচ্ছে…",
     form_sent: "ধন্যবাদ — আপনার বার্তা পাঠানো হয়েছে।", form_failed: "দুঃখিত, বার্তা পাঠানো যায়নি। অনুগ্রহ করে ইমেইল করুন।",
+    view_all: "সব দেখুন", details: "বিস্তারিত", close: "বন্ধ", more_about: "আমার সম্পর্কে আরও", about_title: "আমার সম্পর্কে",
+    general: "সাধারণভাবে", client: "ক্লায়েন্ট হিসেবে", beyond: "গবেষণার বাইরে", nothing: "এখনো দেখানোর মতো কিছু নেই।",
+    keywords: "কীওয়ার্ড", did: "আমার কাজ", tech: "প্রযুক্তি", case_study: "কেস স্টাডি", challenges: "চ্যালেঞ্জ ও সমাধান",
+    challenge: "চ্যালেঞ্জ", solution: "কীভাবে সমাধান করেছি", result: "ফলাফল", released_with: "এই পেপারের সাথে প্রকাশিত", status: "অবস্থা",
   },
 };
 
@@ -220,6 +228,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       nameEn: profile.name_en ?? "",
       email: profile.email ?? "",
       phone: tr(profile, "phone"),
+      location: tr(profile, "location") || undefined,
       github: profile.github ?? "",
       linkedin: profile.linkedin ?? "",
       medium: profile.medium ?? undefined,
@@ -245,6 +254,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       roles: lists.pf_hero_roles.map(r => ({ text: tr(r, "text"), icon: r.icon })),
     },
     about: {
+      empty: lang === "en" ? "Nothing to show here yet." : "এখনো দেখানোর মতো কিছু নেই।",
       ...l.about,
       objectiveText: tr(version, "statement") || tr(profile, "objective"),
       sections,

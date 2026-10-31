@@ -1,9 +1,10 @@
-import React from 'react';
-import { Building2, FileText, Mail, MapPin } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, Building2, FileText, Mail, MapPin } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { localizeDigits } from '../../data/loadContent';
 import RichText from '../UI/RichText';
 import { academicLinks } from './shared';
+import { AboutModal } from './RModal';
 
 const initials = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
 
@@ -14,7 +15,9 @@ export const Intro: React.FC = () => {
   const p = t.personalInfo;
   const pubs = t.research.items;
   const cv = p.resumeUrl;
-  const location = t.experience.items.find(e => e.current)?.location;
+  const location = p.location || t.experience.items.find(e => e.current)?.location;
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const hasAbout = t.about.sections.general.length + t.about.sections.client.length + t.about.interests.length > 0;
 
   const stats = [
     [pubs.filter(x => x.status === 'published').length, r.stat_publications],
@@ -59,7 +62,13 @@ export const Intro: React.FC = () => {
           <p className="mt-1 flex items-start gap-2 text-zinc-600 dark:text-zinc-400"><Building2 size={16} className="mt-1 shrink-0" />{r.affiliation}</p>
         )}
 
-        <RichText text={r.statement} className="mt-6 space-y-3 text-[17px] leading-relaxed text-zinc-700 dark:text-zinc-300 [&_strong]:text-zinc-900 dark:[&_strong]:text-zinc-100" />
+        <RichText text={r.statement} className="mt-6 space-y-3 text-[17px] leading-relaxed text-justify hyphens-auto text-zinc-700 dark:text-zinc-300 [&_strong]:text-zinc-900 dark:[&_strong]:text-zinc-100" />
+        {hasAbout && (
+          <button onClick={() => setAboutOpen(true)} className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-sky-800 dark:text-sky-300 hover:underline underline-offset-4">
+            {r.more_about} <ArrowRight size={14} />
+          </button>
+        )}
+        {aboutOpen && <AboutModal onClose={() => setAboutOpen(false)} />}
 
         {stats.length > 0 && (
           <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-y border-zinc-200 dark:border-zinc-800 py-4">

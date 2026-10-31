@@ -89,6 +89,8 @@ export interface PersonalInfo {
   nameEn: string;
   email: string;
   phone: string;
+  /** Where the owner is based (batools 065), e.g. Dhaka, Bangladesh. */
+  location?: string;
   github: string;
   linkedin: string;
   medium?: string;
