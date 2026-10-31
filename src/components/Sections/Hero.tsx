@@ -48,6 +48,12 @@ export const Hero: React.FC = () => {
 
       <div className="container-custom px-4 relative z-10">
         <div className="text-center space-y-8 fade-in-up">
+          {/* Photo (batools 068), when set */}
+          {t.personalInfo.photoUrl && (
+            <div className="mx-auto w-32 h-32 lg:w-40 lg:h-40 rounded-full p-1 bg-gradient-to-r from-primary-500 to-secondary-500 shadow-glow">
+              <img src={t.personalInfo.photoUrl} alt={t.personalInfo.name} className="w-full h-full rounded-full object-cover bg-white dark:bg-neutral-900" />
+            </div>
+          )}
           {/* Greeting */}
           <div className="space-y-4">
             <p className="text-lg text-neutral-600 dark:text-neutral-400 font-medium">

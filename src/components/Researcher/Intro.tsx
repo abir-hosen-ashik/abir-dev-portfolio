@@ -29,9 +29,13 @@ export const Intro: React.FC = () => {
   return (
     <section id="about" className="scroll-mt-20 pt-24 pb-12 grid md:grid-cols-[220px_1fr] gap-8 md:gap-12">
       <aside className="flex md:flex-col items-start gap-5">
-        <div className="w-24 h-24 md:w-40 md:h-40 shrink-0 rounded-full bg-gradient-to-br from-sky-800 to-indigo-900 text-white flex items-center justify-center font-serif text-3xl md:text-5xl">
-          {initials(p.nameEn || p.name)}
-        </div>
+        {p.photoUrl ? (
+          <img src={p.photoUrl} alt={p.name} className="w-24 h-24 md:w-40 md:h-40 shrink-0 rounded-full object-cover ring-1 ring-zinc-200 dark:ring-zinc-800 shadow-sm" />
+        ) : (
+          <div className="w-24 h-24 md:w-40 md:h-40 shrink-0 rounded-full bg-gradient-to-br from-sky-800 to-indigo-900 text-white flex items-center justify-center font-serif text-3xl md:text-5xl">
+            {initials(p.nameEn || p.name)}
+          </div>
+        )}
         <div className="space-y-3 text-sm min-w-0">
           {location && <p className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400"><MapPin size={14} />{location}</p>}
           {p.email && (

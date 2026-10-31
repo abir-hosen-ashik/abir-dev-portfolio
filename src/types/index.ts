@@ -89,6 +89,8 @@ export interface PersonalInfo {
   nameEn: string;
   email: string;
   phone: string;
+  /** The version's photo, else the profile's (batools 068). */
+  photoUrl?: string;
   /** Where the owner is based (batools 065), e.g. Dhaka, Bangladesh. */
   location?: string;
   github: string;

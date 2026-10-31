@@ -240,6 +240,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       email: profile.email ?? "",
       phone: tr(profile, "phone"),
       location: tr(profile, "location") || undefined,
+      photoUrl: version.photo_url ?? profile.photo_url ?? undefined,
       github: profile.github ?? "",
       linkedin: profile.linkedin ?? "",
       medium: profile.medium ?? undefined,
