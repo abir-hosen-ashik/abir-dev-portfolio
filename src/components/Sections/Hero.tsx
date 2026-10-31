@@ -10,6 +10,10 @@ export const Hero: React.FC = () => {
   const roles = t.home.roles;
   const role = roles[currentRole % Math.max(roles.length, 1)];
   const RoleIcon = role && iconFor(role.icon);
+  // With a photo (batools 068) the hero splits 2:1, text left and photo right
+  // (photo on top on small screens); without one it stays centred.
+  const photo = t.personalInfo.photoUrl;
+  const start = photo ? 'lg:justify-start' : '';
 
 
   useEffect(() => {
@@ -26,7 +30,8 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-[80px] sm:pt-[0px]">
+    // The photo layout is taller: clear the fixed header above and the scroll arrow below.
+    <section id="home" className={`min-h-screen flex items-center justify-center relative overflow-hidden ${photo ? 'pt-24 pb-24 lg:pt-28' : 'pt-[80px] sm:pt-[0px]'}`}>
       {/* Animated Background */}
       <div className="absolute inset-0 animated-bg opacity-10"></div>
 
@@ -47,13 +52,15 @@ export const Hero: React.FC = () => {
       </div>
 
       <div className="container-custom px-4 relative z-10">
-        <div className="text-center space-y-8 fade-in-up">
-          {/* Photo (batools 068), when set */}
-          {t.personalInfo.photoUrl && (
-            <div className="mx-auto w-32 h-32 lg:w-40 lg:h-40 rounded-full p-1 bg-gradient-to-r from-primary-500 to-secondary-500 shadow-glow">
-              <img src={t.personalInfo.photoUrl} alt={t.personalInfo.name} className="w-full h-full rounded-full object-cover bg-white dark:bg-neutral-900" />
+        <div className={photo ? 'grid lg:grid-cols-3 gap-10 lg:gap-16 items-center' : ''}>
+        {photo && (
+          <div className="lg:order-last fade-in-up">
+            <div className="mx-auto w-56 sm:w-64 lg:w-full max-w-sm aspect-square rounded-3xl p-1.5 bg-gradient-to-br from-primary-500 to-secondary-500 shadow-glow-lg">
+              <img src={photo} alt={t.personalInfo.name} className="w-full h-full rounded-[1.25rem] object-cover bg-white dark:bg-neutral-900" />
             </div>
-          )}
+          </div>
+        )}
+        <div className={`${photo ? 'lg:col-span-2 text-center lg:text-left' : 'text-center'} space-y-8 fade-in-up`}>
           {/* Greeting */}
           <div className="space-y-4">
             <p className="text-lg text-neutral-600 dark:text-neutral-400 font-medium">
@@ -67,7 +74,7 @@ export const Hero: React.FC = () => {
 
             {/* Animated Role */}
             {role && (
-              <div className="h-20 flex items-center justify-center">
+              <div className={`h-20 flex items-center justify-center ${start}`}>
                 <div key={currentRole} className="flex animate-fade-in-out items-center space-x-3 text-2xl lg:text-4xl font-semibold text-neutral-800 dark:text-neutral-200">
                   <div className="text-primary-500 dark:text-secondary-500 animate-pulse">
                     <RoleIcon size={24} />
@@ -78,13 +85,13 @@ export const Hero: React.FC = () => {
             )}
 
             {/* Subtitle */}
-            <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+            <p className={`text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed ${photo ? 'lg:mx-0' : ''}`}>
               {t.home.subtitle}
             </p>
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${start}`}>
             {t.personalInfo.resumeUrl && (
               <button
                 className="inline-flex btn-primary group"
@@ -134,7 +141,7 @@ export const Hero: React.FC = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto mt-16">
+          <div className={`grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto mt-16 ${photo ? 'lg:mx-0' : ''}`}>
             <div className="text-center">
               <div className="text-3xl font-bold gradient-text">{experience}+</div>
               <div className="text-neutral-600 dark:text-neutral-400">{t.ui.years_experience}</div>
@@ -148,6 +155,7 @@ export const Hero: React.FC = () => {
               <div className="text-neutral-600 dark:text-neutral-400">{t.ui.technologies}</div>
             </div>
           </div>
+        </div>
         </div>
       </div>
 
