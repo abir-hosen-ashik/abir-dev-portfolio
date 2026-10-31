@@ -10,9 +10,15 @@ import { CaseStudyBlock, RLabel, RModal, ViewAll } from './RModal';
 
 const RoleModal: React.FC<{ e: Experience; onClose: () => void }> = ({ e, onClose }) => {
   const { t } = useLanguage();
+  const r = t.researcher;
+  const kind = e.kind === 'research' ? r.research_experience : e.kind === 'teaching' ? r.teaching : r.industry_experience;
   return (
     <RModal title={e.position} onClose={onClose}
       subtitle={<>{e.company}{e.location ? ` · ${e.location}` : ''}<br />{e.duration}</>}>
+      <div className="mb-2 flex flex-wrap gap-1.5">
+        <span className="px-2 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wide bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">{kind}</span>
+        {e.current && <span className="px-2 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wide bg-emerald-50 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">{r.current}</span>}
+      </div>
       {e.responsibilities.length > 0 ? (
         <>
           <RLabel>{t.researcher.did}</RLabel>
@@ -36,6 +42,7 @@ const Role: React.FC<{ e: Experience; detailed?: boolean }> = ({ e, detailed }) 
       <div className="min-w-0">
         <p className="font-medium text-zinc-900 dark:text-zinc-50">
           <button onClick={() => setOpen(true)} className="text-left hover:text-sky-800 dark:hover:text-sky-300">{e.position}</button>
+          {e.current && <span className="ml-2 align-middle px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide bg-emerald-50 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">{t.researcher.current}</span>}
         </p>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">{e.company}{e.location ? ` · ${e.location}` : ''}</p>
         {points.length > 0 && (
@@ -43,11 +50,9 @@ const Role: React.FC<{ e: Experience; detailed?: boolean }> = ({ e, detailed }) 
             {points.map((x, i) => <li key={i}>{x}</li>)}
           </ul>
         )}
-        {e.responsibilities.length > points.length && (
-          <button onClick={() => setOpen(true)} className="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-sky-800 dark:text-sky-300 hover:underline">
-            <Info size={12} />{t.researcher.details}
-          </button>
-        )}
+        <button onClick={() => setOpen(true)} className="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-sky-800 dark:text-sky-300 hover:underline">
+          <Info size={12} />{t.researcher.details}
+        </button>
       </div>
       {open && <RoleModal e={e} onClose={() => setOpen(false)} />}
     </li>
