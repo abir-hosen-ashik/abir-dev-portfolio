@@ -349,9 +349,10 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
           status: p.status,
           year: p.year ?? undefined,
           abstract: tr(p, "abstract") || undefined,
-          highlights: trList(p, "highlights"),
-          contributions: trList(p, "contributions"),
-          methods: p.methods ?? [],
+          // Each shows while its switch is on (batools 071; on before it).
+          highlights: p.show_highlights === false ? [] : trList(p, "highlights"),
+          contributions: p.show_contributions === false ? [] : trList(p, "contributions"),
+          methods: p.show_methods === false ? [] : p.methods ?? [],
           keywords: p.keywords ?? [],
           doi: p.doi ?? undefined,
           url: p.url ?? undefined,
