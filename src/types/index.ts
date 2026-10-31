@@ -119,24 +119,25 @@ export interface PortfolioVersion {
   layout: 'developer' | 'researcher';
 }
 
-/** A released model, dataset, demo or code (pf_research_artifacts, batools 063). */
+export type ArtifactKind = 'model' | 'dataset' | 'code' | 'demo';
+
+/** A released item (pf_research_artifacts, batools 063 / 073): one or more kinds, each with its link. */
 export interface ResearchArtifact {
   id: string;
-  kind: 'model' | 'dataset' | 'demo' | 'code';
-  /** huggingface, kaggle, github, zenodo, website, other */
-  platform: string;
+  /** In display order: model, dataset, code, demo. */
+  kinds: ArtifactKind[];
+  /** The link of each kind it has. */
+  links: Partial<Record<ArtifactKind, string>>;
+  /** Kinds whose link is shared on request. */
+  privateKinds: ArtifactKind[];
   title: string;
   description: string;
-  url: string;
-  demoUrl?: string;
   /** The publication it comes from. */
   publicationId?: string;
   metrics: string[];
   tags: string[];
   releasedOn?: string;
   featured: boolean;
-  /** Listed and linked, but access is on request (batools 064). */
-  isPrivate: boolean;
   /** Case study and challenges, when switched on (batools 072). */
   caseStudy?: CaseStudy;
 }

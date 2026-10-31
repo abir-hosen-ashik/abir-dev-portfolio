@@ -206,7 +206,7 @@ export const SelectedProjects: React.FC = () => {
   const { t } = useLanguage();
   const [all, setAll] = useState(false);
   // Projects that are a released model are already under Models & Data.
-  const released = new Set(t.researcher.artifacts.map(a => a.url));
+  const released = new Set(t.researcher.artifacts.flatMap(a => Object.values(a.links)));
   const every = t.projects.items.filter(p => !(p.link && released.has(p.link)));
   const home = every.filter(p => p.onHome);
   const items = home.length ? home : every;

@@ -1,5 +1,5 @@
 import { supabase, PORTFOLIO_USER_ID } from "../utils/config";
-import type { AboutSection, ArticleBlock, ArticleDetail, ArticlePost, Content, Language } from "../types";
+import type { AboutSection, ArtifactKind, ResearchArtifact, ArticleBlock, ArticleDetail, ArticlePost, Content, Language } from "../types";
 
 // Reads one portfolio out of the pf_ tables and shapes it per language.
 // Text may contain {years}, filled in here from the career start year.
@@ -375,22 +375,30 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       // Featured first; otherwise the order set in batools.
       artifacts: [...details.artifacts]
         .sort((a, b) => Number(b.is_featured) - Number(a.is_featured))
-        .map(a => ({
+        .map(a => {
+          // Several kinds with a link each (073); before it, one kind and its url.
+          const order: ArtifactKind[] = ["model", "dataset", "code", "demo"];
+          const own: string[] = a.kinds?.length ? a.kinds : [a.kind];
+          const kinds = order.filter(k => own.includes(k));
+          const linkOf = (k: ArtifactKind) => a[`${k}_url`] ?? (a.kind === k ? a.url : undefined) ?? undefined;
+          const links = Object.fromEntries(kinds.map(k => [k, linkOf(k)]).filter(([, v]) => v)) as ResearchArtifact["links"];
+          if (a.demo_url) links.demo = a.demo_url;
+          const privateKinds = (a.private_kinds?.length ? a.private_kinds : a.is_private ? [a.kind] : []) as ArtifactKind[];
+          return {
           id: a.id,
-          kind: a.kind,
-          platform: a.platform,
+          kinds,
+          links,
+          privateKinds: privateKinds.filter(k => kinds.includes(k)),
           title: tr(a, "title"),
           description: tr(a, "description"),
-          url: a.url,
-          demoUrl: a.demo_url ?? undefined,
           publicationId: a.publication_id ?? undefined,
           metrics: a.metrics ?? [],
           tags: a.tags ?? [],
           releasedOn: a.released_on ?? undefined,
           featured: !!a.is_featured,
-          isPrivate: !!a.is_private,
           caseStudy: caseStudyOf(a, "artifact_id"),
-        })),
+          };
+        }),
     },
     version: pick.current ? versionOf(pick.current) : undefined,
     versions: pick.active.map(versionOf),

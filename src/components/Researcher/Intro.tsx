@@ -22,8 +22,8 @@ export const Intro: React.FC = () => {
   const stats = [
     [pubs.filter(x => x.status === 'published').length, r.stat_publications],
     [pubs.filter(x => x.status !== 'published').length, r.stat_under_review],
-    [r.artifacts.filter(a => a.kind === 'model').length, r.stat_models],
-    [r.artifacts.filter(a => a.kind === 'dataset').length, r.stat_datasets],
+    [r.artifacts.filter(a => a.links.model).length, r.stat_models],
+    [r.artifacts.filter(a => a.links.dataset).length, r.stat_datasets],
   ].filter(([n]) => Number(n) > 0) as [number, string][];
 
   return (

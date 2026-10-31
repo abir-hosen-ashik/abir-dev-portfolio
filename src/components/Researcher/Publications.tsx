@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Check, Code2, Database, ExternalLink, FileText, Info, Lock, PlayCircle, Quote, ScrollText } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import type { Publication } from '../../types';
+import type { ArtifactKind, Publication } from '../../types';
 import RichText from '../UI/RichText';
 import { Authors, Pill, Section, bibtexOf, doiUrlOf } from './shared';
 import { CaseStudyBlock, FilterBar, RLabel, RModal, ViewAll, matches } from './RModal';
@@ -11,13 +11,14 @@ import { Pager, usePaged } from '../UI/Pager';
 function useReleased(pub: Publication) {
   const { t } = useLanguage();
   const released = t.researcher.artifacts.filter(a => a.publicationId === pub.id);
-  const model = released.find(a => a.kind === 'model');
+  const withLink = (k: ArtifactKind) => released.find(a => a.links[k]);
+  const datasetItem = withLink('dataset');
   return {
     released,
-    model,
-    demo: model?.demoUrl ?? released.find(a => a.kind === 'demo')?.url,
-    dataset: released.find(a => a.kind === 'dataset'),
-    code: pub.codeUrl ?? released.find(a => a.kind === 'code')?.url,
+    model: withLink('model')?.links.model,
+    demo: withLink('demo')?.links.demo,
+    dataset: datasetItem && { url: datasetItem.links.dataset!, isPrivate: datasetItem.privateKinds.includes('dataset') },
+    code: pub.codeUrl ?? withLink('code')?.links.code,
   };
 }
 
@@ -31,7 +32,7 @@ const PaperLinks: React.FC<{ pub: Publication }> = ({ pub }) => {
       {pub.pdfUrl && <Pill href={pub.pdfUrl} icon={<FileText size={12} />}>{r.pdf}</Pill>}
       {pub.doi && <Pill href={doiUrlOf(pub.doi)} icon={<ExternalLink size={12} />}>{r.doi}</Pill>}
       {code && <Pill href={code} icon={<Code2 size={12} />}>{r.code}</Pill>}
-      {model && <Pill href={model.url} icon={<span aria-hidden>🤗</span>}>{r.model}</Pill>}
+      {model && <Pill href={model} icon={<span aria-hidden>🤗</span>}>{r.model}</Pill>}
       {demo && <Pill href={demo} icon={<PlayCircle size={12} />}>{r.demo}</Pill>}
       {dataset && <Pill href={dataset.url} icon={dataset.isPrivate ? <Lock size={12} /> : <Database size={12} />}>{r.dataset}{dataset.isPrivate ? ` · ${r.private}` : ''}</Pill>}
     </>
@@ -126,8 +127,15 @@ const PaperModal: React.FC<{ pub: Publication; onClose: () => void }> = ({ pub, 
           <ul className="space-y-1.5 text-sm">
             {released.map(a => (
               <li key={a.id}>
-                <a href={a.url} target="_blank" rel="noopener noreferrer" className="text-sky-800 dark:text-sky-300 hover:underline">{a.title}</a>
-                <span className="text-zinc-500"> · {r[`kind_${a.kind}`] ?? a.kind}{a.isPrivate ? ` · ${r.private}` : ''}</span>
+                <span className="text-zinc-900 dark:text-zinc-100">{a.title}</span>
+                <span className="text-zinc-500"> · </span>
+                {a.kinds.map((k, i) => (
+                  <React.Fragment key={k}>
+                    {i > 0 && <span className="text-zinc-400"> · </span>}
+                    {a.links[k] ? <a href={a.links[k]} target="_blank" rel="noopener noreferrer" className="text-sky-800 dark:text-sky-300 hover:underline">{r[`kind_${k}`]}</a> : r[`kind_${k}`]}
+                    {a.privateKinds.includes(k) && <span className="text-amber-700 dark:text-amber-400"> ({r.private})</span>}
+                  </React.Fragment>
+                ))}
               </li>
             ))}
           </ul>
