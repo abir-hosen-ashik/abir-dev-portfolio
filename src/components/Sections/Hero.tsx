@@ -104,39 +104,45 @@ export const Hero: React.FC = () => {
 
 
             <div className="flex space-x-4">
-              <a
-                title="GitHub Profile"
-                href={`https://github.com/${t.personalInfo.github}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 
-                         hover:text-primary-500 dark:hover:text-secondary-500 rounded-xl shadow-card 
-                         hover:shadow-card-hover transition-all duration-300 hover:scale-110"
-              >
-                <Github size={24} />
-              </a>
-              <a
-                title="LinkedIn Profile"
-                href={`https://linkedin.com/in/${t.personalInfo.linkedin}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 
-                         hover:text-primary-500 dark:hover:text-secondary-500 rounded-xl shadow-card 
-                         hover:shadow-card-hover transition-all duration-300 hover:scale-110"
-              >
-                <Linkedin size={24} />
-              </a>
-              <a
-                title="Medium Profile"
-                href={`https://medium.com/@${t.personalInfo?.medium}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 
-                         hover:text-primary-500 dark:hover:text-secondary-500 rounded-xl shadow-card 
-                         hover:shadow-card-hover transition-all duration-300 hover:scale-110"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-m-icon lucide-square-m"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M8 16V8l4 4 4-4v8" /></svg>
-              </a>
+              {t.personalInfo.github && (
+                <a
+                  title="GitHub Profile"
+                  href={`https://github.com/${t.personalInfo.github}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 
+                           hover:text-primary-500 dark:hover:text-secondary-500 rounded-xl shadow-card 
+                           hover:shadow-card-hover transition-all duration-300 hover:scale-110"
+                >
+                  <Github size={24} />
+                </a>
+              )}
+              {t.personalInfo.linkedin && (
+                <a
+                  title="LinkedIn Profile"
+                  href={`https://linkedin.com/in/${t.personalInfo.linkedin}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 
+                           hover:text-primary-500 dark:hover:text-secondary-500 rounded-xl shadow-card 
+                           hover:shadow-card-hover transition-all duration-300 hover:scale-110"
+                >
+                  <Linkedin size={24} />
+                </a>
+              )}
+              {t.personalInfo.medium && (
+                <a
+                  title="Medium Profile"
+                  href={`https://medium.com/@${t.personalInfo?.medium}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 
+                           hover:text-primary-500 dark:hover:text-secondary-500 rounded-xl shadow-card 
+                           hover:shadow-card-hover transition-all duration-300 hover:scale-110"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-m-icon lucide-square-m"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M8 16V8l4 4 4-4v8" /></svg>
+                </a>
+              )}
             </div>
           </div>
 

@@ -49,36 +49,42 @@ export const Footer: React.FC = () => {
 
           {/* Social Links */}
           <div className="flex space-x-4">
-            <a
-              href={`https://github.com/${t.personalInfo.github}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400 
-                       hover:bg-primary-500 hover:text-white dark:hover:bg-secondary-500 
-                       rounded-xl transition-all duration-300 hover:scale-110"
-            >
-              <Github size={20} />
-            </a>
-            <a
-              href={`https://linkedin.com/in/${t.personalInfo.linkedin}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400 
-                       hover:bg-info-500 hover:text-white  dark:hover:bg-secondary-500
-                       rounded-xl transition-all duration-300 hover:scale-110"
-            >
-              <Linkedin size={20} />
-            </a>
-            <a
-              href={`https://medium.com/@${t.personalInfo?.medium}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400 
-                       hover:bg-info-500 hover:text-white  dark:hover:bg-secondary-500
-                       rounded-xl transition-all duration-300 hover:scale-110"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-m-icon lucide-square-m"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M8 16V8l4 4 4-4v8" /></svg>
-            </a>
+            {t.personalInfo.github && (
+              <a
+                href={`https://github.com/${t.personalInfo.github}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400 
+                         hover:bg-primary-500 hover:text-white dark:hover:bg-secondary-500 
+                         rounded-xl transition-all duration-300 hover:scale-110"
+              >
+                <Github size={20} />
+              </a>
+            )}
+            {t.personalInfo.linkedin && (
+              <a
+                href={`https://linkedin.com/in/${t.personalInfo.linkedin}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400 
+                         hover:bg-info-500 hover:text-white  dark:hover:bg-secondary-500
+                         rounded-xl transition-all duration-300 hover:scale-110"
+              >
+                <Linkedin size={20} />
+              </a>
+            )}
+            {t.personalInfo.medium && (
+              <a
+                href={`https://medium.com/@${t.personalInfo?.medium}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400 
+                         hover:bg-info-500 hover:text-white  dark:hover:bg-secondary-500
+                         rounded-xl transition-all duration-300 hover:scale-110"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-m-icon lucide-square-m"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M8 16V8l4 4 4-4v8" /></svg>
+              </a>
+            )}
             {/* <a`
               href={`https://leetcode.com/u/abir-hosen/`}
               target="_blank"

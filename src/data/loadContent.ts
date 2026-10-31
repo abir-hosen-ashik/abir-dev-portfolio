@@ -205,6 +205,15 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
   const version = pick.current ?? {};
   const versionOf = (v: Row) => ({ slug: v.slug, name: tr(v, "name"), title: tr(v, "title") || tr(profile, "title"), layout: v.layout });
 
+  // A link tagged with versions (batools 069) shows only in those.
+  const linkVersions = (profile.link_versions ?? {}) as Record<string, string[]>;
+  const link = (column: string): string | undefined => {
+    const value = profile[column];
+    if (!value) return undefined;
+    const shownIn = linkVersions[column];
+    return !shownIn || !pick.current || shownIn.includes(pick.current.id) ? value : undefined;
+  };
+
   const years = profile.career_start_year ? new Date().getFullYear() - profile.career_start_year : 0;
   const l = labelTree(labels, lang);
 
@@ -241,21 +250,21 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
       phone: tr(profile, "phone"),
       location: tr(profile, "location") || undefined,
       photoUrl: version.photo_url ?? profile.photo_url ?? undefined,
-      github: profile.github ?? "",
-      linkedin: profile.linkedin ?? "",
-      medium: profile.medium ?? undefined,
-      youtube: profile.youtube ?? undefined,
-      facebook: profile.facebook ?? undefined,
-      instagram: profile.instagram ?? undefined,
-      x: profile.x ?? undefined,
-      gitlab: profile.gitlab ?? undefined,
-      kaggle: profile.kaggle ?? undefined,
+      github: link("github") ?? "",
+      linkedin: link("linkedin") ?? "",
+      medium: link("medium"),
+      youtube: link("youtube"),
+      facebook: link("facebook"),
+      instagram: link("instagram"),
+      x: link("x"),
+      gitlab: link("gitlab"),
+      kaggle: link("kaggle"),
       resumeUrl: version.cv_url ?? profile.resume_url ?? undefined,
       // Research profile (batools 063); absent before it.
-      huggingface: profile.huggingface ?? undefined,
-      googleScholar: profile.google_scholar ?? undefined,
-      orcid: profile.orcid ?? undefined,
-      researchgate: profile.researchgate ?? undefined,
+      huggingface: link("huggingface"),
+      googleScholar: link("google_scholar"),
+      orcid: link("orcid"),
+      researchgate: link("researchgate"),
     },
     home: {
       greeting: tr(profile, "greeting"),

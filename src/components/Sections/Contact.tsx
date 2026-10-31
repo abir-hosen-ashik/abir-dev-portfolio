@@ -74,20 +74,21 @@ export const Contact: React.FC = () => {
       { name: 'Hugging Face', handle: t.personalInfo.huggingface, url: (h: string) => `https://huggingface.co/${h}`, icon: <span className="text-lg leading-none">🤗</span>, color: 'from-accent-500 to-accent-600' },
       { name: 'Kaggle', handle: t.personalInfo.kaggle, url: (h: string) => `https://www.kaggle.com/${h}`, icon: <BarChart3 size={20} />, color: 'from-info-500 to-primary-500' },
     ].filter(s => s.handle).map(s => ({ name: s.name, url: s.url(s.handle!), icon: s.icon, username: s.handle!, color: s.color })),
-    {
+    // Shown when set and not hidden for this version (batools 069).
+    ...(t.personalInfo.github ? [{
       name: 'GitHub',
       url: `https://github.com/${t.personalInfo.github}`,
       icon: <Github size={20} />,
       username: t.personalInfo.github,
       color: 'from-neutral-700 to-neutral-800'
-    },
-    {
+    }] : []),
+    ...(t.personalInfo.linkedin ? [{
       name: 'LinkedIn',
       url: `https://linkedin.com/in/${t.personalInfo.linkedin}`,
       icon: <Linkedin size={20} />,
       username: t.personalInfo.linkedin,
       color: 'from-info-500 to-info-600'
-    },
+    }] : []),
     // The rest show only when their handle is set in batools (Portfolio → Profile).
     ...[
       { name: 'Medium', handle: t.personalInfo.medium, url: (h: string) => `https://medium.com/@${h.replace(/^@/, '')}`, icon: <BookOpen size={20} />, color: 'from-neutral-700 to-neutral-900' },
