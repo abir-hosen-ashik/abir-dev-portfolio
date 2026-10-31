@@ -84,9 +84,23 @@ export const CaseStudyBlock: React.FC<{ caseStudy?: CaseStudy }> = ({ caseStudy 
       <div className="space-y-3">
         {caseStudy.challenges.map((c, i) => (
           <div key={i} className="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3 text-sm space-y-1.5">
-            <p><span className="font-semibold text-zinc-900 dark:text-zinc-50">{r.challenge}: </span>{c.challenge}</p>
-            <p><span className="font-semibold text-zinc-900 dark:text-zinc-50">{r.solution}: </span>{c.solution}</p>
-            {c.result && <p><span className="font-semibold text-emerald-700 dark:text-emerald-400">{r.result}: </span>{c.result}</p>}
+            {/* Rich text (HTML) from batools, like the case study. */}
+            <div>
+              <span className="font-semibold text-zinc-900 dark:text-zinc-50">{r.challenge}</span>
+              <RichText text={c.challenge} className="text-justify [&_p]:my-0.5" />
+            </div>
+            {c.solution && (
+              <div>
+                <span className="font-semibold text-zinc-900 dark:text-zinc-50">{r.solution}</span>
+                <RichText text={c.solution} className="text-justify [&_p]:my-0.5" />
+              </div>
+            )}
+            {c.result && (
+              <div>
+                <span className="font-semibold text-emerald-700 dark:text-emerald-400">{r.result}</span>
+                <RichText text={c.result} className="text-justify [&_p]:my-0.5" />
+              </div>
+            )}
           </div>
         ))}
       </div>
