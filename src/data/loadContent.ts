@@ -80,6 +80,9 @@ const CASE_STUDY_LABELS: Record<Language, Record<string, string>> = {
 /** Case-study sections and challenges (batools 058), each pointing at a project or a publication; posts (061). */
 type Details = { sections: Row[]; challenges: Row[]; posts: Row[]; artifacts: Row[]; audiences: Row[] };
 
+/** Short addresses for the known versions: ?v=rch, ?v=dev. Others use their slug. */
+const SHORT_CODES: Record<string, string> = { researcher: "rch", developer: "dev" };
+
 /** The version being shown and every version's id (batools 063). */
 type VersionPick = { current?: Row; active: Row[]; known: Set<string> };
 
@@ -90,9 +93,8 @@ type VersionPick = { current?: Row; active: Row[]; known: Set<string> };
  */
 function pickVersion(rows: Row[], wanted: string | null): VersionPick {
   const active = rows.filter(v => v.is_active);
-  // The slug wins over another version's short code (074).
   const bySlug = (slug: string | null | undefined) =>
-    slug ? active.find(v => v.slug === slug) ?? active.find(v => v.short_code === slug) : undefined;
+    slug ? active.find(v => v.slug === slug) ?? active.find(v => SHORT_CODES[v.slug] === slug) : undefined;
   const current = bySlug(wanted) ?? bySlug(import.meta.env.VITE_PORTFOLIO_VERSION) ?? active.find(v => v.is_default) ?? active[0];
   return { current, active, known: new Set(rows.map(v => v.id)) };
 }
@@ -206,7 +208,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
 
   // The version's own text wins over the profile's.
   const version = pick.current ?? {};
-  const versionOf = (v: Row) => ({ slug: v.slug, code: v.short_code || v.slug, name: tr(v, "name"), title: tr(v, "title") || tr(profile, "title"), layout: v.layout });
+  const versionOf = (v: Row) => ({ slug: v.slug, code: SHORT_CODES[v.slug] ?? v.slug, name: tr(v, "name"), title: tr(v, "title") || tr(profile, "title"), layout: v.layout });
 
   // A link tagged with versions (batools 069) shows only in those.
   const linkVersions = (profile.link_versions ?? {}) as Record<string, string[]>;
@@ -415,7 +417,7 @@ function build(lang: Language, profile: Row, labels: Row[], lists: Record<ListTa
   return fillYears(content, localizeDigits(years, lang));
 }
 
-/** The version asked for in the address: ?v= (074), or the older ?version=. */
+/** The version asked for in the address: ?v=, or the older ?version=. */
 export const versionParam = () => {
   const params = new URLSearchParams(window.location.search);
   return params.get("v") ?? params.get("version");
